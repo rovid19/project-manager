@@ -1,5 +1,17 @@
-import { createMainSection } from "./Components/MainSection";
+import { createMainContent } from "./Components/MainContent";
 import { createSidebar } from "./Components/Sidebar";
+import { Router } from "./Routes/Router";
+import "./Styles/Root.css";
+
+export const router = new Router([
+  "/dashboard/SectionController/createDashboard",
+  "/projects/SectionController/createProjects",
+  "/tasks/SectionController/createTasks",
+  "/teams/SectionController/createTeams",
+  "/reports/SectionController/createReports",
+]);
 
 createSidebar();
-createMainSection();
+createMainContent();
+
+document.addEventListener("DOMContentLoaded", () => {});

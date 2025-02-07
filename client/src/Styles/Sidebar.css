@@ -1,0 +1,94 @@
+.sidebar {
+  height: 100vh;
+  width: 20%;
+  background-color: white;
+  position: relative;
+}
+
+.navbar {
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+  padding-top: 32px;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.navbar > li {
+  width: 100%;
+  text-decoration: none;
+  display: flex;
+  padding: 8px;
+
+  border-radius: 6px;
+}
+
+li > a {
+  width: 100%;
+  display: flex;
+  text-decoration: none;
+  color: black;
+}
+
+.nav-avatar {
+  width: 20%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-text {
+  width: 80%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding-left: 16px;
+}
+
+.navbar > li:hover {
+  background-color: #f2f2fc;
+}
+
+.user-container {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  width: 100%;
+  bottom: 32px;
+  padding: 8px;
+}
+
+.user-container-avatar-container {
+  height: 100%;
+  width: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.user-container-icon-container {
+  height: 100%;
+  width: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.user-container-container {
+  height: 100%;
+  width: 60%;
+}
+
+.user-container-username {
+  font-size: 16px;
+}
+
+.user-container-link {
+  font-size: 12px;
+  text-decoration: none;
+  color: black;
+}
