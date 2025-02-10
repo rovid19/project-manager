@@ -2,6 +2,7 @@ type State = {
   currentUser: string | null;
   theme: "light" | "dark";
   mainDivApp: HTMLElement | null;
+  mainSection: HTMLElement | null;
   // Add more state properties as needed
 };
 
@@ -11,6 +12,7 @@ class Store {
     currentUser: null,
     theme: "light",
     mainDivApp: document.querySelector("#app"),
+    mainSection: null,
   };
 
   private constructor() {}

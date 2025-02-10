@@ -4,13 +4,14 @@ import { Router } from "./Routes/Router";
 import "./Styles/Root.css";
 
 export const router = new Router([
-  "/dashboard/SectionController/createDashboard",
-  "/projects/SectionController/createProjects",
-  "/tasks/SectionController/createTasks",
-  "/teams/SectionController/createTeams",
-  "/reports/SectionController/createReports",
+  "/dashboard/DashboardController/createDashboard",
+  "/projects/ProjectsController/createProjects",
+  "/tasks/TasksController/createTasks",
+  "/teams/TeamsController/createTeams",
+  "/reports/ReportsController/createReports",
 ]);
 
+router.route();
 createSidebar();
 createMainContent();
 

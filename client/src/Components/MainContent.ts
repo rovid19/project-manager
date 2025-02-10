@@ -8,5 +8,6 @@ export function createMainContent() {
     tag: "section",
     className: "main-section",
   });
+  store.setState({ mainSection: mainSection });
   currentState.mainDivApp?.appendChild(mainSection);
 }
