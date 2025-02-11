@@ -99,3 +99,18 @@ function createUserSection(sidebar: HTMLElement) {
     userContainer.appendChild(navItem);
   });
 }
+
+export function activeLink() {
+  const currentState = store.getState();
+  const navLinkArray = ["dashboard", "projects", "tasks", "teams", "reports"];
+
+  navLinkArray.forEach((navItem, i) => {
+    if (navItem === currentState.activeLink) {
+      const navLinkElement = document.querySelector(
+        `.nav-button-${i}`
+      ) as HTMLElement;
+      navLinkElement.style.background = "#f2f2fc";
+      navLinkElement.style.color = "#646ae0";
+    }
+  });
+}

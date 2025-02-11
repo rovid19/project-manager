@@ -3,6 +3,7 @@ type State = {
   theme: "light" | "dark";
   mainDivApp: HTMLElement | null;
   mainSection: HTMLElement | null;
+  activeLink: string;
   // Add more state properties as needed
 };
 
@@ -13,7 +14,9 @@ class Store {
     theme: "light",
     mainDivApp: document.querySelector("#app"),
     mainSection: null,
+    activeLink: "dasboard",
   };
+  private listeners: { [key: string]: Function[] } = {};
 
   private constructor() {}
 
@@ -30,20 +33,23 @@ class Store {
 
   setState(newState: Partial<State>) {
     this.state = { ...this.state, ...newState };
-    this.notify();
+    Object.keys(newState).forEach((key) => {
+      this.notify(key);
+    });
   }
 
-  private listeners: Function[] = [];
-
-  subscribe(listener: Function) {
-    this.listeners.push(listener);
-    return () => {
-      this.listeners = this.listeners.filter((l) => l !== listener);
-    };
+  subscribe(listener: Function, key: string) {
+    if (!this.listeners[key]) {
+      this.listeners[key] = [listener];
+    }
   }
 
-  private notify() {
-    this.listeners.forEach((listener) => listener(this.state));
+  notify(key: string) {
+    if (this.listeners[key]) {
+      this.listeners[key].forEach((listener) => {
+        listener(this.state);
+      });
+    }
   }
 }
 
