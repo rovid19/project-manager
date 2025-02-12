@@ -35,7 +35,7 @@ li > a {
   color: black;
 }
 
-.nav-avatar {
+#nav-avatar {
   width: 20%;
   height: 100%;
   display: flex;
@@ -43,7 +43,7 @@ li > a {
   justify-content: center;
 }
 
-.nav-text {
+#nav-text {
   width: 80%;
   height: 100%;
   display: flex;

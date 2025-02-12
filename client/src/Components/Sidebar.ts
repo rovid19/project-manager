@@ -39,13 +39,15 @@ function createNavigation(sidebar: HTMLElement) {
           children: [
             createElement({
               tag: "div",
-              className: "nav-avatar",
+              className: `nav-avatar-${i}`,
               innerHTML: iconArray[i],
+              id: "nav-avatar",
             }),
             createElement({
               tag: "div",
               innerText: navItemArray[i],
-              className: "nav-text",
+              className: `nav-text-${i}`,
+              id: "nav-text",
             }),
           ],
         }),
@@ -104,13 +106,55 @@ export function activeLink() {
   const currentState = store.getState();
   const navLinkArray = ["dashboard", "projects", "tasks", "teams", "reports"];
 
+  removePreviousActiveLinkColor(navLinkArray, currentState);
+  setActiveLinkColor(navLinkArray, currentState);
+}
+
+function setActiveLinkColor(navLinkArray: string[], currentState: any) {
   navLinkArray.forEach((navItem, i) => {
     if (navItem === currentState.activeLink) {
       const navLinkElement = document.querySelector(
         `.nav-button-${i}`
       ) as HTMLElement;
+      const navLinkText = document.querySelector(
+        `.nav-text-${i}`
+      ) as HTMLElement;
+      const navLinkAvatar = document.querySelector(
+        `.nav-avatar-${i}`
+      ) as HTMLElement;
+
       navLinkElement.style.background = "#f2f2fc";
-      navLinkElement.style.color = "#646ae0";
+      navLinkText.style.color = "#646ae0";
+      navLinkAvatar.style.color = "#646ae0";
+
+      store.setState({ previousActiveLink: navItem });
+
+      return;
     }
   });
+}
+
+function removePreviousActiveLinkColor(
+  navLinkArray: string[],
+  currentState: any
+) {
+  if (currentState.previousActiveLink.length > 0) {
+    navLinkArray.forEach((navItem, i) => {
+      if (navItem === currentState.previousActiveLink) {
+        const navLinkElement = document.querySelector(
+          `.nav-button-${i}`
+        ) as HTMLElement;
+        const navLinkText = document.querySelector(
+          `.nav-text-${i}`
+        ) as HTMLElement;
+        const navLinkAvatar = document.querySelector(
+          `.nav-avatar-${i}`
+        ) as HTMLElement;
+
+        navLinkElement.style.background = "white";
+        navLinkText.style.color = "black";
+        navLinkAvatar.style.color = "#black";
+      }
+    });
+  }
 }

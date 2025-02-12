@@ -1,3 +1,5 @@
+import { store } from "../Store/Store";
+
 type Routes = {
   [key: string]: { controller: string; controllerMethod: string };
 };
@@ -23,6 +25,7 @@ export class Router {
   route(uri: string = ""): void {
     const path = uri.length > 0 ? uri : window.location.pathname.slice(1);
 
+    store.setState({ activeLink: path });
     Object.entries(this.routes).forEach((route: any) => {
       if (path.toUpperCase() === route[0].toUpperCase()) {
         this.loadController(route[1].controller, route[1].controllerMethod);

@@ -4,7 +4,7 @@ type State = {
   mainDivApp: HTMLElement | null;
   mainSection: HTMLElement | null;
   activeLink: string;
-  // Add more state properties as needed
+  previousActiveLink: string;
 };
 
 class Store {
@@ -15,6 +15,7 @@ class Store {
     mainDivApp: document.querySelector("#app"),
     mainSection: null,
     activeLink: "dasboard",
+    previousActiveLink: "",
   };
   private listeners: { [key: string]: Function[] } = {};
 
@@ -33,9 +34,7 @@ class Store {
 
   setState(newState: Partial<State>) {
     this.state = { ...this.state, ...newState };
-    Object.keys(newState).forEach((key) => {
-      this.notify(key);
-    });
+    this.notify(newState);
   }
 
   subscribe(listener: Function, key: string) {
@@ -44,12 +43,17 @@ class Store {
     }
   }
 
-  notify(key: string) {
-    if (this.listeners[key]) {
-      this.listeners[key].forEach((listener) => {
-        listener(this.state);
-      });
-    }
+  notify(newState: Partial<State>) {
+    const key = Object.keys(newState)[0];
+    console.log(Object.entries(this.listeners));
+
+    Object.entries(this.listeners).forEach((state) => {
+      if (state[0] === key) {
+        state[1].forEach((listener) => {
+          listener();
+        });
+      }
+    });
   }
 }
 

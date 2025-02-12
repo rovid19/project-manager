@@ -1,6 +1,7 @@
 import { createMainContent } from "./Components/MainContent";
-import { createSidebar } from "./Components/Sidebar";
+import { activeLink, createSidebar } from "./Components/Sidebar";
 import { Router } from "./Routes/Router";
+import { store } from "./Store/Store";
 import "./Styles/Root.css";
 
 export const router = new Router([
@@ -12,6 +13,7 @@ export const router = new Router([
 ]);
 
 router.route();
+store.subscribe(activeLink, "activeLink");
 createSidebar();
 createMainContent();
 
