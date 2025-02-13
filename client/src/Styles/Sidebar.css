@@ -5,6 +5,7 @@
   background-color: white;
   padding-bottom: 16px;
   padding-left: 16px;
+  padding-right: 16px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -33,6 +34,10 @@ li > a {
   display: flex;
   text-decoration: none;
   color: black;
+}
+
+li:hover {
+  background-color: #f2f2fc;
 }
 
 #nav-avatar {
@@ -94,4 +99,12 @@ li > a {
   font-size: 12px;
   text-decoration: none;
   color: black;
+}
+
+.user-container-icon-container:hover svg * {
+  fill: #646ae0 !important;
+}
+
+.user-container-link:hover {
+  color: #646ae0;
 }

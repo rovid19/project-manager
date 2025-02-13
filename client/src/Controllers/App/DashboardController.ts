@@ -5,6 +5,13 @@ import "../../Styles/Dashboard.css";
 export class DashboardController {
   constructor() {}
 
+  // CSS AND HTML
+
+  delete() {
+    console.log("da");
+    document.querySelector(".dashboard")?.remove();
+  }
+
   createDashboard() {
     const currentState = store.getState();
 
@@ -187,4 +194,7 @@ export class DashboardController {
     });
     dashboard.appendChild(pageDiv);
   }
+
+  // CONTROLLER LOGIC
+  // Project overview section logic
 }

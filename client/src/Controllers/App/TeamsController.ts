@@ -1,6 +1,9 @@
 export class TeamsController {
-    constructor() {}
-    createTeams() {
-        console.log("Teams view created");
-    }
+  constructor() {}
+  delete() {
+    console.log("tems");
+  }
+  createTeams() {
+    // console.log("Teams view created");
+  }
 }

@@ -1,6 +1,10 @@
 export class ProjectsController {
-    constructor() {}
-    createProjects() {
-        console.log("Projects view created");
-    }
+  constructor() {}
+
+  delete() {
+    console.log("prj");
+  }
+  createProjects() {
+    console.log("Projects view created");
+  }
 }

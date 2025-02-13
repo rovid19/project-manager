@@ -2,8 +2,12 @@ import { createMainContent } from "./Components/MainContent";
 import { activeLink, createSidebar } from "./Components/Sidebar";
 import { Router } from "./Routes/Router";
 import { store } from "./Store/Store";
+import { userStore } from "./Store/UserStore";
 import "./Styles/Root.css";
 
+console.log(window.location.pathname);
+
+store.subscribe(activeLink, "activeLink");
 export const router = new Router([
   "/dashboard/DashboardController/createDashboard",
   "/projects/ProjectsController/createProjects",
@@ -13,8 +17,7 @@ export const router = new Router([
 ]);
 
 router.route();
-store.subscribe(activeLink, "activeLink");
+
+console.log(userStore);
 createSidebar();
 createMainContent();
-
-document.addEventListener("DOMContentLoaded", () => {});

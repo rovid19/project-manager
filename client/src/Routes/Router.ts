@@ -6,7 +6,7 @@ type Routes = {
 
 export class Router {
   routes: Routes = {};
-  controller: any = {};
+  controller: any = null;
 
   constructor(routes: string[]) {
     this.registerRoutes(routes);
@@ -20,22 +20,31 @@ export class Router {
         controllerMethod: routeArray[2],
       };
     });
+
+    console.log(this.routes);
   }
 
   route(uri: string = ""): void {
-    const path = uri.length > 0 ? uri : window.location.pathname.slice(1);
+    console.log(window.location.pathname);
+    const path =
+      uri.length > 0
+        ? uri.toLowerCase()
+        : window.location.pathname.slice(1).toLowerCase();
 
     store.setState({ activeLink: path });
+
     Object.entries(this.routes).forEach((route: any) => {
-      if (path.toUpperCase() === route[0].toUpperCase()) {
+      if (path === route[0]) {
+        console.log(route);
         this.loadController(route[1].controller, route[1].controllerMethod);
       }
     });
   }
 
   async loadController(controllerName: string, controllerMethod: string) {
+    console.log(this.controller);
     // obrisi prethodni controller - stoream controller na klasi da ih konstantno brisem i da je samo jedan controller aktivan atm
-    if (this.controller) this.controller = {};
+    if (this.controller) this.removePreviousController();
 
     // import module klase, trenutno imam named export, ali moguce je i default loadat samo je malo drugaciji kod onda
     const module = await import(`../Controllers/App/${controllerName}`);
@@ -45,5 +54,10 @@ export class Router {
 
     // lodanje controllera
     this.controller[controllerMethod]();
+  }
+
+  removePreviousController() {
+    this.controller.delete();
+    this.controller = null;
   }
 }

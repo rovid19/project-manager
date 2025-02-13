@@ -1,0 +1,16 @@
+{
+  "name": "rovid19/project-manager",
+  "description": "Project manager app",
+  "autoload": {
+    "psr-4": {
+      "Framework\\": "Framework/",
+      "Controllers\\": "Controllers/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Roberto",
+      "email": "118137968+rovid19@users.noreply.github.com"
+    }
+  ]
+}

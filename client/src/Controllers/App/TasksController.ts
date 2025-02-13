@@ -1,6 +1,9 @@
 export class TasksController {
-    constructor() {}
-    createTasks() {
-        console.log("Tasks view created");
-    }
+  constructor() {}
+  delete() {
+    console.log("task");
+  }
+  createTasks() {
+    //console.log("Tasks view created");
+  }
 }

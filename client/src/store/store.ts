@@ -7,26 +7,22 @@ type State = {
   previousActiveLink: string;
 };
 
-class Store {
-  private static instance: Store;
-  private state: State = {
-    currentUser: null,
-    theme: "light",
-    mainDivApp: document.querySelector("#app"),
-    mainSection: null,
-    activeLink: "dasboard",
-    previousActiveLink: "",
-  };
+export class Store {
+  // private static instance: Store;
+  private state: any = {};
   private listeners: { [key: string]: Function[] } = {};
 
-  private constructor() {}
+  constructor(initialState: any = {}) {
+    this.state = initialState;
+  }
 
-  static getInstance(): Store {
+  /* static getInstance(): Store {
     if (!Store.instance) {
       Store.instance = new Store();
     }
+
     return Store.instance;
-  }
+  }*/
 
   getState(): State {
     return this.state;
@@ -45,7 +41,7 @@ class Store {
 
   notify(newState: Partial<State>) {
     const key = Object.keys(newState)[0];
-    console.log(Object.entries(this.listeners));
+    // console.log(Object.entries(this.listeners));
 
     Object.entries(this.listeners).forEach((state) => {
       if (state[0] === key) {
@@ -57,4 +53,16 @@ class Store {
   }
 }
 
-export const store = Store.getInstance();
+// singleton pattern
+//export const store = Store.getInstance();
+
+// singleton pattern mi zadaje velike glavobolje
+
+export const store = new Store({
+  currentUser: null,
+  theme: "light",
+  mainDivApp: document.querySelector("#app"),
+  mainSection: null,
+  activeLink: "dasboard",
+  previousActiveLink: "",
+});

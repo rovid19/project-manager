@@ -16,7 +16,7 @@ export function createSidebar() {
 }
 
 function createNavigation(sidebar: HTMLElement) {
-  const navItemArray = ["Dashboard", "Projects", "Tasks", "Teams", "Reports"];
+  const navItemArray = ["dashboard", "projects", "tasks", "teams", "reports"];
 
   // nav
   const nav = document.createElement("nav");
@@ -34,7 +34,7 @@ function createNavigation(sidebar: HTMLElement) {
           onClick: (e: Event) => {
             e.preventDefault();
             history.pushState({}, "", `/${navItemArray[i].toLowerCase()}`);
-            router.route(`${navItemArray[i].toLowerCase()}`);
+            router.route(`${navItemArray[i]}`);
           }, //`/${navItemArray[i].toLowerCase()}`,
           children: [
             createElement({
@@ -102,6 +102,13 @@ function createUserSection(sidebar: HTMLElement) {
   });
 }
 
+//
+//
+//
+// ACTIVE LINK LOGIKA
+//
+//
+//
 export function activeLink() {
   const currentState = store.getState();
   const navLinkArray = ["dashboard", "projects", "tasks", "teams", "reports"];
@@ -120,12 +127,22 @@ function setActiveLinkColor(navLinkArray: string[], currentState: any) {
         `.nav-text-${i}`
       ) as HTMLElement;
       const navLinkAvatar = document.querySelector(
-        `.nav-avatar-${i}`
+        `.nav-avatar-${currentState.activeLink}`
       ) as HTMLElement;
 
-      navLinkElement.style.background = "#f2f2fc";
-      navLinkText.style.color = "#646ae0";
-      navLinkAvatar.style.color = "#646ae0";
+      // situacija u kojoj user loada tipa dashboard kroz url onda trebam na ovaj nacin pocekati element da se loadaju pa da napravim active link logiku
+      if (!navLinkElement && !navLinkText && !navLinkAvatar) {
+        const domLoaded = () => activeLink();
+        window.addEventListener("DOMContentLoaded", domLoaded);
+
+        setTimeout(() => {
+          window.removeEventListener("DOMContentLoaded", domLoaded);
+        }, 1000);
+      } else {
+        navLinkElement.style.background = "#f2f2fc";
+        navLinkText.style.color = "#646ae0";
+        navLinkAvatar.style.fill = "#646ae0";
+      }
 
       store.setState({ previousActiveLink: navItem });
 
@@ -148,12 +165,12 @@ function removePreviousActiveLinkColor(
           `.nav-text-${i}`
         ) as HTMLElement;
         const navLinkAvatar = document.querySelector(
-          `.nav-avatar-${i}`
+          `.nav-avatar-${currentState.previousActiveLink}`
         ) as HTMLElement;
 
-        navLinkElement.style.background = "white";
-        navLinkText.style.color = "black";
-        navLinkAvatar.style.color = "#black";
+        navLinkElement.removeAttribute("style");
+        navLinkText.removeAttribute("style");
+        navLinkAvatar.removeAttribute("style");
       }
     });
   }
