@@ -14,8 +14,10 @@ export const router = new Router([
   "/tasks/TasksController/createTasks",
   "/teams/TeamsController/createTeams",
   "/reports/ReportsController/createReports",
+  "/login/AuthController/createAuth",
+  "/register/AuthController/createAuth",
 ]);
-
+console.log("yoyoyo");
 router.route();
 
 console.log(userStore);

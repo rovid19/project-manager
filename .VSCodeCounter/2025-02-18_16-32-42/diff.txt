@@ -1,0 +1,48 @@
+Date : 2025-02-18 16:32:42
+Directory : /Users/rock/Documents/Projekti/project-manager/client
+Total : 13 files,  78 codes, 26 comments, 28 blanks, all 132 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| TypeScript |         12 |         68 |         26 |         25 |        119 |
+| CSS        |          1 |         10 |          0 |          3 |         13 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++--------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                             | files      | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                |         13 |         78 |         26 |         28 |        132 |
+| . (Files)                                                                                        |          1 |          9 |          0 |          2 |         11 |
+| src                                                                                              |         12 |         69 |         26 |         26 |        121 |
+| src (Files)                                                                                      |          1 |          2 |          0 |          1 |          3 |
+| src/Components                                                                                   |          1 |         21 |          8 |          4 |         33 |
+| src/Controllers                                                                                  |          6 |         13 |          6 |          9 |         28 |
+| src/Controllers (Files)                                                                          |          1 |          0 |          0 |          1 |          1 |
+| src/Controllers/App                                                                              |          5 |         13 |          6 |          8 |         27 |
+| src/Routes                                                                                       |          1 |         11 |          0 |          3 |         14 |
+| src/Store                                                                                        |          2 |         12 |         12 |          6 |         30 |
+| src/Styles                                                                                       |          1 |         10 |          0 |          3 |         13 |
++--------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++--------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                                         | language   | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| /Users/rock/Documents/Projekti/project-manager/client/src/Components/Sidebar.ts                  | TypeScript |         21 |          8 |          4 |         33 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Controllers/App/DashboardController.ts | TypeScript |          4 |          3 |          3 |         10 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Controllers/App/ProjectsController.ts  | TypeScript |          3 |          0 |          2 |          5 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Controllers/App/ReportsController.ts   | TypeScript |          2 |          1 |          1 |          4 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Controllers/App/TasksController.ts     | TypeScript |          2 |          1 |          1 |          4 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Controllers/App/TeamsController.ts     | TypeScript |          2 |          1 |          1 |          4 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Controllers/SectionController.ts       | TypeScript |          0 |          0 |          1 |          1 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Routes/Router.ts                       | TypeScript |         11 |          0 |          3 |         14 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Store/Store.ts                         | TypeScript |         -4 |         12 |          2 |         10 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Store/UserStore.ts                     | TypeScript |         16 |          0 |          4 |         20 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/Sidebar.css                     | CSS        |         10 |          0 |          3 |         13 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/main.ts                                | TypeScript |          2 |          0 |          1 |          3 |
+| /Users/rock/Documents/Projekti/project-manager/client/vite.config.ts                             | TypeScript |          9 |          0 |          2 |         11 |
+| Total                                                                                            |            |         78 |         26 |         28 |        132 |
++--------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+

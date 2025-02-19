@@ -17,7 +17,9 @@ export function createElement({
 
   // Handle children separately
   if (children) {
-    children.forEach((child: any) => element.appendChild(child));
+    children.forEach((child: any) => {
+      if (child instanceof HTMLElement) element.appendChild(child);
+    });
   }
 
   return element;
