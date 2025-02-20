@@ -5,6 +5,7 @@ type State = {
   mainSection: HTMLElement | null;
   activeLink: string;
   previousActiveLink: string;
+  isAuth: boolean;
 };
 
 export class Store {
@@ -65,4 +66,5 @@ export const store = new Store({
   mainSection: null,
   activeLink: "dasboard",
   previousActiveLink: "",
+  isAuth: false,
 });

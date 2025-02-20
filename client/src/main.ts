@@ -2,10 +2,7 @@ import { createMainContent } from "./Components/MainContent";
 import { activeLink, createSidebar } from "./Components/Sidebar";
 import { Router } from "./Routes/Router";
 import { store } from "./Store/Store";
-import { userStore } from "./Store/UserStore";
 import "./Styles/Root.css";
-
-console.log(window.location.pathname);
 
 store.subscribe(activeLink, "activeLink");
 export const router = new Router([
@@ -17,9 +14,8 @@ export const router = new Router([
   "/login/AuthController/createAuth",
   "/register/AuthController/createAuth",
 ]);
-console.log("yoyoyo");
+
 router.route();
 
-console.log(userStore);
 createSidebar();
 createMainContent();

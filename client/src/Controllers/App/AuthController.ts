@@ -2,6 +2,8 @@ import { createElement } from "../../Utils/Helpers";
 import "../../Styles/Login.css";
 import { router } from "../../main";
 
+import { store } from "../../Store/Store";
+
 export class AuthController {
   isRegister: boolean = false;
   loginContainer: HTMLElement | null = null;
@@ -14,7 +16,20 @@ export class AuthController {
     }
   }
 
+  removeSidebar() {
+    const sidebar = document.querySelector(".sidebar");
+    const mainSection = document.querySelector(".main-section");
+
+    if (sidebar) {
+      sidebar.remove();
+      mainSection?.remove();
+
+      store.setState({ mainSection: null });
+    }
+  }
+
   createAuth() {
+    this.removeSidebar();
     const divApp = document.querySelector("#app");
 
     const loginDiv = createElement({
@@ -37,6 +52,15 @@ export class AuthController {
           className: "login-subtitle",
           innerText: "Login to your account",
         }),
+        /* createElement({
+          tag: "div",
+          className: "back-btn",
+          innerHTML: backButton,
+          onClick: (e: Event) => {
+            e.preventDefault();
+            history.back();
+          },
+        }),*/
         this.checkIfLoginOrRegister(),
         this.createAuthForm(),
       ],

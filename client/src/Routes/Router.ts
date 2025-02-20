@@ -20,12 +20,10 @@ export class Router {
         controllerMethod: routeArray[2],
       };
     });
-
-    console.log(this.routes);
   }
 
   route(uri: string = ""): void {
-    console.log(window.location.pathname);
+    let isMatched = false;
     const path =
       uri.length > 0
         ? uri.toLowerCase()
@@ -33,12 +31,17 @@ export class Router {
 
     store.setState({ activeLink: path });
 
-    Object.entries(this.routes).forEach((route: any) => {
-      if (path === route[0]) {
-        console.log(route);
-        this.loadController(route[1].controller, route[1].controllerMethod);
+    for (const [key, route] of Object.entries(this.routes)) {
+      if (path === key) {
+        this.loadController(route.controller, route.controllerMethod);
+        isMatched = true;
+        return;
       }
-    });
+    }
+
+    if (!isMatched) {
+      this.loadController("ErrorController", "createError");
+    }
   }
 
   async loadController(controllerName: string, controllerMethod: string) {
@@ -47,11 +50,10 @@ export class Router {
 
     // import module klase, trenutno imam named export, ali moguce je i default loadat samo je malo drugaciji kod onda
     const module = await import(`../Controllers/App/${controllerName}`);
-    console.log(module);
+
     // tu je kod drugaciji ak loadam default onda mogu accessati ko objekt new module.default, a ko named export je na ovaj nacin
     this.controller = new module[controllerName]();
 
-    console.log(this.controller);
     // lodanje controllera
     this.controller[controllerMethod]();
   }
