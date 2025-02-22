@@ -6,5 +6,6 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Rock\\Api\\' => array($baseDir . '/src'),
+    'Framework\\' => array($baseDir . '/src/Framework'),
+    'Controllers\\' => array($baseDir . '/src/Controllers'),
 );

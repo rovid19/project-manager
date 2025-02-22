@@ -1,10 +1,5 @@
 import { Store } from "./Store";
 
-type UserState = {
-  username: string;
-  email: string;
-};
-
 class UserStore extends Store {
   constructor(initialState: any) {
     super();

@@ -3,8 +3,8 @@
   "description": "Project manager app",
   "autoload": {
     "psr-4": {
-      "Framework\\": "Framework/",
-      "Controllers\\": "Controllers/"
+      "Framework\\": "src/Framework/",
+      "Controllers\\": "src/Controllers/"
     }
   },
   "authors": [
