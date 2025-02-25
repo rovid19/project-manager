@@ -3,18 +3,13 @@ import "../../Styles/Login.css";
 import { router } from "../../main";
 
 import { store } from "../../Store/Store";
+import { AuthService } from "../../Services/AuthService";
 
 export class AuthController {
   isRegister: boolean = false;
   loginContainer: HTMLElement | null = null;
 
   constructor() {}
-
-  checkIfLoginOrRegister() {
-    if (window.location.pathname.slice(1) === "register") {
-      this.isRegister = true;
-    }
-  }
 
   removeSidebar() {
     const sidebar = document.querySelector(".sidebar");
@@ -25,6 +20,12 @@ export class AuthController {
       mainSection?.remove();
 
       store.setState({ mainSection: null });
+    }
+  }
+
+  checkIfLoginOrRegister() {
+    if (window.location.pathname.slice(1) === "register") {
+      this.isRegister = true;
     }
   }
 
@@ -105,6 +106,16 @@ export class AuthController {
           className: "login-button",
           type: "submit",
           innerText: "Log In",
+          onClick: (e: Event) => {
+            e.preventDefault();
+            if (this.isRegister) {
+            } else {
+              const apiCall = new AuthService(
+                "http://localhost:3000/login-user"
+              );
+              apiCall.loginUser();
+            }
+          },
         }),
         createElement({
           tag: "div",

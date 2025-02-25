@@ -1,5 +1,5 @@
 export class BaseApi {
-  apiUrl: string = "localhost:3000";
+  apiUrl: string = "http://localhost:3000";
 
   constructor(url: string) {
     this.apiUrl = url;
@@ -18,27 +18,31 @@ export class BaseApi {
         method: "GET",
         headers,
       });
-      console.log(response);
     } catch (error) {
       throw error;
     }
   }
 
   async post(data: any) {
+    console.log(data);
     try {
       const token = localStorage.getItem("token");
       let headers: HeadersInit = {
         "Content-type": "application/json",
-        Authorization: `Bearer ${token}`,
       };
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+      }
 
       const response = await fetch(this.apiUrl, {
         method: "POST",
         headers,
-        body: JSON.stringify(data),
+        body: JSON.stringify({ yo: "mama" }),
       });
 
-      console.log(response);
+      const result = await response.json();
+      console.log(result);
+      return response;
     } catch (error) {
       throw error;
     }

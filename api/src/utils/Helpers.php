@@ -1,7 +1,8 @@
-<?php 
+<?php
 
-function basePath($path = "") {
-    return __DIR__ . '/' . $path;
+function basePath($path = "")
+{
+   return __DIR__ . '/' . $path;
 };
 
 
@@ -11,11 +12,12 @@ function basePath($path = "") {
  * @return void
  */
 
- function inspect($value) {
-    echo "<pre>";
-    var_dump($value);
-    echo "</pre>";
- }
+function inspect($value)
+{
+   echo "<pre>";
+   var_dump($value);
+   echo "</pre>";
+}
 
 
 /**
@@ -24,11 +26,9 @@ function basePath($path = "") {
  * @return void
  */
 
- function inspectAndDie($value) {
-    echo "<pre>";
-   die(var_dump($value)); 
-    echo "</pre>";
- }
-
-
-?>
+function inspectAndDie($value)
+{
+   echo "<pre>";
+   die(var_dump($value));
+   echo "</pre>";
+}

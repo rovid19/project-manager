@@ -4,7 +4,7 @@
   "autoload": {
     "psr-4": {
       "Framework\\": "src/Framework/",
-      "Controllers\\": "src/Controllers/"
+      "Controllers\\": "src/App/Controllers/"
     }
   },
   "authors": [

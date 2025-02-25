@@ -8,7 +8,6 @@ export class DashboardController {
   // CSS AND HTML
 
   delete() {
-    console.log("da");
     document.querySelector(".dashboard")?.remove();
   }
 

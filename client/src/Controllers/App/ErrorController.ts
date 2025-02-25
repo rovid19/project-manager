@@ -33,8 +33,6 @@ export class ErrorController {
 
     this.errorContainer = errorElement;
 
-    console.log(currentState.mainSection);
-
     if (!currentState.mainSection) {
       mainDiv?.appendChild(errorElement);
     } else {

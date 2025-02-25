@@ -1,9 +1,5 @@
 <?php
 
 $router->get('/get-user', 'AuthController@getUser');
-$router->post('/login-user', 'AuthCoontroller@loginUser');
-$router->post('/register-user', 'AuthCoontroller@registerUser');
-
-
-
-?>
+$router->post('/login-user', 'AuthController@loginUser');
+$router->post('/register-user', 'AuthController@registerUser');
