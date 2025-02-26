@@ -1,3 +1,5 @@
+import { UserStoreType } from "./UserStore";
+
 type State = {
   currentUser: string | null;
   theme: "light" | "dark";
@@ -6,6 +8,10 @@ type State = {
   activeLink: string;
   previousActiveLink: string;
   isAuth: boolean;
+};
+
+type setState = {
+  [key: string]: string | HTMLElement | null;
 };
 
 export class Store {
@@ -25,11 +31,11 @@ export class Store {
     return Store.instance;
   }*/
 
-  getState(): State {
+  getState(): any {
     return this.state;
   }
 
-  setState(newState: Partial<State>) {
+  setState(newState: setState) {
     this.state = { ...this.state, ...newState };
     this.notify(newState);
   }
@@ -40,7 +46,7 @@ export class Store {
     }
   }
 
-  notify(newState: Partial<State>) {
+  notify(newState: setState) {
     const key = Object.keys(newState)[0];
     // console.log(Object.entries(this.listeners));
 

@@ -1,14 +1,20 @@
 import { Store } from "./Store";
+export type UserStoreType = {
+  username: string;
+  email: string;
+  password: string;
+  teams: number;
+};
 
 class UserStore extends Store {
-  constructor(initialState: any) {
+  constructor(initialState: UserStoreType) {
     super();
   }
 }
 
 export const userStore = new UserStore({
-  username: "null",
-  email: "null",
+  username: "",
+  email: "",
   password: "",
-  teams: "",
+  teams: 0,
 });

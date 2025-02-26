@@ -1,3 +1,5 @@
+import { UserStoreType } from "../Store/UserStore";
+
 export class BaseApi {
   apiUrl: string = "http://localhost:3000";
 
@@ -37,7 +39,7 @@ export class BaseApi {
       const response = await fetch(this.apiUrl, {
         method: "POST",
         headers,
-        body: JSON.stringify({ yo: "mama" }),
+        body: JSON.stringify(data),
       });
 
       const result = await response.json();

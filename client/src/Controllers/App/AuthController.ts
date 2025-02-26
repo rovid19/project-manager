@@ -4,10 +4,13 @@ import { router } from "../../main";
 
 import { store } from "../../Store/Store";
 import { AuthService } from "../../Services/AuthService";
+import { userStore } from "../../Store/UserStore";
 
 export class AuthController {
   isRegister: boolean = false;
   loginContainer: HTMLElement | null = null;
+  form: HTMLElement | null = null;
+  formEventListener: any = null;
 
   constructor() {}
 
@@ -73,6 +76,7 @@ export class AuthController {
       loginContainer.children[1].innerText = "Create your account";
     }
 
+    this.formEventDelegation();
     divApp?.appendChild(loginDiv);
     loginDiv.appendChild(loginContainer);
   }
@@ -85,12 +89,14 @@ export class AuthController {
         this.createRegisterForm(),
         createElement({
           tag: "input",
+          name: "username",
           className: "login-input",
           type: "text",
           placeholder: "Enter your username",
         }),
         createElement({
           tag: "input",
+          name: "password",
           className: "login-input",
           type: "password",
           placeholder: "Enter your password",
@@ -109,6 +115,10 @@ export class AuthController {
           onClick: (e: Event) => {
             e.preventDefault();
             if (this.isRegister) {
+              const apiCall = new AuthService(
+                "http://localhost:3000/register-user"
+              );
+              apiCall.registerUser();
             } else {
               const apiCall = new AuthService(
                 "http://localhost:3000/login-user"
@@ -152,13 +162,40 @@ export class AuthController {
       elements.children[4].children[1].innerText = "Login?";
     }
 
+    this.form = elements;
+
     return elements;
+  }
+
+  private formEventDelegation() {
+    (this.form as HTMLElement).addEventListener("change", eventListener);
+
+    function eventListener(e: Event) {
+      const target = e.target as HTMLInputElement;
+
+      if (target.matches("input, textarea, select")) {
+        switch (target.name) {
+          case "username":
+            userStore.setState({ username: target.value });
+            break;
+          case "email":
+            userStore.setState({ email: target.value });
+            break;
+          case "password":
+            userStore.setState({ password: target.value });
+            break;
+        }
+      }
+    }
+
+    this.formEventListener = eventListener;
   }
 
   private createRegisterForm() {
     if (this.isRegister) {
       return createElement({
         tag: "input",
+        name: "email",
         className: "login-input",
         type: "text",
         placeholder: "Enter your email",
@@ -168,5 +205,6 @@ export class AuthController {
 
   delete() {
     this.loginContainer?.remove();
+    this.form?.removeEventListener("change", this.formEventListener);
   }
 }
