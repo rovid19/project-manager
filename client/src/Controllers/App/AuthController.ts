@@ -115,15 +115,23 @@ export class AuthController {
           onClick: (e: Event) => {
             e.preventDefault();
             if (this.isRegister) {
-              const apiCall = new AuthService(
-                "http://localhost:3000/register-user"
-              );
-              apiCall.registerUser();
+              try {
+                const apiCall = new AuthService(
+                  "http://localhost:3000/register-user"
+                );
+                apiCall.registerUser();
+              } catch (error) {
+                throw error;
+              }
             } else {
-              const apiCall = new AuthService(
-                "http://localhost:3000/login-user"
-              );
-              apiCall.loginUser();
+              try {
+                const apiCall = new AuthService(
+                  "http://localhost:3000/login-user"
+                );
+                apiCall.loginUser();
+              } catch (error) {
+                throw error;
+              }
             }
           },
         }),

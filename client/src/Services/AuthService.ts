@@ -12,10 +12,21 @@ export class AuthService extends BaseApi {
 
   async registerUser() {
     const currentState = userStore.getState();
-    await this.post({
+    const result = await this.post({
       username: currentState.username,
       email: currentState.email,
       password: currentState.password,
     });
+
+    this.saveTokenToLocalStorage(result.token);
+  }
+
+  saveTokenToLocalStorage(token: string) {
+    const existingToken = localStorage.getItem("token");
+    if (existingToken) {
+      localStorage.removeItem("token");
+    }
+
+    localStorage.setItem("token", token);
   }
 }

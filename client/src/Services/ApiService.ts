@@ -1,5 +1,3 @@
-import { UserStoreType } from "../Store/UserStore";
-
 export class BaseApi {
   apiUrl: string = "http://localhost:3000";
 
@@ -26,7 +24,6 @@ export class BaseApi {
   }
 
   async post(data: any) {
-    console.log(data);
     try {
       const token = localStorage.getItem("token");
       let headers: HeadersInit = {
@@ -43,8 +40,8 @@ export class BaseApi {
       });
 
       const result = await response.json();
-      console.log(result);
-      return response;
+
+      return result;
     } catch (error) {
       throw error;
     }

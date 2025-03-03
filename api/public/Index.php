@@ -14,12 +14,16 @@ require "../src/utils/Helpers.php";
 
 
 use Framework\Router;
+use Framework\Database;
 
 
 $router = new Router();
 $routes  = require "../src/Routes.php";
 
+$config = require "../src/Config/db.php";
 
+$database = new Database($config);
+$GLOBALS['database'] = $database;
 
 
 $uri = $_SERVER['REQUEST_URI'];
