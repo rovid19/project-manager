@@ -7,6 +7,12 @@ namespace Controllers;
 
 class AuthController
 {
+    private $db;
+
+    public function __construct($db)
+    {
+        $this->db = $db;
+    }
 
 
 
@@ -30,25 +36,36 @@ class AuthController
 
         $data = json_decode(file_get_contents("php://input"), true);
 
+        $user = $this->db->query("SELECT * FROM users WHERE username = :username AND password = :password;", [
+            "username" => $data['username'],
+            "password" => $data['password']
+        ], "select");
 
-        echo json_encode(["message" => "Received", "data" => $data]);
+        echo json_encode(["user" => $user]);
         exit();
     }
 
     public function registerUser()
     {
-        global $database;
         header('Content-Type: application/json');
-        $token = bin2hex(random_bytes(32));
 
+        // generate unique user id = UUID
+        $id = uniqid('', true);
+
+        $token = bin2hex(random_bytes(32));
         $data = json_decode(file_get_contents("php://input"), true);
 
-        /*$database->query(
-            "INSERT INTO users (username,email,password) VALUES (:username, :email, :password)",
-            ["username" => $data['username'], "email" => $data['email'], "password" => $data['password']]
-        );*/
+        $this->db->query(
+            "INSERT INTO users (idusers, username,email,password) VALUES (:idusers, :username, :email, :password)",
+            [
+                "idusers" => $id,
+                "username" => $data['username'],
+                "email" => $data['email'],
+                "password" => $data['password']
+            ]
+        );
 
-        echo json_encode(["email" => $data['email'], "pass" => $data['password']]);
+        echo json_encode(["email" => $data['email'], "pass" => $data['password'], "users" => "da", "token" => $token]);
 
         exit();
     }

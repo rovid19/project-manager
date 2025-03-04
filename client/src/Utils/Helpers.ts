@@ -1,3 +1,7 @@
+import { createMainContent } from "../Components/MainContent";
+import { createSidebar } from "../Components/Sidebar";
+import { router } from "../main";
+
 export function createElement({
   tag,
   children,
@@ -28,4 +32,12 @@ export function createElement({
   }
 
   return element;
+}
+
+export function redirectToHome() {
+  createSidebar();
+  createMainContent();
+
+  history.pushState({}, "", "/dashboard");
+  router.route("dashboard");
 }

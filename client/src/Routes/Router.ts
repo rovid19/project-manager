@@ -32,6 +32,7 @@ export class Router {
     store.setState({ activeLink: path });
 
     for (const [key, route] of Object.entries(this.routes)) {
+      console.log(key, route, uri);
       if (path === key) {
         this.loadController(route.controller, route.controllerMethod);
         isMatched = true;

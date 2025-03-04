@@ -44,7 +44,7 @@ class Router
     }
 
 
-    public function route($uri, $method)
+    public function route($uri, $method, $db)
     {
         $isMatched = false;
 
@@ -55,7 +55,7 @@ class Router
             if ($route['method'] === $method && $route['uri'] === $uri) {
                 $isMatched = true;
 
-                $this->executeRoute($route['controller'], $route['controllerMethod']);
+                $this->executeRoute($route['controller'], $route['controllerMethod'], $db);
             }
         };
 
@@ -66,12 +66,10 @@ class Router
 
     public function error($httpCode = "404") {}
 
-    public function executeRoute($controller, $controllerMethod)
+    public function executeRoute($controller, $controllerMethod, $db)
     {
-
-
         $controllerRoute = 'Controllers\\' . $controller;
-        $controllerInstance = new $controllerRoute();
+        $controllerInstance = new $controllerRoute($db);
         $controllerInstance->$controllerMethod();
     }
 }

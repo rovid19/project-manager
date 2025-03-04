@@ -10,24 +10,20 @@ error_reporting(E_ALL);
 require __DIR__ . '/../vendor/autoload.php';
 require "../src/utils/Helpers.php";
 
-
-
-
 use Framework\Router;
 use Framework\Database;
-
 
 $router = new Router();
 $routes  = require "../src/Routes.php";
 
+// db creation
 $config = require "../src/Config/db.php";
-
 $database = new Database($config);
-$GLOBALS['database'] = $database;
+
 
 
 $uri = $_SERVER['REQUEST_URI'];
 $method = $_SERVER['REQUEST_METHOD'];
 
-
-$router->route($uri, $method);
+// passam db ko dependecy injection da ne koristim globalne varijable
+$router->route($uri, $method, $database);

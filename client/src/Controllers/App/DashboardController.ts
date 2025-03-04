@@ -12,6 +12,8 @@ export class DashboardController {
   }
 
   createDashboard() {
+    //if (!document.querySelector(".main-section")) this.createBaseElements();
+
     const currentState = store.getState();
 
     // dashboard container
@@ -192,6 +194,17 @@ export class DashboardController {
       children: [createElement({ tag: "h3", text: "Dashboard" })],
     });
     dashboard.appendChild(pageDiv);
+  }
+
+  createBaseElements() {
+    const sidebar = createElement({ tag: "div", className: "sidebar" });
+    const mainSection = createElement({
+      tag: "section",
+      className: "main-section",
+    });
+
+    document.body.appendChild(sidebar);
+    document.body.appendChild(mainSection);
   }
 
   // CONTROLLER LOGIC

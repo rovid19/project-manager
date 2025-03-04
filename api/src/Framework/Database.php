@@ -30,7 +30,7 @@ class Database
         }
     }
 
-    public function query($query, $params)
+    public function query($query, $params, $optional = "")
     {
         try {
             // prepare performa query, ali ga ne pokrece
@@ -42,12 +42,19 @@ class Database
             // ne stavljam direktno u values $data['username'], nego samo :username
             // kasnije bindam pravu datu na mjesto semicolona
             foreach ($params as $key => $value) {
-                $sth->bindValue(':', $key, $value);
+                $sth->bindValue(':' . $key, $value);
             }
 
             $sth->execute();
+
+            if ($optional === "select") return $sth->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             throw new Exception("Query failed: " . $e->getMessage());
         }
+    }
+
+    public  function getDatabase()
+    {
+        return $this->conn;
     }
 }
