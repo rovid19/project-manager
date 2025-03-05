@@ -1,6 +1,7 @@
 import { createMainContent } from "../Components/MainContent";
 import { createSidebar } from "../Components/Sidebar";
 import { router } from "../main";
+import { AuthService } from "../Services/AuthService";
 
 export function createElement({
   tag,
@@ -40,4 +41,13 @@ export function redirectToHome() {
 
   history.pushState({}, "", "/dashboard");
   router.route("dashboard");
+}
+
+export async function getUser() {
+  let apiCall: AuthService | null = new AuthService(
+    "http://localhost:3000/get-user"
+  );
+  await apiCall.getUser();
+
+  apiCall = null;
 }

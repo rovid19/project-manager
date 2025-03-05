@@ -3,6 +3,7 @@ import "../Styles/Sidebar.css";
 import { store } from "../Store/Store";
 import { avatarIcon, iconArray, logoutIcon } from "../Assets/Icons";
 import { router } from "../main";
+import { userStore } from "../Store/UserStore";
 
 export function createSidebar() {
   const currentState = store.getState();
@@ -58,6 +59,12 @@ function createNavigation(sidebar: HTMLElement) {
 }
 
 function createUserSection(sidebar: HTMLElement) {
+  const currentState = userStore.getState();
+  const username = currentState.username;
+  console.log(username);
+
+  console.log(currentState);
+
   const containerElements = {
     container: { tag: "div", className: "user-container" },
     avatarContainer: {
@@ -73,7 +80,7 @@ function createUserSection(sidebar: HTMLElement) {
         createElement({
           tag: "h1",
           className: "user-container-username",
-          text: "Celavac",
+          text: username ? username : "User",
         }),
         createElement({
           tag: "a",
@@ -88,6 +95,10 @@ function createUserSection(sidebar: HTMLElement) {
       tag: "div",
       className: "user-container-icon-container",
       innerHTML: logoutIcon,
+      onClick: (e: Event) => {
+        e.preventDefault();
+        logoutUser();
+      },
     },
   };
 
@@ -110,11 +121,17 @@ function createUserSection(sidebar: HTMLElement) {
 //
 //
 export function activeLink() {
-  const currentState = store.getState();
-  const navLinkArray = ["dashboard", "projects", "tasks", "teams", "reports"];
+  if (
+    window.location.pathname === "/login" ||
+    window.location.pathname === "/register"
+  ) {
+  } else {
+    const currentState = store.getState();
+    const navLinkArray = ["dashboard", "projects", "tasks", "teams", "reports"];
 
-  removePreviousActiveLinkColor(navLinkArray, currentState);
-  setActiveLinkColor(navLinkArray, currentState);
+    removePreviousActiveLinkColor(navLinkArray, currentState);
+    setActiveLinkColor(navLinkArray, currentState);
+  }
 }
 
 function setActiveLinkColor(navLinkArray: string[], currentState: any) {
@@ -174,4 +191,25 @@ function removePreviousActiveLinkColor(
       }
     });
   }
+}
+
+export function updateUserInfo() {
+  if (
+    window.location.pathname === "/login" ||
+    window.location.pathname === "/register"
+  ) {
+  } else {
+    const currentState = userStore.getState();
+    const username = document.querySelector(
+      ".user-container-username"
+    ) as HTMLElement;
+    username.innerText = currentState.username;
+  }
+}
+
+function logoutUser() {
+  localStorage.removeItem("token");
+  userStore.setState({ username: "", email: "" });
+  history.pushState({}, "", "/login");
+  router.route("login");
 }

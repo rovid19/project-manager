@@ -70,7 +70,7 @@ export const store = new Store({
   theme: "light",
   mainDivApp: document.querySelector("#app"),
   mainSection: null,
-  activeLink: "dasboard",
+  activeLink: "dashboard",
   previousActiveLink: "",
   isAuth: false,
 });

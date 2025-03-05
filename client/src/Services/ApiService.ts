@@ -18,6 +18,10 @@ export class BaseApi {
         method: "GET",
         headers,
       });
+
+      const result = await response.json();
+
+      return result;
     } catch (error) {
       throw error;
     }
