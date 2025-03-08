@@ -7,16 +7,10 @@ export class BaseApi {
 
   async get() {
     try {
-      const token = localStorage.getItem("token");
-      let headers: HeadersInit = {
-        "Content-type": "application/json",
-      };
-      if (token) {
-        headers["Authorization"] = `Bearer ${token}`;
-      }
       const response = await fetch(this.apiUrl, {
         method: "GET",
-        headers,
+        headers: { "Content-type": "application/json" },
+        credentials: "include", // Ensures cookies (PHPSESSID) are sent
       });
 
       const result = await response.json();

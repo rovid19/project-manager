@@ -1,6 +1,6 @@
 .main-section {
   height: 100vh;
   border-radius: 6px;
-  box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
+  /*box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);*/
   width: 80%;
 }

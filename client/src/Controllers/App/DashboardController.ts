@@ -18,11 +18,16 @@ export class DashboardController {
 
     // dashboard container
     const dashboard = createElement({ tag: "div", className: "dashboard" });
+    const innerDashboard = createElement({
+      tag: "div",
+      className: "inner-dashboard",
+    });
     currentState.mainSection?.appendChild(dashboard);
+    dashboard.appendChild(innerDashboard);
 
-    this.createPageTitle(dashboard);
-    this.createProjectOverview(dashboard);
-    this.createTaskList(dashboard);
+    this.createPageTitle(innerDashboard);
+    this.createProjectOverview(innerDashboard);
+    this.createTaskList(innerDashboard);
   }
 
   createProjectOverview(dashboard: HTMLElement) {
@@ -73,19 +78,31 @@ export class DashboardController {
         className: "project-card",
         children: [
           createElement({
-            tag: "h3",
-            className: "card-title",
-            text: project.title,
+            tag: "div",
+            className: "title-div",
+            children: [
+              createElement({
+                tag: "h3",
+                className: "card-title",
+                text: project.title,
+              }),
+            ],
           }),
           createElement({
-            tag: "p",
-            className: "card-status",
-            text: `Status: ${project.status}`,
-          }),
-          createElement({
-            tag: "p",
-            className: "card-completion",
-            text: `Completion: ${project.completion}`,
+            tag: "div",
+            className: "status-div",
+            children: [
+              createElement({
+                tag: "p",
+                className: "card-status",
+                text: `Status: ${project.status}`,
+              }),
+              createElement({
+                tag: "p",
+                className: "card-completion",
+                text: `Completion: ${project.completion}`,
+              }),
+            ],
           }),
         ],
       });

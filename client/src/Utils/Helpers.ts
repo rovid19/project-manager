@@ -51,3 +51,28 @@ export async function getUser() {
 
   apiCall = null;
 }
+
+export function formValidation(
+  ...inputs: HTMLInputElement[]
+): (boolean | HTMLElement[])[] {
+  let returnArray: (boolean | HTMLInputElement[])[] = [];
+  let elementArray: HTMLInputElement[] = [];
+  let validationConfirmed: boolean[] = [];
+
+  inputs.forEach((input) => {
+    if (input.value.length > 1) validationConfirmed.push(true);
+    else validationConfirmed.push(false);
+  });
+  validationConfirmed.forEach((item, i) => {
+    if (!item) {
+      elementArray.push(inputs[i]);
+    }
+  });
+
+  let isFormValid = validationConfirmed.every((item) => item === true);
+
+  returnArray.push(isFormValid);
+  returnArray.push(elementArray);
+
+  return returnArray;
+}

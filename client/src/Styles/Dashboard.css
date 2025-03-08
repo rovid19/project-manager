@@ -1,8 +1,12 @@
 .dashboard {
-  padding: 2rem;
+  padding-top: 1rem;
+  padding-right: 1rem;
+  padding-bottom: 1rem;
+  background-color: #f5f7f9;
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  height: 100%;
 }
 
 .page-header > h3 {
@@ -31,10 +35,25 @@
 }
 
 .project-card {
-  background: #f8f9fa;
   padding: 1.5rem;
   border-radius: 8px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+}
+.title-div {
+  display: flex;
+  border-bottom: 1px solid #d1d8dc;
+  height: 50%;
+}
+
+.status-div {
+  display: flex;
+  flex-direction: column;
+
+  height: 50%;
 }
 
 .card-title {
@@ -84,4 +103,15 @@
   border: 1px solid #ddd;
   border-radius: 4px;
   width: 100%;
+}
+
+.inner-dashboard {
+  height: 100%;
+  padding-top: 2rem;
+  padding-left: 2rem;
+
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
 }

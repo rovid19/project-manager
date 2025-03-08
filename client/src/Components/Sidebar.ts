@@ -10,10 +10,15 @@ export function createSidebar() {
 
   // sidebar container
   const sidebar = createElement({ tag: "div", className: "sidebar" });
+  const innerSiderbar = createElement({
+    tag: "div",
+    className: "inner-sidebar",
+  });
   currentState.mainDivApp?.appendChild(sidebar); // Using optional chaining
+  sidebar.appendChild(innerSiderbar);
 
-  createNavigation(sidebar);
-  createUserSection(sidebar);
+  createNavigation(innerSiderbar);
+  createUserSection(innerSiderbar);
 }
 
 function createNavigation(sidebar: HTMLElement) {
@@ -172,6 +177,7 @@ function removePreviousActiveLinkColor(
   navLinkArray: string[],
   currentState: any
 ) {
+  //#393939;
   if (currentState.previousActiveLink.length > 0) {
     navLinkArray.forEach((navItem, i) => {
       if (navItem === currentState.previousActiveLink) {
