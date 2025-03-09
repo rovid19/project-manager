@@ -9,10 +9,11 @@ export type ProjectInfo = {
 
 export class ProjectsService extends BaseApi {
   async createNewProject(projectInfo: ProjectInfo) {
-    console.log(projectInfo);
-    const response = await this.post(projectInfo);
+    await this.post(projectInfo);
+  }
 
-    const result = await response.json();
+  async fetchAllUserProjects() {
+    const result = await this.get();
 
     console.log(result);
   }

@@ -18,7 +18,6 @@ class AuthController
     {
         session_start();
 
-        var_dump($_SESSION);
         if (!isset($_SESSION['user-id'])) {
             echo json_encode(["error" => "User not logged in"]);
             exit();
@@ -26,9 +25,9 @@ class AuthController
 
         $userId = $_SESSION['user-id'];
 
-        $user = $this->db->query("SELECT * FROM users WHERE idusers = :idusers", [
-            "idusers" => $userId
-        ], "select");
+        $user = $this->db->query("SELECT * FROM users WHERE userId = :userId", [
+            "userId" => $userId
+        ], "return");
         $userFound = isset($user[0]['username']) ? true : false;
 
         echo json_encode(["username" => $userFound ? $user[0]['username'] : "", "email" => $userFound ? $user[0]['email'] : ""]);
@@ -40,15 +39,17 @@ class AuthController
     public function loginUser()
 
     {
+        session_start();
+
         header('Content-Type: application/json');
 
         $data = json_decode(file_get_contents("php://input"), true);
         $user = $this->db->query("SELECT * FROM users WHERE username = :username AND password = :password;", [
             "username" => $data['username'],
             "password" => $data['password']
-        ], "select");
+        ], "return");
 
-        $this->startSession(($user));
+        $this->storeUserSession(($user));
 
         echo json_encode(["user" => $user]);
 
@@ -75,10 +76,10 @@ class AuthController
 
             ]
         );
-        $user = ["userId" => $id, "username" => $data['username'], "email" => $data['email']];
-        $this->startSession($user);
-
+        $user = [["userId" => $id, "username" => $data['username'], "email" => $data['email']]];
+        $this->storeUserSession($user);
         echo json_encode(["email" => $data['email'], "pass" => $data['password'], "username" => $data['username']]);
+
 
         exit();
     }
@@ -91,18 +92,21 @@ class AuthController
         // Destroy the session
         session_destroy();
 
+        // remove cookie on frontend
+        setcookie(session_name(), '', time() - 3600, '/'); // Expire cookie
+
+
         echo json_encode(["message" => "User successfully logged out"]);
     }
 
-    public function startSession($user)
+    public function storeUserSession($user)
     {
-        // session_start();
-
         // Regenerate session ID for security reasons
         session_regenerate_id(true);
 
-        $_SESSION['user-id'] = $user['userId'];
-        $_SESSION['user-username'] = $user['username'];
-        $_SESSION['user-email'] = $user['email'];
+
+        $_SESSION['user-id'] = $user[0]['userId'];
+        $_SESSION['user-username'] = $user[0]['username'];
+        $_SESSION['user-email'] = $user[0]['email'];
     }
 }

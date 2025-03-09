@@ -4,6 +4,7 @@ import { store } from "../Store/Store";
 import { avatarIcon, iconArray, logoutIcon } from "../Assets/Icons";
 import { router } from "../main";
 import { userStore } from "../Store/UserStore";
+import { AuthService } from "../Services/AuthService";
 
 export function createSidebar() {
   const currentState = store.getState();
@@ -213,9 +214,10 @@ export function updateUserInfo() {
   }
 }
 
-function logoutUser() {
-  localStorage.removeItem("token");
+async function logoutUser() {
   userStore.setState({ username: "", email: "" });
   history.pushState({}, "", "/login");
   router.route("login");
+  let apiCall = new AuthService("http://localhost:3000/user-logout");
+  await apiCall.post({});
 }

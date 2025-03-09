@@ -44,12 +44,18 @@ export function redirectToHome() {
 }
 
 export async function getUser() {
-  let apiCall: AuthService | null = new AuthService(
-    "http://localhost:3000/get-user"
-  );
-  await apiCall.getUser();
+  if (
+    window.location.pathname !== "/login" &&
+    window.location.pathname !== "/register"
+  ) {
+    console.log("da");
+    let apiCall: AuthService | null = new AuthService(
+      "http://localhost:3000/get-user"
+    );
+    await apiCall.getUser();
 
-  apiCall = null;
+    apiCall = null;
+  }
 }
 
 export function formValidation(
@@ -74,5 +80,6 @@ export function formValidation(
   returnArray.push(isFormValid);
   returnArray.push(elementArray);
 
+  // vraca array sa dva itema, prvi je isFormValid i drugi je htmlinputelement array koji nisu prosli validaciju
   return returnArray;
 }

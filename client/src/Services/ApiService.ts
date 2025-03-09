@@ -23,17 +23,10 @@ export class BaseApi {
 
   async post(data: any) {
     try {
-      const token = localStorage.getItem("token");
-      let headers: HeadersInit = {
-        "Content-type": "application/json",
-      };
-      if (token) {
-        headers["Authorization"] = `Bearer ${token}`;
-      }
-
       const response = await fetch(this.apiUrl, {
         method: "POST",
-        headers,
+        headers: { "Content-type": "application/json" },
+        credentials: "include", // bez ovoga mi ne seta cookie session id
         body: JSON.stringify(data),
       });
 

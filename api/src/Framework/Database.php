@@ -47,7 +47,7 @@ class Database
 
             $sth->execute();
 
-            if ($optional === "select") return $sth->fetchAll(PDO::FETCH_ASSOC);
+            if ($optional === "return") return $sth->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             throw new Exception("Query failed: " . $e->getMessage());
         }

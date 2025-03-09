@@ -21,7 +21,18 @@ export class ProjectsController {
     document.querySelector(".projects")?.remove();
   }
 
-  createProjects() {
+  async fetchAllUserProjects() {
+    let apiCall = new ProjectsService(
+      "http://localhost:3000/get-all-user-projects"
+    ) as ProjectsService | null;
+
+    await (apiCall as ProjectsService).fetchAllUserProjects();
+
+    apiCall = null;
+  }
+
+  async createProjects() {
+    await this.fetchAllUserProjects();
     const currentState = store.getState();
 
     const projects = createElement({ tag: "div", className: "projects" });
