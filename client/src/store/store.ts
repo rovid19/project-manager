@@ -1,3 +1,4 @@
+import { ProjectInfo } from "../Services/ProjectsService";
 import { UserStoreType } from "./UserStore";
 
 type State = {
@@ -11,7 +12,7 @@ type State = {
 };
 
 type setState = {
-  [key: string]: string | HTMLElement | null;
+  [key: string]: string | HTMLElement | null | ProjectInfo[];
 };
 
 export class Store {
@@ -38,6 +39,7 @@ export class Store {
   setState(newState: setState) {
     this.state = { ...this.state, ...newState };
     this.notify(newState);
+    console.log(newState);
   }
 
   subscribe(listener: Function, key: string) {
@@ -48,6 +50,7 @@ export class Store {
 
   notify(newState: setState) {
     const key = Object.keys(newState)[0];
+    console.log(key);
     // console.log(Object.entries(this.listeners));
 
     Object.entries(this.listeners).forEach((state) => {

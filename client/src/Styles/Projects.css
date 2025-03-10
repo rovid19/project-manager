@@ -42,7 +42,7 @@
 }
 
 .create-project-btn {
-  background: #646ae0;
+  background: #353535;
   color: white;
   padding: 12px 24px;
   border: none;
@@ -138,7 +138,7 @@
   margin-top: auto;
   height: 50px;
   border: none;
-  background-color: #646ae0;
+  background-color: #353535;
   border-radius: 6px;
   color: white;
   cursor: pointer;
@@ -234,4 +234,11 @@
   padding: 32px;
   height: 100%;
   /*background-color: #f6f7f9;*/
+}
+
+.card-icon {
+  background-color: #353535;
+  border-radius: 6px;
+  color: white;
+  padding: 24px;
 }

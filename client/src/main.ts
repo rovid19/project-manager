@@ -12,6 +12,7 @@ import { getUser } from "./Utils/Helpers";
 
 store.subscribe(activeLink, "activeLink");
 userStore.subscribe(updateUserInfo, "username");
+
 export const router = new Router([
   "/dashboard/DashboardController/createDashboard",
   "/projects/ProjectsController/createProjects",

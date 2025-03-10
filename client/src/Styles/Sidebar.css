@@ -45,6 +45,7 @@ li > a {
   display: flex;
   text-decoration: none;
   color: black;
+  padding: 8px;
 }
 
 li:hover {

@@ -25,7 +25,8 @@
   background: #fff;
   padding: 2rem;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);*/
+  border: 1px solid #d1d8dc;
 }
 
 .project-cards {
@@ -33,7 +34,7 @@
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 1.5rem;
 }
-
+/*
 .project-card {
   padding: 1.5rem;
   border-radius: 8px;
@@ -67,13 +68,14 @@
   color: #666;
   margin: 0.5rem 0;
 }
-
+*/
 /* Task List Section */
 .task-list {
   background: #fff;
   padding: 2rem;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /*box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);*/
+  border: 1px solid #d1d8dc;
 }
 
 .task-table {

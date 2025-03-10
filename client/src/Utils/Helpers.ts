@@ -2,6 +2,7 @@ import { createMainContent } from "../Components/MainContent";
 import { createSidebar } from "../Components/Sidebar";
 import { router } from "../main";
 import { AuthService } from "../Services/AuthService";
+import { ProjectsService } from "../Services/ProjectsService";
 
 export function createElement({
   tag,
@@ -82,4 +83,14 @@ export function formValidation(
 
   // vraca array sa dva itema, prvi je isFormValid i drugi je htmlinputelement array koji nisu prosli validaciju
   return returnArray;
+}
+
+export async function fetchAllUserProjects() {
+  let apiCall = new ProjectsService(
+    "http://localhost:3000/get-all-user-projects"
+  ) as ProjectsService | null;
+
+  await (apiCall as ProjectsService).fetchAllUserProjects();
+
+  apiCall = null;
 }

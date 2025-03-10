@@ -1,9 +1,15 @@
 import "../../Styles/Projects.css";
 import { store } from "../../Store/Store";
-import { createElement, formValidation } from "../../Utils/Helpers";
+import {
+  createElement,
+  fetchAllUserProjects,
+  formValidation,
+} from "../../Utils/Helpers";
 import "../../Styles/Projects.css";
 import { backRight, icons } from "../../Assets/Icons";
 import { ProjectInfo, ProjectsService } from "../../Services/ProjectsService";
+import { userStore } from "../../Store/UserStore";
+import { renderProjectCards } from "../../Components/ProjectCard";
 
 export class ProjectsController {
   private projectsDiv: HTMLElement | null = null;
@@ -15,24 +21,15 @@ export class ProjectsController {
     teams: "",
     icon: "",
   };
+  private iconArry: SVGSVGElement[] = [];
   constructor() {}
 
   delete() {
     document.querySelector(".projects")?.remove();
   }
 
-  async fetchAllUserProjects() {
-    let apiCall = new ProjectsService(
-      "http://localhost:3000/get-all-user-projects"
-    ) as ProjectsService | null;
-
-    await (apiCall as ProjectsService).fetchAllUserProjects();
-
-    apiCall = null;
-  }
-
   async createProjects() {
-    await this.fetchAllUserProjects();
+    await fetchAllUserProjects();
     const currentState = store.getState();
 
     const projects = createElement({ tag: "div", className: "projects" });
@@ -44,21 +41,23 @@ export class ProjectsController {
     currentState.mainSection?.appendChild(projects);
     projects.appendChild(innerProjects);
 
-    this.createPageTitle(innerProjects);
-    this.createNewProjectButton(innerProjects);
-    this.createProjectsGrid(innerProjects);
+    this.createPageTitle();
+    this.createNewProjectButton();
+    this.createProjectsGrid();
+
+    userStore.subscribe(this.createProjectsGrid.bind(this), "projects");
   }
 
-  private createPageTitle(container: HTMLElement) {
+  private createPageTitle() {
     const pageHeader = createElement({
       tag: "div",
       className: "page-header",
       children: [createElement({ tag: "h3", text: "Projects" })],
     });
-    container.appendChild(pageHeader);
+    (this.projectsDiv as HTMLElement).appendChild(pageHeader);
   }
 
-  private createNewProjectButton(container: HTMLElement) {
+  private createNewProjectButton() {
     const button = createElement({
       tag: "button",
       className: "create-project-btn",
@@ -68,67 +67,27 @@ export class ProjectsController {
         this.createProjectDiv();
       },
     });
-    container.appendChild(button);
+    (this.projectsDiv as HTMLElement).appendChild(button);
   }
 
-  private createProjectsGrid(container: HTMLElement) {
+  private deleteProjectsGrid() {
+    const projectsGrid = document.querySelector(".projects-grid");
+    if (projectsGrid) {
+      projectsGrid.remove();
+    }
+  }
+
+  private createProjectsGrid() {
+    this.deleteProjectsGrid();
+
     const projectsGrid = createElement({
       tag: "div",
       className: "projects-grid",
     });
 
-    const projects = [
-      {
-        title: "Project Alpha",
-        description: "AI-based healthcare solution.",
-        lastUpdated: "Oct 2023",
-        imageUrl: "/assets/project-alpha.jpg",
-      },
-      {
-        title: "Project Beta",
-        description: "E-commerce platform for artisans.",
-        lastUpdated: "Sep 2023",
-        imageUrl: "/assets/project-beta.jpg",
-      },
-      {
-        title: "Project Gamma",
-        description: "Cloud storage optimization tool.",
-        lastUpdated: "Aug 2023",
-        imageUrl: "/assets/project-gamma.jpg",
-      },
-    ];
+    renderProjectCards(projectsGrid);
 
-    projects.forEach((project) => {
-      const card = createElement({
-        tag: "div",
-        className: "project-card",
-        children: [
-          createElement({
-            tag: "div",
-            className: "main-card-div",
-            children: [
-              createElement({
-                tag: "div",
-                className: "project-text",
-                children: [
-                  createElement({ tag: "h3", text: project.title }),
-                  createElement({ tag: "p", text: project.description }),
-                  createElement({
-                    tag: "p",
-                    className: "last-updated",
-                    text: `Last updated: ${project.lastUpdated}`,
-                  }),
-                ],
-              }),
-            ],
-          }),
-          createElement({ tag: "div", className: "card-icon", children: [] }),
-        ],
-      });
-      projectsGrid.appendChild(card);
-    });
-
-    container.appendChild(projectsGrid);
+    (this.projectsDiv as HTMLElement).appendChild(projectsGrid);
   }
 
   createProjectDiv() {
@@ -197,6 +156,8 @@ export class ProjectsController {
                     const closestSvg = (target as SVGSVGElement).closest("svg");
                     this.iconSelected = closestSvg?.outerHTML as string;
                     this.apiProjectData.icon = this.iconSelected;
+
+                    this.setSelectedIconBorder(closestSvg as SVGSVGElement);
                   },
                 }),
                 createElement({
@@ -252,6 +213,8 @@ export class ProjectsController {
         );
         this.closeCreateProjectModal();
         await apiCall.createNewProject(this.apiProjectData);
+
+        await fetchAllUserProjects();
       } else {
         this.formValidationError(
           iconValid,
@@ -260,6 +223,13 @@ export class ProjectsController {
         );
       }
     };
+  }
+  setSelectedIconBorder(svg: SVGSVGElement) {
+    this.iconArry.forEach((icon) => {
+      console.log(icon);
+      icon.style.border = "none";
+    });
+    svg.style.border = "2px solid #353535";
   }
 
   formValidationError(
@@ -293,8 +263,12 @@ export class ProjectsController {
   }
 
   renderProjectIcons(iconDiv: HTMLElement) {
-    icons.forEach((icon) => {
+    icons.forEach((icon, i) => {
       iconDiv.innerHTML += icon;
+
+      setTimeout(() => {
+        this.iconArry.push(iconDiv.children[i] as SVGSVGElement);
+      }, 100);
     });
   }
 }

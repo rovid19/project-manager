@@ -1,3 +1,5 @@
+import { store } from "../Store/Store";
+import { userStore } from "../Store/UserStore";
 import { BaseApi } from "./ApiService";
 
 export type ProjectInfo = {
@@ -9,12 +11,23 @@ export type ProjectInfo = {
 
 export class ProjectsService extends BaseApi {
   async createNewProject(projectInfo: ProjectInfo) {
+    console.log("da");
     await this.post(projectInfo);
   }
 
   async fetchAllUserProjects() {
-    const result = await this.get();
+    const result = (await this.get()) as ProjectInfo[];
+    const projectArray: ProjectInfo[] = [];
 
-    console.log(result);
+    result.forEach((project) => {
+      projectArray.push({
+        title: project.title,
+        description: project.description,
+        teams: "",
+        icon: project.icon,
+      });
+    });
+
+    userStore.setState({ projects: projectArray });
   }
 }

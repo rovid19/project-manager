@@ -20,7 +20,7 @@ class ProjectsController
         $allUserProjects = $this->db->query("SELECT * FROM  project WHERE userId = :userId", ["userId" => $userId], "return");
 
 
-        echo json_encode(["userProjects" => $allUserProjects]);
+        echo json_encode($allUserProjects);
     }
     public function createNewProject()
     {

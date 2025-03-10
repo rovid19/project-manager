@@ -1,6 +1,9 @@
 import { store } from "../../Store/Store";
-import { createElement } from "../../Utils/Helpers";
+import { createElement, fetchAllUserProjects } from "../../Utils/Helpers";
 import "../../Styles/Dashboard.css";
+import "../../Styles/Projects.css";
+
+import { renderProjectCards } from "../../Components/ProjectCard";
 
 export class DashboardController {
   constructor() {}
@@ -11,7 +14,8 @@ export class DashboardController {
     document.querySelector(".dashboard")?.remove();
   }
 
-  createDashboard() {
+  async createDashboard() {
+    await fetchAllUserProjects();
     //if (!document.querySelector(".main-section")) this.createBaseElements();
 
     const currentState = store.getState();
@@ -45,69 +49,12 @@ export class DashboardController {
     });
     dashboard.appendChild(section);
 
-    // project cards
-    const projects = [
-      {
-        title: "App Redesign",
-        status: "In Progress",
-        completion: "65%",
-        image: "path-to-image-1",
-      },
-      {
-        title: "Marketing Launch",
-        status: "Completed",
-        completion: "100%",
-        image: "path-to-image-2",
-      },
-      {
-        title: "Website Update",
-        status: "Pending",
-        completion: "10%",
-        image: "path-to-image-3",
-      },
-    ];
-
     const projectCards = createElement({
       tag: "div",
       className: "project-cards",
     });
 
-    projects.forEach((project) => {
-      const card = createElement({
-        tag: "div",
-        className: "project-card",
-        children: [
-          createElement({
-            tag: "div",
-            className: "title-div",
-            children: [
-              createElement({
-                tag: "h3",
-                className: "card-title",
-                text: project.title,
-              }),
-            ],
-          }),
-          createElement({
-            tag: "div",
-            className: "status-div",
-            children: [
-              createElement({
-                tag: "p",
-                className: "card-status",
-                text: `Status: ${project.status}`,
-              }),
-              createElement({
-                tag: "p",
-                className: "card-completion",
-                text: `Completion: ${project.completion}`,
-              }),
-            ],
-          }),
-        ],
-      });
-      projectCards.appendChild(card);
-    });
+    renderProjectCards(projectCards, 3);
 
     section.appendChild(projectCards);
   }

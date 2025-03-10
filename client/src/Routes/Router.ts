@@ -57,6 +57,8 @@ export class Router {
 
     // lodanje controllera
     this.controller[controllerMethod]();
+
+    console.log(this.controller);
   }
 
   removePreviousController() {

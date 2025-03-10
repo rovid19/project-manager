@@ -162,9 +162,9 @@ function setActiveLinkColor(navLinkArray: string[], currentState: any) {
           window.removeEventListener("DOMContentLoaded", domLoaded);
         }, 1000);
       } else {
-        navLinkElement.style.background = "#f2f2fc";
-        navLinkText.style.color = "#646ae0";
-        navLinkAvatar.style.fill = "#646ae0";
+        navLinkElement.style.background = "#353535";
+        navLinkText.style.color = "white";
+        navLinkAvatar.style.fill = "white";
       }
 
       store.setState({ previousActiveLink: navItem });
