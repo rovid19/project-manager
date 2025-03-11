@@ -1,5 +1,5 @@
-import { ProjectInfo } from "../Services/ProjectsService";
-import { userStore } from "../Store/UserStore";
+import { router } from "../main";
+import { Project, userStore } from "../Store/UserStore";
 import { createElement } from "../Utils/Helpers";
 
 export function renderProjectCards(
@@ -13,10 +13,11 @@ export function renderProjectCards(
     projects = projects.slice(0, cardsNeeded);
   }
 
-  projects.forEach((project: ProjectInfo) => {
+  projects.forEach((project: Project) => {
     const card = createElement({
       tag: "div",
       className: "project-card",
+      data: project.projectId,
       children: [
         createElement({
           tag: "div",
@@ -46,5 +47,16 @@ export function renderProjectCards(
     });
 
     elementContainer.appendChild(card);
+  });
+  projectCardEventDelegation(elementContainer);
+}
+
+function projectCardEventDelegation(parentContainer: HTMLElement) {
+  parentContainer.addEventListener("click", (e: Event) => {
+    const target = e.target as HTMLElement;
+    const projectId = (target.closest(".project-card") as HTMLElement).dataset
+      .projectId;
+    history.pushState("", "", `/projects/${projectId}`);
+    router.route(`/projects/${projectId}`);
   });
 }

@@ -8,15 +8,12 @@ import { renderProjectCards } from "../../Components/ProjectCard";
 export class DashboardController {
   constructor() {}
 
-  // CSS AND HTML
-
   delete() {
     document.querySelector(".dashboard")?.remove();
   }
 
   async createDashboard() {
     await fetchAllUserProjects();
-    //if (!document.querySelector(".main-section")) this.createBaseElements();
 
     const currentState = store.getState();
 

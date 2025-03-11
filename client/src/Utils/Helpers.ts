@@ -12,6 +12,7 @@ export function createElement({
   onClick,
   onChange,
   name,
+  data,
   ...props
 }: any) {
   // Handle element creation
@@ -19,6 +20,7 @@ export function createElement({
   if (className) element.classList.add(className);
   if (text) element.innerText = text;
   if (name) element.name = name;
+  if (data) element.dataset.projectId = data;
   Object.assign(element, props);
 
   // Handle event listeners
@@ -49,7 +51,6 @@ export async function getUser() {
     window.location.pathname !== "/login" &&
     window.location.pathname !== "/register"
   ) {
-    console.log("da");
     let apiCall: AuthService | null = new AuthService(
       "http://localhost:3000/get-user"
     );

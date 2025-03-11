@@ -67,9 +67,6 @@ function createNavigation(sidebar: HTMLElement) {
 function createUserSection(sidebar: HTMLElement) {
   const currentState = userStore.getState();
   const username = currentState.username;
-  console.log(username);
-
-  console.log(currentState);
 
   const containerElements = {
     container: { tag: "div", className: "user-container" },

@@ -7,19 +7,19 @@ import {
 } from "../../Utils/Helpers";
 import "../../Styles/Projects.css";
 import { backRight, icons } from "../../Assets/Icons";
-import { ProjectInfo, ProjectsService } from "../../Services/ProjectsService";
-import { userStore } from "../../Store/UserStore";
+import { ProjectsService } from "../../Services/ProjectsService";
+import { Project, userStore } from "../../Store/UserStore";
 import { renderProjectCards } from "../../Components/ProjectCard";
 
 export class ProjectsController {
   private projectsDiv: HTMLElement | null = null;
   private createProjectModal: HTMLElement | null = null;
   private iconSelected: string = "";
-  private apiProjectData: ProjectInfo = {
+  private apiProjectData: Project = {
     title: "",
     description: "",
-    teams: "",
     icon: "",
+    projectId: "",
   };
   private iconArry: SVGSVGElement[] = [];
   constructor() {}
@@ -226,7 +226,6 @@ export class ProjectsController {
   }
   setSelectedIconBorder(svg: SVGSVGElement) {
     this.iconArry.forEach((icon) => {
-      console.log(icon);
       icon.style.border = "none";
     });
     svg.style.border = "2px solid #353535";
@@ -254,9 +253,9 @@ export class ProjectsController {
           case "description":
             this.apiProjectData.description = target.value;
             break;
-          case "teams":
+          /*case "teams":
             this.apiProjectData.teams = target.value;
-            break;
+            break;*/
         }
       }
     });

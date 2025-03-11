@@ -39,7 +39,7 @@ export class AuthService extends BaseApi {
   async registerUser() {
     try {
       const currentState = userStore.getState();
-      console.log(currentState);
+
       const result = await this.post({
         username: currentState.username,
         email: currentState.email,

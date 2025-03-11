@@ -10,6 +10,7 @@ export type UserProject = {
   title: string;
   description: string;
   icon: string;
+  projectId: string;
 };
 
 class UserStore extends Store {
@@ -22,5 +23,5 @@ export const userStore = new UserStore({
   username: "",
   email: "",
   teams: 0,
-  projects: [{ title: "", description: "", icon: "" }],
+  projects: [{ title: "", description: "", icon: "", projectId: "" }],
 });

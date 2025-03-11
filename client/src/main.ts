@@ -16,11 +16,13 @@ userStore.subscribe(updateUserInfo, "username");
 export const router = new Router([
   "/dashboard/DashboardController/createDashboard",
   "/projects/ProjectsController/createProjects",
+  "/projects/:projectId/ProjectsController/createSingleProjectPage",
   "/tasks/TasksController/createTasks",
   "/teams/TeamsController/createTeams",
   "/reports/ReportsController/createReports",
   "/login/AuthController/createAuth",
   "/register/AuthController/createAuth",
+  "/projects/:projectId/tasks/:taskId/ProjectsController/createSingleProjectPage",
 ]);
 
 router.route();
