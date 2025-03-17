@@ -5,10 +5,12 @@ namespace Controllers;
 class ProjectsController
 {
     private $db;
+    private $projectId;
 
-    public function __construct($db)
+    public function __construct($db, $projectId = "")
     {
         $this->db = $db;
+        $this->projectId = $projectId;
     }
 
     public function getAllUserProjects()
@@ -40,5 +42,18 @@ class ProjectsController
 
 
         echo json_encode(["message" => "project successfully created"]);
+    }
+
+    public function getUserProject()
+    {
+        inspect("yo");
+
+        session_start();
+        $userId = $_SESSION['user-id'];
+    }
+
+    public function test()
+    {
+        inspect("test");
     }
 }

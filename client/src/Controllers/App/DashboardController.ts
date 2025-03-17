@@ -6,8 +6,6 @@ import "../../Styles/Projects.css";
 import { renderProjectCards } from "../../Components/ProjectCard";
 
 export class DashboardController {
-  constructor() {}
-
   delete() {
     document.querySelector(".dashboard")?.remove();
   }

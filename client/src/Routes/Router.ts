@@ -50,10 +50,14 @@ export class Router {
 
       if (keyArray.length > 1) {
         keyArray.forEach((item) => {
-          if (item.startsWith(":")) isCorrectPath = true;
-          if (keyArray.find((key) => key === item)) isCorrectPath = true;
+          if (item.startsWith(":") || keyArray.find((key) => key === item))
+            isCorrectPath = true;
         });
-        if (isCorrectPath) console.log(route);
+        if (isCorrectPath) {
+          console.log(route);
+          this.loadController(route.controller, route.controllerMethod);
+        }
+
         return;
       } else {
         if (path === key) {
@@ -72,17 +76,16 @@ export class Router {
   async loadController(controllerName: string, controllerMethod: string) {
     // obrisi prethodni controller - stoream controller na klasi da ih konstantno brisem i da je samo jedan controller aktivan atm
     if (this.controller) this.removePreviousController();
-
+    console.log(controllerName, controllerMethod);
     // import module klase, trenutno imam named export, ali moguce je i default loadat samo je malo drugaciji kod onda
     const module = await import(`../Controllers/App/${controllerName}`);
+    console.log(module.default);
 
     // tu je kod drugaciji ak loadam default onda mogu accessati ko objekt new module.default, a ko named export je na ovaj nacin
     this.controller = new module[controllerName]();
-
+    console.log(this.controller);
     // lodanje controllera
     this.controller[controllerMethod]();
-
-    console.log(this.controller);
   }
 
   removePreviousController() {
@@ -92,7 +95,7 @@ export class Router {
 
   registerPathParameter(route: any) {
     const routeName = this.defineRouteName(route);
-    const controllerArray = this.defineControllerAndMethod(route);
+    const controllerArray = route.reverse().slice(0, 2).reverse();
     this.routes[routeName] = {
       controller: controllerArray[0],
       controllerMethod: controllerArray[1],
@@ -105,14 +108,5 @@ export class Router {
     const arrayToString = sliceLastTwoItemsFromArray.join("/");
 
     return arrayToString;
-  }
-
-  defineControllerAndMethod(route: any) {
-    const extractControllerAndMethodFromArray = route
-      .reverse()
-      .slice(0, 2)
-      .reverse();
-
-    return extractControllerAndMethodFromArray;
   }
 }

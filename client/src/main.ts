@@ -16,7 +16,7 @@ userStore.subscribe(updateUserInfo, "username");
 export const router = new Router([
   "/dashboard/DashboardController/createDashboard",
   "/projects/ProjectsController/createProjects",
-  "/projects/:projectId/ProjectsController/createSingleProjectPage",
+  "/projects/:projectId/ProjectController/createProject",
   "/tasks/TasksController/createTasks",
   "/teams/TeamsController/createTeams",
   "/reports/ReportsController/createReports",

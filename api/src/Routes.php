@@ -9,3 +9,5 @@ $router->post("/user-logout", "AuthController@userLogout");
 
 $router->post("/create-new-project", "ProjectsController@createNewProject");
 $router->get("/get-all-user-projects", "ProjectsController@getAllUserProjects");
+$router->get("/get-project/{projectId}", "ProjectsController@getUserProject");
+$router->get("/test", "ProjectsController@test");
