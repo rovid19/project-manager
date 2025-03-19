@@ -34,7 +34,7 @@ export class Router {
 
   route(uri: string = ""): void {
     //projects/192321390 projects/:projectId
-
+    console.log(uri);
     let isMatched = false;
     let isCorrectPath = false;
 
@@ -74,6 +74,7 @@ export class Router {
   }
 
   async loadController(controllerName: string, controllerMethod: string) {
+    console.log(controllerName, controllerMethod);
     // obrisi prethodni controller - stoream controller na klasi da ih konstantno brisem i da je samo jedan controller aktivan atm
     if (this.controller) this.removePreviousController();
     console.log(controllerName, controllerMethod);

@@ -7,6 +7,7 @@ export class ProjectsService extends BaseApi {
   }
 
   async fetchAllUserProjects() {
+    console.log(this.apiUrl);
     const result = (await this.get()) as Project[];
     const projectArray: Project[] = [];
 
@@ -22,7 +23,21 @@ export class ProjectsService extends BaseApi {
     userStore.setState({ projects: projectArray });
   }
 
-  async fetchUserProject(projectId: string) {
-    await this.get();
+  async fetchUserProject(): Promise<Project> {
+    const result = await this.get();
+    return result;
+  }
+
+  async submitNewProjectDetails(projectData: {
+    title: string;
+    description: string;
+  }): Promise<any> {
+    const result = await this.put(projectData);
+    console.log(result);
+    return result;
+  }
+
+  async deleteProject() {
+    await this.delete();
   }
 }

@@ -54,9 +54,9 @@ class Router
         foreach ($this->routes as $route) {
             if ($route['method'] === $requestMethod && $route['uri'] === $uri) {
                 $isMatched = true;
-                $this->handleRoute($isMatched, $route, $db, null);
-
-                return;
+                if ($this->handleRoute($isMatched, $route, $db, null)) {
+                    break;
+                }
             }
         }
 
@@ -65,7 +65,6 @@ class Router
             foreach ($this->routes as $route) {
                 $routeSegments = explode("/", trim($route['uri'], "/"));
                 $params = [];
-
 
                 if (!$isMatched && count($routeSegments) === count($uriSegments) && $requestMethod === $route['method']) {
                     for ($i = 0; $i < count($uriSegments); $i++) {
@@ -77,13 +76,14 @@ class Router
                         } else {
                             inspect($uriSegments[$i]);
                             $isMatched = false;
-                            break; // izlazak iz loopa
+                            break;
                         }
                     }
                 }
 
-                $this->handleRoute($isMatched, $route, $db, $params);
-                return;
+                if ($this->handleRoute($isMatched, $route, $db, $params)) {
+                    break;
+                }
             };
         }
     }
@@ -92,7 +92,8 @@ class Router
 
     public function handleRoute($isMatched, $route, $db, $params)
     {
-        $paramValue = $params && count($params) > 1 ? $params[0] : null;
+        $paramValue = is_array($params) ? $params : null;
+
         if ($isMatched) {
             $this->executeRoute(
                 $route['controller'],
@@ -101,6 +102,7 @@ class Router
                 $paramValue
 
             );
+            return true;
         } else {
             $this->error();
         }
@@ -108,7 +110,6 @@ class Router
 
     public function executeRoute($controller, $controllerMethod, $db, $params)
     {
-
         $controllerRoute = 'Controllers\\' . $controller;
         if ($params) $controllerInstance = new $controllerRoute($db, $params);
         else $controllerInstance = new $controllerRoute($db);

@@ -29,6 +29,7 @@ export class ProjectsController {
   }
 
   async createProjects() {
+    console.log("dadad");
     await fetchAllUserProjects();
     const currentState = store.getState();
 

@@ -40,26 +40,26 @@ export class BaseApi {
 
   async put(data: any) {
     try {
-      const token = localStorage.getItem("token");
-      let headers: HeadersInit = {
-        "Content-type": "application/json",
-        Authorization: `Bearer ${token}`,
-      };
-
       const response = await fetch(this.apiUrl, {
-        method: "POST",
-        headers,
+        method: "PUT",
+        headers: { "Content-type": "application/json" },
         body: JSON.stringify(data),
       });
 
-      console.log(response);
+      const result = await response.json();
+      return result;
     } catch (error) {
       throw error;
     }
   }
 
-  delete() {
+  async delete() {
     try {
+      await fetch(this.apiUrl, {
+        method: "DELETE",
+      });
+
+      console.log("ok");
     } catch (error) {
       throw error;
     }
