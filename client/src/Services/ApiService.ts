@@ -9,7 +9,7 @@ export class BaseApi {
     try {
       const response = await fetch(this.apiUrl, {
         method: "GET",
-        headers: { "Content-type": "application/json" },
+        //headers: { "Content-type": "application/json" },
         credentials: "include", // Ensures cookies (PHPSESSID) are sent
       });
 
@@ -58,8 +58,6 @@ export class BaseApi {
       await fetch(this.apiUrl, {
         method: "DELETE",
       });
-
-      console.log("ok");
     } catch (error) {
       throw error;
     }

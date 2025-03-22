@@ -1,0 +1,96 @@
+.popup-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.project-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  width: 500px;
+  z-index: 1000;
+}
+
+.popup-close-div {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  cursor: pointer;
+}
+
+.popup-close-div svg {
+  width: 24px;
+  height: 24px;
+}
+
+.popup-main-div {
+  padding: 30px;
+}
+
+.task-popup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 2rem;
+}
+
+.task-popup-title {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.task-title-input,
+.task-description-input,
+.task-deadline-input,
+.task-assignee-select {
+  padding: 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.task-description-input {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.task-deadline-input {
+  color: #666;
+}
+
+.task-assignee-select {
+  background-color: white;
+  cursor: pointer;
+}
+
+.create-task-btn {
+  background-color: #2196f3;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 10px;
+}
+
+.create-task-btn:hover {
+  background-color: #1976d2;
+}
+
+.create-task-btn:active {
+  transform: scale(0.98);
+}

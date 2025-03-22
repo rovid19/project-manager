@@ -1,8 +1,6 @@
 export class ReportsController {
   constructor() {}
-  delete() {
-    console.log("rep");
-  }
+  delete() {}
   createReports() {
     //  console.log("Reports view created");
   }

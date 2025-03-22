@@ -25,12 +25,14 @@ export class ProjectsController {
   constructor() {}
 
   delete() {
+    this.projectsDiv = null;
     document.querySelector(".projects")?.remove();
+    userStore.unsubscribe(this.createProjectsGrid.bind(this), "projects");
   }
 
   async createProjects() {
-    console.log("dadad");
     await fetchAllUserProjects();
+    console.log("createProjects");
     const currentState = store.getState();
 
     const projects = createElement({ tag: "div", className: "projects" });
@@ -41,11 +43,9 @@ export class ProjectsController {
     this.projectsDiv = innerProjects;
     currentState.mainSection?.appendChild(projects);
     projects.appendChild(innerProjects);
-
     this.createPageTitle();
     this.createNewProjectButton();
     this.createProjectsGrid();
-
     userStore.subscribe(this.createProjectsGrid.bind(this), "projects");
   }
 
@@ -92,98 +92,102 @@ export class ProjectsController {
   }
 
   createProjectDiv() {
-    const createProjectDiv = createElement({
-      tag: "div",
-      className: "create-project-div",
-      id: "projects-open",
-      children: [
-        createElement({
-          tag: "div",
-          className: "inner-create-project-div",
-          children: [
-            createElement({
-              tag: "div",
-              className: "cr-pr-back-container",
-              innerHTML: backRight,
-              children: [
-                createElement({
-                  tag: "h3",
-                  className: "cr-pr-title",
-                  innerText: "Create Project:",
-                }),
-              ],
-              onClick: () => {
-                this.closeCreateProjectModal();
-              },
-            }),
+    if (!document.querySelector(".create-project-div")) {
+      const createProjectDiv = createElement({
+        tag: "div",
+        className: "create-project-div",
+        id: "projects-open",
+        children: [
+          createElement({
+            tag: "div",
+            className: "inner-create-project-div",
+            children: [
+              createElement({
+                tag: "div",
+                className: "cr-pr-back-container",
+                innerHTML: backRight,
+                children: [
+                  createElement({
+                    tag: "h3",
+                    className: "cr-pr-title",
+                    innerText: "Create Project:",
+                  }),
+                ],
+                onClick: () => {
+                  this.closeCreateProjectModal();
+                },
+              }),
 
-            createElement({
-              tag: "form",
-              className: "cr-pr-form",
-              children: [
-                createElement({
-                  tag: "input",
-                  name: "title",
-                  className: "cr-pr-title-input",
-                  placeholder: "Project Title",
-                }),
-                createElement({
-                  tag: "input",
-                  name: "description",
-                  className: "cr-pr-descr-input",
-                  placeholder: "Project Description",
-                }),
-                createElement({
-                  tag: "select",
-                  name: "teams",
-                  className: "cr-pr-members-select",
-                  placeholder: "Add team",
-                  children: [
-                    createElement({
-                      tag: "option",
-                      innerText: "Add Team",
-                      disabled: "true",
-                      selected: "true",
-                    }),
-                  ],
-                }),
-                createElement({
-                  tag: "div",
-                  className: "icon-select",
-                  onClick: (e: Event) => {
-                    e.preventDefault();
+              createElement({
+                tag: "form",
+                className: "cr-pr-form",
+                children: [
+                  createElement({
+                    tag: "input",
+                    name: "title",
+                    className: "cr-pr-title-input",
+                    placeholder: "Project Title",
+                  }),
+                  createElement({
+                    tag: "input",
+                    name: "description",
+                    className: "cr-pr-descr-input",
+                    placeholder: "Project Description",
+                  }),
+                  createElement({
+                    tag: "select",
+                    name: "teams",
+                    className: "cr-pr-members-select",
+                    placeholder: "Add team",
+                    children: [
+                      createElement({
+                        tag: "option",
+                        innerText: "Add Team",
+                        disabled: "true",
+                        selected: "true",
+                      }),
+                    ],
+                  }),
+                  createElement({
+                    tag: "div",
+                    className: "icon-select",
+                    onClick: (e: Event) => {
+                      e.preventDefault();
 
-                    const target = e.target;
-                    const closestSvg = (target as SVGSVGElement).closest("svg");
-                    this.iconSelected = closestSvg?.outerHTML as string;
-                    this.apiProjectData.icon = this.iconSelected;
+                      const target = e.target;
+                      const closestSvg = (target as SVGSVGElement).closest(
+                        "svg"
+                      );
+                      this.iconSelected = closestSvg?.outerHTML as string;
+                      this.apiProjectData.icon = this.iconSelected;
 
-                    this.setSelectedIconBorder(closestSvg as SVGSVGElement);
-                  },
-                }),
-                createElement({
-                  tag: "button",
-                  className: "cr-pr-button",
-                  innerText: "Add Project",
-                  type: "submit",
-                }),
-              ],
-            }),
-          ],
-        }),
-      ],
-    });
+                      this.setSelectedIconBorder(closestSvg as SVGSVGElement);
+                    },
+                  }),
+                  createElement({
+                    tag: "button",
+                    className: "cr-pr-button",
+                    innerText: "Add Project",
+                    type: "submit",
+                  }),
+                ],
+              }),
+            ],
+          }),
+        ],
+      });
 
-    const formElement = createProjectDiv.children[0].children[1];
-    const buttonFormElement = formElement.children[4];
-    const iconSelectFormElement = formElement.children[3];
+      const formElement = createProjectDiv.children[0].children[1];
+      const buttonFormElement = formElement.children[4];
+      const iconSelectFormElement = formElement.children[3];
 
-    this.formApiCall(buttonFormElement, formElement, iconSelectFormElement);
-    this.renderProjectIcons(iconSelectFormElement);
-    this.formDelegation(formElement);
+      this.formApiCall(buttonFormElement, formElement, iconSelectFormElement);
+      this.renderProjectIcons(iconSelectFormElement);
+      this.formDelegation(formElement);
 
-    this.createProjectModal = createProjectDiv;
-    this.projectsDiv?.appendChild(createProjectDiv);
+      this.createProjectModal = createProjectDiv;
+      this.projectsDiv?.appendChild(createProjectDiv);
+    }
   }
 
   closeCreateProjectModal() {

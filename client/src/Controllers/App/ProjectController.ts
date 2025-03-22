@@ -5,6 +5,7 @@ import "../../Styles/Projects.css";
 import "../../Styles/Project.css";
 import { Project } from "../../Store/UserStore";
 import { router } from "../../main";
+import { ProjectPopupController } from "./ProjectPopupController";
 
 export class ProjectController {
   title: string = "";
@@ -12,6 +13,9 @@ export class ProjectController {
   icon: string = "";
   projectId: string = "";
   form: HTMLElement | null = null;
+  mainDiv: HTMLElement | null = null;
+  popupState: string = "";
+  popupController: ProjectPopupController | null = null;
 
   delete() {
     document.querySelector(".projects")?.remove();
@@ -39,9 +43,9 @@ export class ProjectController {
           tag: "button",
           className: "project-delete-btn",
           innerText: "Delete Project",
-          onClick: (e: Event) => {
+          onClick: async (e: Event) => {
             e.preventDefault();
-            this.handleDeleteProject();
+            await this.handleDeleteProject();
           },
         }),
       ],
@@ -69,17 +73,40 @@ export class ProjectController {
               className: "project-info-form",
               children: [
                 createElement({
-                  tag: "input",
-                  className: "project-input-title",
-                  placeholder: `${this.title}`,
-                  name: "title",
+                  tag: "div",
+                  className: "input-group",
+                  children: [
+                    createElement({
+                      tag: "label",
+                      className: "title-label",
+                      innerText: "Project title:",
+                    }),
+                    createElement({
+                      tag: "input",
+                      className: "project-input-title",
+                      placeholder: `${this.title}`,
+                      name: "title",
+                    }),
+                  ],
                 }),
                 createElement({
-                  tag: "input",
-                  className: "project-input-description",
-                  placeholder: `${this.description}`,
-                  name: "description",
+                  tag: "div",
+                  className: "input-group",
+                  children: [
+                    createElement({
+                      tag: "label",
+                      className: "description-label",
+                      innerText: "Project description:",
+                    }),
+                    createElement({
+                      tag: "input",
+                      className: "project-input-description",
+                      placeholder: `${this.description}`,
+                      name: "description",
+                    }),
+                  ],
                 }),
+
                 createElement({
                   tag: "button",
                   className: "project-info-submit-button",
@@ -112,11 +139,22 @@ export class ProjectController {
                   tag: "button",
                   className: "add-team",
                   innerText: "Add Team",
+                  onClick: (e: Event) => {
+                    e.preventDefault();
+                    this.popupState = "team";
+                    console.log(this.popupState);
+                    this.createPopup();
+                  },
                 }),
                 createElement({
                   tag: "button",
                   className: "add-member",
                   innerText: "Add Member",
+                  onClick: (e: Event) => {
+                    e.preventDefault();
+                    this.popupState = "member";
+                    this.createPopup();
+                  },
                 }),
               ],
             }),
@@ -141,6 +179,11 @@ export class ProjectController {
           tag: "button",
           className: "project-add-task-btn",
           innerText: "Add Task",
+          onClick: (e: Event) => {
+            e.preventDefault();
+            this.popupState = "task";
+            this.createPopup();
+          },
         }),
       ],
     });
@@ -182,8 +225,6 @@ export class ProjectController {
       description: this.description,
     });
 
-    console.log(data[0]);
-
     this.title = data[0].title;
     this.description = data[0].description;
 
@@ -214,11 +255,13 @@ export class ProjectController {
     );
     await apiCall.delete();
 
-    history.pushState("", "", "/projects");
-    router.route("/projects");
+    this.redirectBackToProjects();
   }
 
-  redirectBackToProjects() {}
+  redirectBackToProjects() {
+    history.pushState("", "", "/projects");
+    router.route("projects");
+  }
 
   async fetchUserProject() {
     const projectId = window.location.pathname.split("/")[2];
@@ -230,5 +273,14 @@ export class ProjectController {
     this.setProjectData(projectData);
 
     apiCall = null;
+  }
+
+  createPopup() {
+    this.popupController = new ProjectPopupController(this.popupState);
+  }
+
+  closePopup() {
+    this.popupController = null;
+    document.querySelector(".popup-overlay")?.remove();
   }
 }

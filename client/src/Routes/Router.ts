@@ -29,12 +29,11 @@ export class Router {
         };
       }
     });
-    console.log(this.routes);
   }
 
   route(uri: string = ""): void {
     //projects/192321390 projects/:projectId
-    console.log(uri);
+
     let isMatched = false;
     let isCorrectPath = false;
 
@@ -54,7 +53,6 @@ export class Router {
             isCorrectPath = true;
         });
         if (isCorrectPath) {
-          console.log(route);
           this.loadController(route.controller, route.controllerMethod);
         }
 
@@ -62,11 +60,17 @@ export class Router {
       } else {
         if (path === key) {
           this.loadController(route.controller, route.controllerMethod);
+
           isMatched = true;
           return;
         }
       }
     }
+    /*
+    if (!isMatched) {
+      for (const [key, value] of Object.entries(this.routes)) {
+      }
+    }*/
 
     if (!isMatched) {
       this.loadController("ErrorController", "createError");
@@ -74,24 +78,24 @@ export class Router {
   }
 
   async loadController(controllerName: string, controllerMethod: string) {
-    console.log(controllerName, controllerMethod);
     // obrisi prethodni controller - stoream controller na klasi da ih konstantno brisem i da je samo jedan controller aktivan atm
     if (this.controller) this.removePreviousController();
-    console.log(controllerName, controllerMethod);
+
     // import module klase, trenutno imam named export, ali moguce je i default loadat samo je malo drugaciji kod onda
     const module = await import(`../Controllers/App/${controllerName}`);
-    console.log(module.default);
 
     // tu je kod drugaciji ak loadam default onda mogu accessati ko objekt new module.default, a ko named export je na ovaj nacin
     this.controller = new module[controllerName]();
-    console.log(this.controller);
+
     // lodanje controllera
     this.controller[controllerMethod]();
   }
 
   removePreviousController() {
+    console.log(this.controller);
     this.controller.delete();
     this.controller = null;
+    console.log(this.controller);
   }
 
   registerPathParameter(route: any) {

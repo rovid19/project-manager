@@ -7,7 +7,7 @@ export class ProjectsService extends BaseApi {
   }
 
   async fetchAllUserProjects() {
-    console.log(this.apiUrl);
+    console.log("fetch projects");
     const result = (await this.get()) as Project[];
     const projectArray: Project[] = [];
 
@@ -33,7 +33,6 @@ export class ProjectsService extends BaseApi {
     description: string;
   }): Promise<any> {
     const result = await this.put(projectData);
-    console.log(result);
     return result;
   }
 

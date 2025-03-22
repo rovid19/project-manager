@@ -1,167 +1,179 @@
 .inner-project {
-  height: 100%;
-  padding-top: 2rem;
-  padding-bottom: 2rem;
-  padding-left: 2rem;
-  padding-right: 2rem;
-  border-radius: 6px;
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-  overflow: scroll;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
+
 .page-header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e0e0e0;
 }
 
-.page-header > button {
-  width: 10%;
-  height: 100%;
-  padding: 8px;
+.page-title {
+  font-size: 1.8rem;
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.project-delete-btn {
+  padding: 0.8rem 1.5rem;
+  background-color: #ff4757;
+  color: white;
   border: none;
   border-radius: 6px;
+  font-size: 0.9rem;
   cursor: pointer;
-  /*#353535;*/
+  transition: all 0.2s;
 }
 
-.page-header > button:hover {
-  color: white;
-  background-color: red;
+.project-delete-btn:hover {
+  background-color: #ff6b81;
+  transform: translateY(-1px);
 }
 
 .project-info-section {
-  height: 25%;
-  width: 100%;
-  display: flex;
-  gap: 1rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  margin-bottom: 2rem;
 }
 
 .project-info-div {
   display: flex;
-  padding: 1rem;
-  height: 100%;
-  gap: 1rem;
-  width: 40%;
-  border: 1px solid #d1d8dc;
-  border-radius: 6px;
   justify-content: space-between;
-  background-color: white;
+  padding: 2rem;
+  gap: 2rem;
 }
 
 .project-info-form {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
-  gap: 8px;
+  gap: 1.2rem;
 }
 
-.project-info-form > input {
-  flex-grow: 1;
-  border: none;
-  padding-left: 1rem;
-  border: 1px solid #d1d8dc;
-  /*background-color: #f6f7f9;*/
+.project-input-title,
+.project-input-description {
+  padding: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.project-input-title:focus,
+.project-input-description:focus {
+  border-color: #3498db;
+  outline: none;
 }
 
 .project-info-submit-button {
-  border: 1px solid #d1d8dc;
-  background-color: white;
+  align-self: flex-start;
+  padding: 0.8rem 1.5rem;
+  background-color: #3498db;
+  color: white;
+  border: none;
   border-radius: 6px;
+  font-size: 0.9rem;
   cursor: pointer;
-  padding: 8px;
+  transition: all 0.2s;
 }
 
 .project-info-submit-button:hover {
-  background-color: #353535;
-  color: white;
+  background-color: #2980b9;
+  transform: translateY(-1px);
 }
 
 .project-icon-div {
-  width: 30%;
-  height: 100%;
   display: flex;
-  justify-content: end;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  min-width: 120px;
 }
 
-.project-icon-div > svg {
-  color: white;
-  background-color: #353535;
-  border-radius: 6px;
-  padding: 2rem;
-  cursor: pointer;
-  width: 100%;
+.project-icon-div svg {
+  width: 48px;
+  height: 48px;
+  color: #2c3e50;
 }
 
 .project-members-div {
-  width: 60%;
-  height: 100%;
-  border-radius: 6px;
-  border: 1px solid #d1d8dc;
-  padding: 1rem;
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: end;
-  gap: 8px;
-  padding-bottom: 1rem;
+  padding: 1.5rem 2rem;
+
+  border-top: 1px solid #e0e0e0;
 }
 
 .project-member-btn-div {
   display: flex;
-  height: 20%;
-  width: 100%;
-  border-radius: 6px;
-  gap: 8px;
+  gap: 1rem;
 }
 
-.project-member-btn-div > button {
-  height: 100%;
-  width: 50%;
-  border: 1px solid #d1d8dc;
+.add-team,
+.add-member {
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
   cursor: pointer;
-  background-color: white;
-  border-radius: 6px;
-  padding: 8px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  transition: all 0.2s;
 }
 
-.project-member-btn-div > button:hover {
+.add-team {
+  background-color: white;
+  color: black;
+  border: 1px solid #e0e0e0;
+}
+
+.add-member {
+  background-color: white;
+  color: black;
+  border: 1px solid #e0e0e0;
+}
+
+.add-team:hover,
+.add-member:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.1);
   background-color: #353535;
   color: white;
-}
-
-.project-member {
-  width: 100%;
-  height: 20%;
-  border: 1px solid #d1d8dc;
-  border-radius: 6px;
-  padding: 1rem;
 }
 
 .project-task-section {
-  flex-grow: 1;
-  border-radius: 6px;
-  border: 1px solid #d1d8dc;
-  padding: 1rem;
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  justify-content: end;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  padding: 2rem;
 }
 
 .project-add-task-btn {
-  width: 100%;
-  cursor: pointer;
-  border: 1px solid #d1d8dc;
-  padding: 1rem;
-  background-color: white;
+  padding: 0.8rem 1.5rem;
+  background-color: #9b59b6;
+  color: white;
+  border: none;
   border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
 .project-add-task-btn:hover {
-  background-color: #353535;
-  color: white;
+  background-color: #8e44ad;
+  transform: translateY(-1px);
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.input-group > label {
+  font-size: 12px;
 }

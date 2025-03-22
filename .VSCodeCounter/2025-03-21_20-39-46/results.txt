@@ -1,0 +1,89 @@
+Date : 2025-03-21 20:39:46
+Directory : /Users/rock/Documents/Projekti/project-manager/client
+Total : 47 files,  2600 codes, 112 comments, 394 blanks, all 3106 lines
+
+Languages
++--------------------+------------+------------+------------+------------+------------+
+| language           | files      | code       | comment    | blank      | total      |
++--------------------+------------+------------+------------+------------+------------+
+| TypeScript         |         24 |      1,808 |         67 |        265 |      2,140 |
+| CSS                |          9 |        723 |         43 |        122 |        888 |
+| HTML               |          2 |         25 |          0 |          3 |         28 |
+| JSON with Comments |          1 |         19 |          2 |          3 |         24 |
+| JSON               |          1 |         15 |          0 |          1 |         16 |
+| XML                |         10 |         10 |          0 |          0 |         10 |
++--------------------+------------+------------+------------+------------+------------+
+
+Directories
++-----------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                | files      | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                   |         47 |      2,600 |        112 |        394 |      3,106 |
+| . (Files)                                                                                           |          4 |         56 |          2 |          7 |         65 |
+| src                                                                                                 |         43 |      2,544 |        110 |        387 |      3,041 |
+| src (Files)                                                                                         |          3 |         40 |          1 |          8 |         49 |
+| src/Assets                                                                                          |         11 |         64 |          0 |         10 |         74 |
+| src/Components                                                                                      |          3 |        253 |         13 |         32 |        298 |
+| src/Controllers                                                                                     |          9 |      1,077 |         24 |        126 |      1,227 |
+| src/Controllers/App                                                                                 |          9 |      1,077 |         24 |        126 |      1,227 |
+| src/Routes                                                                                          |          1 |         83 |         12 |         23 |        118 |
+| src/Services                                                                                        |          3 |        140 |          1 |         28 |        169 |
+| src/Store                                                                                           |          2 |         84 |         12 |         20 |        116 |
+| src/Styles                                                                                          |          9 |        723 |         43 |        122 |        888 |
+| src/Types                                                                                           |          1 |          4 |          0 |          0 |          4 |
+| src/Utils                                                                                           |          1 |         76 |          4 |         18 |         98 |
++-----------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-----------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| filename                                                                                            | language           | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| /Users/rock/Documents/Projekti/project-manager/client/index.html                                    | HTML               |         13 |          0 |          1 |         14 |
+| /Users/rock/Documents/Projekti/project-manager/client/package.json                                  | JSON               |         15 |          0 |          1 |         16 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Assets/Icons.ts                           | TypeScript         |         54 |          0 |         10 |         64 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Assets/bicep.svg                          | XML                |          1 |          0 |          0 |          1 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Assets/ecology.svg                        | XML                |          1 |          0 |          0 |          1 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Assets/energy.svg                         | XML                |          1 |          0 |          0 |          1 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Assets/handshake.svg                      | XML                |          1 |          0 |          0 |          1 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Assets/icons.svg                          | XML                |          1 |          0 |          0 |          1 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Assets/settings.svg                       | XML                |          1 |          0 |          0 |          1 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Assets/skull.svg                          | XML                |          1 |          0 |          0 |          1 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Assets/spaceship.svg                      | XML                |          1 |          0 |          0 |          1 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Assets/theater.svg                        | XML                |          1 |          0 |          0 |          1 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Assets/wireframe.svg                      | XML                |          1 |          0 |          0 |          1 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Components/MainContent.ts                 | TypeScript         |         12 |          0 |          2 |         14 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Components/ProjectCard.ts                 | TypeScript         |         57 |          0 |          6 |         63 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Components/Sidebar.ts                     | TypeScript         |        184 |         13 |         24 |        221 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Controllers/App/AuthController.ts         | TypeScript         |        185 |         11 |         23 |        219 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Controllers/App/DashboardController.ts    | TypeScript         |        146 |          6 |         20 |        172 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Controllers/App/ErrorController.ts        | TypeScript         |         41 |          0 |          6 |         47 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Controllers/App/ProjectController.ts      | TypeScript         |        255 |          1 |         31 |        287 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Controllers/App/ProjectPopupController.ts | TypeScript         |        181 |          0 |         14 |        195 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Controllers/App/ProjectsController.ts     | TypeScript         |        247 |          3 |         29 |        279 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Controllers/App/ReportsController.ts      | TypeScript         |          6 |          1 |          1 |          8 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Controllers/App/TasksController.ts        | TypeScript         |          8 |          1 |          1 |         10 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Controllers/App/TeamsController.ts        | TypeScript         |          8 |          1 |          1 |         10 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Routes/Router.ts                          | TypeScript         |         83 |         12 |         23 |        118 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Services/ApiService.ts                    | TypeScript         |         54 |          1 |         11 |         66 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Services/AuthService.ts                   | TypeScript         |         51 |          0 |          9 |         60 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Services/ProjectsService.ts               | TypeScript         |         35 |          0 |          8 |         43 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Store/Store.ts                            | TypeScript         |         60 |         12 |         16 |         88 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Store/UserStore.ts                        | TypeScript         |         24 |          0 |          4 |         28 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/Dashboard.css                      | CSS                |         69 |         39 |         11 |        119 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/Error.css                          | CSS                |         11 |          0 |          2 |         13 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/Login.css                          | CSS                |         81 |          0 |         13 |         94 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/MainContent.css                    | CSS                |          5 |          1 |          1 |          7 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/Project.css                        | CSS                |        154 |          0 |         26 |        180 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/ProjectPopup.css                   | CSS                |         75 |          0 |         13 |         88 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/Projects.css                       | CSS                |        210 |          3 |         35 |        248 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/Root.css                           | CSS                |         12 |          0 |          3 |         15 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/Sidebar.css                        | CSS                |        106 |          0 |         18 |        124 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Types/css.d.ts                            | TypeScript         |          4 |          0 |          0 |          4 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Utils/Helpers.ts                          | TypeScript         |         76 |          4 |         18 |         98 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/index.html                                | HTML               |         12 |          0 |          2 |         14 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/main.ts                                   | TypeScript         |         28 |          0 |          5 |         33 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/vite-env.d.ts                             | TypeScript         |          0 |          1 |          1 |          2 |
+| /Users/rock/Documents/Projekti/project-manager/client/tsconfig.json                                 | JSON with Comments |         19 |          2 |          3 |         24 |
+| /Users/rock/Documents/Projekti/project-manager/client/vite.config.ts                                | TypeScript         |          9 |          0 |          2 |         11 |
+| Total                                                                                               |                    |      2,600 |        112 |        394 |      3,106 |
++-----------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
