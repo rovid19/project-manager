@@ -1,58 +1,22 @@
+import { TaskService } from "../../Services/TaskService";
+import { userStore } from "../../Store/UserStore";
 import { createElement } from "../../Utils/Helpers";
-import { ProjectController } from "./ProjectController";
-import "../../Styles/ProjectPopup.css";
-import { store } from "../../Store/Store";
-import { closeModalBtn } from "../../Assets/Icons";
 
-export class ProjectPopupController extends ProjectController {
-  taskTitle: string = "";
-  taskDescription: string = "";
-  taskDeadline: string = "";
-  taskAssignedMember: string = "";
-  constructor(popupState: string) {
-    super();
-    this.popupState = popupState;
+export class ProjectPopupTaskController {
+  title: string = "";
+  description: string = "";
+  deadline: Date = new Date();
+  assignee: string = "";
+  projectId: string = "";
+  popupElement: HTMLElement | null = null;
 
-    this.createModal();
+  constructor(popup: HTMLElement, projectId: string) {
+    this.popupElement = popup;
+    this.projectId = projectId;
+    this.createTaskPopup(this.popupElement);
   }
-
-  createModal() {
-    const currentState = store.getState();
-    const popupOverlay = createElement({
-      tag: "div",
-      className: "popup-overlay",
-    });
-
-    const popup = createElement({
-      tag: "div",
-      className: "project-popup",
-      children: [
-        createElement({
-          tag: "div",
-          className: "popup-close-div",
-          innerHTML: closeModalBtn,
-          onClick: (e: Event) => {
-            this.closePopup();
-          },
-        }),
-        createElement({ tag: "div", className: "popup-main-div" }),
-      ],
-    });
-
-    if (this.popupState === "team") this.createTeamPopup;
-    if (this.popupState === "member") this.createMemberPopup;
-    if (this.popupState === "task") this.createTaskPopup(popup);
-
-    currentState.mainDivApp.appendChild(popupOverlay);
-    popupOverlay.appendChild(popup);
-  }
-
-  createTeamPopup() {}
-
-  createMemberPopup() {}
 
   createTaskPopup(mainDiv: HTMLElement) {
-    console.log(mainDiv);
     const taskForm = createElement({
       tag: "form",
       className: "task-popup-form",
@@ -160,14 +124,27 @@ export class ProjectPopupController extends ProjectController {
     this.taskFormDelegation(taskForm);
   }
 
-  private handleTaskSubmit(e: Event) {
+  private deleteTaskPopup() {
+    document.querySelector(".popup-overlay")?.remove();
+  }
+
+  private async handleTaskSubmit(e: Event) {
     e.preventDefault();
-    console.log({
-      title: this.taskTitle,
-      description: this.taskDescription,
-      deadline: this.taskDeadline,
-      assignee: this.taskAssignedMember,
+    let apiCall: TaskService | null = new TaskService(
+      `http://localhost:3000/create-new-task`
+    );
+    await apiCall.handleTaskCreation({
+      title: this.title,
+      description: this.description,
+      deadline: this.deadline,
+      assignee: userStore.getState().userId,
+      projectId: this.projectId,
     });
+
+    apiCall = null;
+
+    this.deleteTaskPopup();
+    this.fetchAllTasks();
   }
 
   private taskFormDelegation(form: HTMLElement) {
@@ -176,20 +153,21 @@ export class ProjectPopupController extends ProjectController {
       if (target.matches("input, textarea, select")) {
         switch (target.name) {
           case "title":
-            this.taskTitle = target.value;
+            this.title = target.value;
             break;
           case "description":
-            this.taskDescription = target.value;
+            this.description = target.value;
             break;
           case "deadline":
-            this.taskDeadline = target.value;
-            console.log(target.value);
+            this.deadline = new Date(target.value);
             break;
           case "assignedMember":
-            this.taskAssignedMember = target.value;
+            this.assignee = target.value;
             break;
         }
       }
     });
   }
+
+  fetchAllTasks() {}
 }

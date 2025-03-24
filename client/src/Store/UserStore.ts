@@ -3,10 +3,11 @@ export type UserStoreType = {
   username: string;
   email: string;
   teams: number;
-  projects: UserProject[];
+  projects: Project[];
+  userId: string;
 };
 
-export type UserProject = {
+export type Project = {
   title: string;
   description: string;
   icon: string;
@@ -24,4 +25,5 @@ export const userStore = new UserStore({
   email: "",
   teams: 0,
   projects: [{ title: "", description: "", icon: "", projectId: "" }],
+  userId: "",
 });

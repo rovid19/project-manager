@@ -43,15 +43,18 @@ export class Router {
         : window.location.pathname.slice(1).toLowerCase();
 
     store.setState({ activeLink: path });
-
+    console.log(path);
     for (const [key, route] of Object.entries(this.routes)) {
+      const pathArray = path.split("/");
       const keyArray = key.split("/");
 
-      if (keyArray.length > 1) {
+      if (keyArray.length > 1 && pathArray.length > 1) {
         keyArray.forEach((item) => {
-          if (item.startsWith(":") || keyArray.find((key) => key === item))
+          if (item.startsWith(":") || pathArray.find((key) => key === item))
             isCorrectPath = true;
+          else isCorrectPath = false;
         });
+
         if (isCorrectPath) {
           this.loadController(route.controller, route.controllerMethod);
         }
@@ -78,6 +81,7 @@ export class Router {
   }
 
   async loadController(controllerName: string, controllerMethod: string) {
+    console.log(controllerMethod, controllerName);
     // obrisi prethodni controller - stoream controller na klasi da ih konstantno brisem i da je samo jedan controller aktivan atm
     if (this.controller) this.removePreviousController();
 

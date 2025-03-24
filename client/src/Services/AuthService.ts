@@ -11,8 +11,10 @@ export class AuthService extends BaseApi {
         userStore.setState({
           username: result.username,
           email: result.email,
+          userId: result.userId,
         });
       }
+      console.log(result);
     } catch (e) {
       throw e;
     }

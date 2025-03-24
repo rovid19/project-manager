@@ -7,7 +7,6 @@ export class ProjectsService extends BaseApi {
   }
 
   async fetchAllUserProjects() {
-    console.log("fetch projects");
     const result = (await this.get()) as Project[];
     const projectArray: Project[] = [];
 
@@ -38,5 +37,11 @@ export class ProjectsService extends BaseApi {
 
   async deleteProject() {
     await this.delete();
+  }
+
+  async getAllUsers() {
+    const result = await this.get();
+
+    return result;
   }
 }

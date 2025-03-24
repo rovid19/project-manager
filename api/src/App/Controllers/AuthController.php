@@ -30,7 +30,7 @@ class AuthController
         ], "return");
         $userFound = isset($user[0]['username']) ? true : false;
 
-        echo json_encode(["username" => $userFound ? $user[0]['username'] : "", "email" => $userFound ? $user[0]['email'] : ""]);
+        echo json_encode(["username" => $userFound ? $user[0]['username'] : "", "email" => $userFound ? $user[0]['email'] : "", "userId" => $user[0]['userId']]);
 
         exit();
     }

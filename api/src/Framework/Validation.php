@@ -19,4 +19,15 @@ class Validation
     {
         return strtotime($this->sanitizeString($inputDate));
     }
+    public function validateUniqueId($inputId)
+    {
+        return preg_match('/^[a-f0-9]+\.[0-9]+$/', $inputId); // Matches the format uniqid() produces
+    }
+
+    /*
+    uuid
+    public function validateUUID($inputId)
+    {
+        return preg_match('/^[a-f0-9-]{36}$/', $inputId);
+    }*/
 }

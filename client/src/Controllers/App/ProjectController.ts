@@ -5,7 +5,7 @@ import "../../Styles/Projects.css";
 import "../../Styles/Project.css";
 import { Project } from "../../Store/UserStore";
 import { router } from "../../main";
-import { ProjectPopupController } from "./ProjectPopupController";
+import { ProjectPopupController } from "../ProjectPopupControllers/ProjectPopupController";
 
 export class ProjectController {
   title: string = "";
@@ -276,7 +276,10 @@ export class ProjectController {
   }
 
   createPopup() {
-    this.popupController = new ProjectPopupController(this.popupState);
+    this.popupController = new ProjectPopupController(
+      this.popupState,
+      this.projectId
+    );
   }
 
   closePopup() {

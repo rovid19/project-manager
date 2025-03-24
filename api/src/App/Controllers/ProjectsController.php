@@ -32,7 +32,7 @@ class ProjectsController
 
         $data = json_decode(file_get_contents("php://input"), true);
         $userId = $_SESSION['user-id'];
-        $projectId = uniqid('', false); // true je more secure, a false je less secure id
+        $projectId = uniqid('', true); // true je more secure, a false je less secure id
 
         $this->db->query("INSERT INTO project (projectId, title, description, icon, userId) VALUES (:projectId,:title, :description, :icon, :userId)", [
             "projectId" => $projectId,
@@ -90,5 +90,12 @@ class ProjectsController
         ]);
 
         echo json_encode(["message" => "project successfully deleted"]);
+    }
+
+    public function getAllUsers()
+    {
+        $allUsers = $this->db->query("SELECT userId, username, email FROM users", [], "return");
+
+        echo json_encode($allUsers);
     }
 }

@@ -74,7 +74,6 @@ class Router
                             $isMatched = true;
                             $params[$matches[1]] = $uriSegments[$i];
                         } else {
-                            inspect($uriSegments[$i]);
                             $isMatched = false;
                             break;
                         }
