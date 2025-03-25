@@ -39,9 +39,14 @@ export class ProjectsService extends BaseApi {
     await this.delete();
   }
 
-  async getAllUsers() {
-    const result = await this.get();
+  async getAllUsers(members: string[]) {
+    const result = await this.post(members);
 
     return result;
+  }
+
+  async handleAddMember(memberId: string, projectId: string) {
+    console.log(memberId);
+    await this.put({ memberId, projectId });
   }
 }

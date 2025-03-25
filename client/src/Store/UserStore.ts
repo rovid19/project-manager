@@ -12,6 +12,7 @@ export type Project = {
   description: string;
   icon: string;
   projectId: string;
+  members?: string[];
 };
 
 class UserStore extends Store {

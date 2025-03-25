@@ -13,6 +13,7 @@ export class ProjectController {
   icon: string = "";
   projectId: string = "";
   form: HTMLElement | null = null;
+  members: string[] = [""];
   mainDiv: HTMLElement | null = null;
   popupState: string = "";
   popupController: ProjectPopupController | null = null;
@@ -196,6 +197,7 @@ export class ProjectController {
     this.description = projectData.description;
     this.icon = projectData.icon;
     this.projectId = projectData.projectId;
+    this.members = projectData.members as string[];
   }
 
   updateProjectInfoInputFields() {
@@ -271,14 +273,13 @@ export class ProjectController {
     ) as ProjectsService | null;
     const projectData = await (apiCall as ProjectsService).fetchUserProject();
     this.setProjectData(projectData);
-
-    apiCall = null;
   }
 
   createPopup() {
     this.popupController = new ProjectPopupController(
       this.popupState,
-      this.projectId
+      this.projectId,
+      this.members
     );
   }
 

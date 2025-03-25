@@ -12,7 +12,8 @@ $router->get("/get-all-user-projects", "ProjectsController@getAllUserProjects");
 $router->get("/get-project/{projectId}", "ProjectsController@getUserProject");
 $router->put("/handle-project-submissions/{projectId}", "ProjectsController@handleProjectSubmission");
 $router->delete("/handle-delete-project", "ProjectsController@handleDeleteProject");
-$router->get('/get-all-users', 'ProjectsController@getAllUsers');
+$router->post('/get-all-users', 'ProjectsController@getAllUsers');
+$router->put('/handle-add-member-to-project', 'ProjectsController@handleAddMember');
 
 // tasks
 $router->post("/create-new-task", "TasksController@createNewTask");

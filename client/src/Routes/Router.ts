@@ -42,8 +42,8 @@ export class Router {
         ? uri.toLowerCase()
         : window.location.pathname.slice(1).toLowerCase();
 
-    store.setState({ activeLink: path });
-    console.log(path);
+    store.setState({ activeLink: path.split("/").filter(Boolean)[0] });
+    //console.log(path.split("/").filter(Boolean));
     for (const [key, route] of Object.entries(this.routes)) {
       const pathArray = path.split("/");
       const keyArray = key.split("/");

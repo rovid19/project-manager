@@ -12,10 +12,15 @@ export class ProjectPopupController extends ProjectController {
   taskDeadline: Date = new Date();
   taskAssignedMember: string = "";
 
-  constructor(popupState: string = "", projectId: string = "") {
+  constructor(
+    popupState: string = "",
+    projectId: string = "",
+    members: string[]
+  ) {
     super();
     this.popupState = popupState;
     this.projectId = projectId;
+    this.members = members;
     this.createModal();
   }
 
@@ -52,7 +57,7 @@ export class ProjectPopupController extends ProjectController {
   }
 
   createMemberPopupController(popup: HTMLElement) {
-    new ProjectPopupMemberController(popup, this.projectId);
+    new ProjectPopupMemberController(popup, this.projectId, this.members);
   }
 
   createTaskPopupController(popup: HTMLElement) {

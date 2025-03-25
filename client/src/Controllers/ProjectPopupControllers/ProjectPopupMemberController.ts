@@ -13,16 +13,18 @@ export class ProjectPopupMemberController {
   popupElement: HTMLElement | null = null;
   allUsersArray: User[] = [];
   selectedMemberId: string = "";
+  members: string[] = [""];
 
-  constructor(popupElement: HTMLElement, projectId: string) {
+  constructor(popupElement: HTMLElement, projectId: string, members: string[]) {
     this.popupElement = popupElement;
     this.projectId = projectId;
-
+    this.members = members;
     this.createMemberPopup(this.popupElement);
   }
 
   async createMemberPopup(popupMainDiv: Element) {
-    await this.fetchAllUsers();
+    console.log(this.members);
+    await this.getAllUsers();
 
     const memberContainer = createElement({
       tag: "div",
@@ -41,6 +43,10 @@ export class ProjectPopupMemberController {
               tag: "div",
               className: "member-item",
               data: user.userId,
+              onClick: (e: Event) => {
+                e.preventDefault();
+                this.handleAddMember(e);
+              },
               children: [
                 createElement({
                   tag: "img",
@@ -72,24 +78,30 @@ export class ProjectPopupMemberController {
     });
 
     popupMainDiv.appendChild(memberContainer);
-    this.memberListEventDelegation(memberContainer.children[1]);
+    // this.memberListEventDelegation(memberContainer.children[1]);
   }
 
-  private handleAddMember() {
-    console.log("Add new member clicked");
+  private async handleAddMember(e: Event) {
+    const target = e.target as HTMLElement;
+    this.selectedMemberId = (target.closest(".member-item") as HTMLElement)
+      .dataset.projectId as string;
+    await new ProjectsService(
+      "http://localhost:3000/handle-add-member-to-project"
+    ).handleAddMember(this.selectedMemberId, this.projectId);
+    const result = await new ProjectsService(
+      `http://localhost:3000/get-project/${this.projectId}`
+    ).fetchUserProject();
+
+    this.handleRemovePopup();
   }
 
-  memberListEventDelegation(memberList: HTMLElement) {
-    memberList.addEventListener("click", (e: Event) => {
-      const target = e.target as HTMLElement;
-      this.selectedMemberId = (target.closest(".member-item") as HTMLElement)
-        .dataset.projectId as string;
-    });
+  handleRemovePopup() {
+    document.querySelector(".popup-overlay")?.remove();
   }
 
-  async fetchAllUsers() {
+  async getAllUsers() {
     let apiCall = new ProjectsService("http://localhost:3000/get-all-users");
-    const result = await apiCall.getAllUsers();
+    const result = await apiCall.getAllUsers(this.members);
 
     (result as User[]).forEach((item) => this.allUsersArray.push(item));
   }
