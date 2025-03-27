@@ -35,15 +35,17 @@ class Database
         try {
             // prepare performa query, ali ga ne pokrece
             $sth = $this->conn->prepare($query,);
-
+            //inspect($params);
             // na queryu trebam ostaviti samo semicolon i kasnije tu datu moram bindati, jer bindanje tretira datu ko plain text, a ne ko executable query
             // npr. dobar query: "INSERT INTO users (username,email,password) VALUES (:username, :email,: password)"
             // npr. los query: "INSERT INTO users (username,email,password) VALUES ($username, $email, $password)"
             // ne stavljam direktno u values $data['username'], nego samo :username
             // kasnije bindam pravu datu na mjesto semicolona
+
             foreach ($params as $key => $value) {
                 $sth->bindValue(':' . $key, $value);
             }
+
 
             $sth->execute();
 

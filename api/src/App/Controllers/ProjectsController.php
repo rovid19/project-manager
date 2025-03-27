@@ -98,18 +98,29 @@ class ProjectsController
     public function getAllUsers()
     {
         $requestData = json_decode(file_get_contents("php://input"), true);
+        if (!empty($requestData)) {
+            //$sanitizedIds = $this->validation->sanitizeString($requestData);
+            $membersString = str_replace(['"', '[', "]"], "", $requestData);
+            $membersArray = explode(",", $this->validation->sanitizeString($membersString));
+            $membersArray = array_map(fn($id) => "'$id'", $membersArray);
+            $membersArray = array_map(
+                fn($id, $i) => $i > 0 ? substr($id, 0, 1) . substr($id, 2) : $id,
+                $membersArray,
+                array_keys($membersArray)
+            );
 
-        //$sanitizedIds = $this->validation->sanitizeString($requestData);
-        $membersString = str_replace(['"', '[', "]"], "", $requestData);
-        $membersArray = explode(",", $this->validation->sanitizeString($membersString));
+            $placeholders = array_fill(0, count($membersArray), ":");
+            $placeholdersWithIndex = array_map(fn($plhldr, $i) => "$plhldr$i", $placeholders, array_keys($placeholders));
+            $SQL = implode(",", $placeholdersWithIndex);
 
-        echo ($membersArray);
+            $allUsers = $this->db->query("SELECT userId, username, email FROM users WHERE userId IN ($SQL)", $membersArray, "return");
 
-        $placeholders = array_fill(0, count($requestData), ":");
+            echo json_encode($allUsers);
+        } else {
+            $allUsers = $this->db->query("SELECT * FROM users", []);
 
-        $allUsers = $this->db->query("SELECT userId, username, email FROM users WHERE userId IN (:members)", ["members" => $requestData], "return");
-
-        echo json_encode($allUsers);
+            echo json_encode($allUsers);
+        }
     }
 
     public function handleAddMember()
