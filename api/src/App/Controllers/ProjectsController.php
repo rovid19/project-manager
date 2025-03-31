@@ -98,22 +98,31 @@ class ProjectsController
     public function getAllUsers()
     {
         $requestData = json_decode(file_get_contents("php://input"), true);
+
         if (!empty($requestData)) {
-            //$sanitizedIds = $this->validation->sanitizeString($requestData);
+
             $membersString = str_replace(['"', '[', "]"], "", $requestData);
-            $membersArray = explode(",", $this->validation->sanitizeString($membersString));
-            $membersArray = array_map(fn($id) => "'$id'", $membersArray);
-            $membersArray = array_map(
-                fn($id, $i) => $i > 0 ? substr($id, 0, 1) . substr($id, 2) : $id,
-                $membersArray,
-                array_keys($membersArray)
-            );
+            $membersArray = explode(",", $membersString);
+            $sanitizedMembersArray = $this->validation->sanitizeArray($membersArray);
+
+            // validacija id-eva
+            foreach ($sanitizedMembersArray as $id) {
+                if (empty($id)) {
+                    echo json_encode("one of ids inside id array isnt set correctly");
+                }
+            }
+
+            $membersArray = [];
+            foreach ($sanitizedMembersArray as $index => $arrayItem) {
+                $membersArray["id$index"] = $arrayItem;
+            }
 
             $placeholders = array_fill(0, count($membersArray), ":");
-            $placeholdersWithIndex = array_map(fn($plhldr, $i) => "$plhldr$i", $placeholders, array_keys($placeholders));
-            $SQL = implode(",", $placeholdersWithIndex);
+            $placeholders = array_map(fn($item, $index) => $item . "id" . $index, $placeholders, array_keys($placeholders));
+            $SQL = implode(",", $placeholders);
 
-            $allUsers = $this->db->query("SELECT userId, username, email FROM users WHERE userId IN ($SQL)", $membersArray, "return");
+
+            $allUsers = $this->db->query("SELECT userId, username, email FROM users WHERE userId NOT IN ($SQL)", $membersArray, "return");
 
             echo json_encode($allUsers);
         } else {

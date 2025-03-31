@@ -7,7 +7,16 @@ class Validation
 
     public function sanitizeString($inputString)
     {
+
         return htmlspecialchars(trim($inputString));
+    }
+
+    public function sanitizeArray($inputArray)
+    {
+        array_walk($inputArray, function (&$arrayItem) {
+            $arrayItem = $this->sanitizeString($arrayItem);
+        });
+        return $inputArray;
     }
 
     public function validateEmail($inputEmail)
@@ -21,7 +30,7 @@ class Validation
     }
     public function validateUniqueId($inputId)
     {
-        return preg_match('/^[a-f0-9]+\.[0-9]+$/', $inputId); // Matches the format uniqid() produces
+        return preg_match('/^[a-f0-9]{13}\.\d{8,}$/', $inputId); // Matches the format uniqid() produces
     }
 
     /*
