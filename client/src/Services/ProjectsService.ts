@@ -46,7 +46,6 @@ export class ProjectsService extends BaseApi {
   }
 
   async handleAddMember(memberId: string, projectId: string) {
-    console.log(memberId);
     await this.put({ memberId, projectId });
   }
 }

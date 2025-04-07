@@ -10,7 +10,6 @@ type TaskData = {
 
 export class TaskService extends BaseApi {
   async handleTaskCreation(taskData: TaskData) {
-    console.log(taskData);
     await this.post(taskData);
   }
 }

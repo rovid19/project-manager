@@ -21,7 +21,9 @@ class ProjectsController
     {
         session_start();
 
+
         $userId = $_SESSION['user-id'];
+
 
         $allUserProjects = $this->db->query("SELECT * FROM  project WHERE userId = :userId", ["userId" => $userId], "return");
 
@@ -51,17 +53,33 @@ class ProjectsController
 
     public function getUserProject()
     {
-        session_start();
-        $userId = $_SESSION['user-id'];
+        if (isset($this->projectId['projectId'])) {
+            $projectId = $this->validation->sanitizeString($this->projectId['projectId']);
 
-        $project = $this->db->query("SELECT * FROM project WHERE projectId = :projectId", [
-            "projectId" => $this->projectId['projectId']
-        ], "return");
+            $project = $this->db->query("SELECT * FROM project WHERE projectId = :projectId ", ["projectId" => $projectId], "return");
 
+            $projectMemberData = $this->db->query("
+            SELECT
+                u.userId,
+                u.username,
+                u.email
+            FROM
+                project p
+            JOIN users u ON JSON_CONTAINS (
+                p.members,
+                JSON_QUOTE (CAST(u.userId AS CHAR)),
+                '$'
+            )
+            WHERE
+                p.projectId =:projectId
+            ", ["projectId" => $projectId], "return");
 
-        echo json_encode($project[0]);
-
-        exit();
+            echo json_encode(["project" => $project[0], "membersData" => $projectMemberData]);
+            exit();
+        } else {
+            echo json_encode(["message" => "project id isn't set correctly"]);
+            exit();
+        }
     }
 
     public function handleProjectSubmission()
@@ -99,8 +117,7 @@ class ProjectsController
     {
         $requestData = json_decode(file_get_contents("php://input"), true);
 
-        if (!empty($requestData)) {
-
+        if ($requestData !== "[]") {
             $membersString = str_replace(['"', '[', "]"], "", $requestData);
             $membersArray = explode(",", $membersString);
             $sanitizedMembersArray = $this->validation->sanitizeArray($membersArray);
@@ -126,7 +143,7 @@ class ProjectsController
 
             echo json_encode($allUsers);
         } else {
-            $allUsers = $this->db->query("SELECT * FROM users", []);
+            $allUsers = $this->db->query("SELECT * FROM users", [], "return");
 
             echo json_encode($allUsers);
         }

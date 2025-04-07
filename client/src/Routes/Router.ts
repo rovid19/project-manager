@@ -81,7 +81,6 @@ export class Router {
   }
 
   async loadController(controllerName: string, controllerMethod: string) {
-    console.log(controllerMethod, controllerName);
     // obrisi prethodni controller - stoream controller na klasi da ih konstantno brisem i da je samo jedan controller aktivan atm
     if (this.controller) this.removePreviousController();
 
@@ -96,10 +95,8 @@ export class Router {
   }
 
   removePreviousController() {
-    console.log(this.controller);
     this.controller.delete();
     this.controller = null;
-    console.log(this.controller);
   }
 
   registerPathParameter(route: any) {

@@ -5,22 +5,27 @@ import { store } from "../../Store/Store";
 import { closeModalBtn } from "../../Assets/Icons";
 import { ProjectPopupTaskController } from "./ProjectPopupTaskController";
 import { ProjectPopupMemberController } from "./ProjectPopupMemberController";
+import { Project, ProjectData } from "../../Store/UserStore";
 
 export class ProjectPopupController extends ProjectController {
   taskTitle: string = "";
   taskDescription: string = "";
   taskDeadline: Date = new Date();
   taskAssignedMember: string = "";
+  setProjectDataOnParentController: (projectData: ProjectData) => void =
+    () => {};
 
   constructor(
     popupState: string = "",
     projectId: string = "",
-    members: string[]
+    members: string[],
+    setProjectDataOnParentController: (projectData: ProjectData) => void
   ) {
     super();
     this.popupState = popupState;
     this.projectId = projectId;
     this.members = members;
+    this.setProjectDataOnParentController = setProjectDataOnParentController;
     this.createModal();
   }
 
@@ -57,7 +62,12 @@ export class ProjectPopupController extends ProjectController {
   }
 
   createMemberPopupController(popup: HTMLElement) {
-    new ProjectPopupMemberController(popup, this.projectId, this.members);
+    new ProjectPopupMemberController(
+      popup,
+      this.projectId,
+      this.members,
+      this.setProjectDataOnParentController
+    );
   }
 
   createTaskPopupController(popup: HTMLElement) {

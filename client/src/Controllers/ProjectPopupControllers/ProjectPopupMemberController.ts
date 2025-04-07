@@ -2,6 +2,8 @@ import { createElement } from "../../Utils/Helpers";
 import "../../Styles/ProjectMemberPopup.css";
 import { ProjectsService } from "../../Services/ProjectsService";
 
+import { Project, ProjectData } from "../../Store/UserStore";
+
 type User = {
   userId: string;
   username: string;
@@ -14,16 +16,24 @@ export class ProjectPopupMemberController {
   allUsersArray: User[] = [];
   selectedMemberId: string = "";
   members: string[] = [""];
+  setProjectDataOnParentController: (projectData: ProjectData) => void =
+    () => {};
 
-  constructor(popupElement: HTMLElement, projectId: string, members: string[]) {
+  constructor(
+    popupElement: HTMLElement,
+    projectId: string,
+    members: string[],
+    setProjectDataOnParentController: (projectData: ProjectData) => void
+  ) {
     this.popupElement = popupElement;
     this.projectId = projectId;
     this.members = members;
+    this.setProjectDataOnParentController = setProjectDataOnParentController;
+
     this.createMemberPopup(this.popupElement);
   }
 
   async createMemberPopup(popupMainDiv: Element) {
-    console.log(this.members);
     await this.getAllUsers();
 
     const memberContainer = createElement({
@@ -92,6 +102,7 @@ export class ProjectPopupMemberController {
       `http://localhost:3000/get-project/${this.projectId}`
     ).fetchUserProject();
 
+    this.setProjectDataOnParentController(result);
     this.handleRemovePopup();
   }
 

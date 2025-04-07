@@ -43,16 +43,13 @@ export class Store {
   subscribe(listener: Function, key: string) {
     if (!this.listeners[key]) {
       this.listeners[key] = [listener];
-      console.log(this.listeners);
     }
   }
 
   unsubscribe(listener: Function, key: string) {
     if (this.listeners[key]) {
-      console.log(this.listeners);
       this.listeners[key] = [];
       delete this.listeners[key];
-      console.log(this.listeners);
     }
   }
 

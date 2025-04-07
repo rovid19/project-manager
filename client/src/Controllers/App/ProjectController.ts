@@ -3,9 +3,15 @@ import { store } from "../../Store/Store";
 import { createElement } from "../../Utils/Helpers";
 import "../../Styles/Projects.css";
 import "../../Styles/Project.css";
-import { Project } from "../../Store/UserStore";
+import { ProjectData } from "../../Store/UserStore";
 import { router } from "../../main";
 import { ProjectPopupController } from "../ProjectPopupControllers/ProjectPopupController";
+
+export type MembersData = {
+  userId: string;
+  username: string;
+  email: string;
+};
 
 export class ProjectController {
   title: string = "";
@@ -14,9 +20,14 @@ export class ProjectController {
   projectId: string = "";
   form: HTMLElement | null = null;
   members: string[] = [""];
+  membersData: MembersData[] = [];
   mainDiv: HTMLElement | null = null;
   popupState: string = "";
   popupController: ProjectPopupController | null = null;
+
+  constructor() {
+    this.setProjectData = this.setProjectData.bind(this);
+  }
 
   delete() {
     document.querySelector(".projects")?.remove();
@@ -131,7 +142,24 @@ export class ProjectController {
           tag: "div",
           className: "project-members-div",
           children: [
-            //createElement({ tag: "div", className: "project-member" }),
+            this.membersData.forEach((member) => {
+              createElement({
+                tag: "div",
+                className: "project-member",
+                children: [
+                  createElement({
+                    tag: "div",
+                    className: "project-member-name",
+                    innerText: member.username,
+                  }),
+                  createElement({
+                    tag: "div",
+                    className: "project-member-email",
+                    innerText: member.email,
+                  }),
+                ],
+              });
+            }),
             createElement({
               tag: "div",
               className: "project-member-btn-div",
@@ -143,7 +171,6 @@ export class ProjectController {
                   onClick: (e: Event) => {
                     e.preventDefault();
                     this.popupState = "team";
-                    console.log(this.popupState);
                     this.createPopup();
                   },
                 }),
@@ -192,13 +219,16 @@ export class ProjectController {
     mainSection.appendChild(tasksDiv);
   }
 
-  setProjectData(projectData: Project) {
-    this.title = projectData.title;
-    this.description = projectData.description;
-    this.icon = projectData.icon;
-    this.projectId = projectData.projectId;
-    this.members = projectData.members as string[];
-  }
+  setProjectData = (projectData: ProjectData) => {
+    this.title = projectData.project.title;
+    this.description = projectData.project.description;
+    this.icon = projectData.project.icon;
+    this.projectId = projectData.project.projectId;
+    this.members = projectData.project.members as string[];
+    this.membersData = projectData.membersData;
+
+    console.log(this.membersData);
+  };
 
   updateProjectInfoInputFields() {
     const title = document.querySelector(
@@ -279,7 +309,8 @@ export class ProjectController {
     this.popupController = new ProjectPopupController(
       this.popupState,
       this.projectId,
-      this.members
+      this.members,
+      this.setProjectData
     );
   }
 

@@ -32,7 +32,7 @@ export class ProjectsController {
 
   async createProjects() {
     await fetchAllUserProjects();
-    console.log("createProjects");
+
     const currentState = store.getState();
 
     const projects = createElement({ tag: "div", className: "projects" });

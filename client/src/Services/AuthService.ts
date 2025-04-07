@@ -14,7 +14,6 @@ export class AuthService extends BaseApi {
           userId: result.userId,
         });
       }
-      console.log(result);
     } catch (e) {
       throw e;
     }
