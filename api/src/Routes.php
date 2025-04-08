@@ -14,6 +14,8 @@ $router->put("/handle-project-submissions/{projectId}", "ProjectsController@hand
 $router->delete("/handle-delete-project", "ProjectsController@handleDeleteProject");
 $router->post('/get-all-users', 'ProjectsController@getAllUsers');
 $router->put('/handle-add-member-to-project', 'ProjectsController@handleAddMember');
+$router->put('/handle-remove-member', 'ProjectsController@handleRemoveMember');
+
 
 // tasks
 $router->post("/create-new-task", "TasksController@createNewTask");

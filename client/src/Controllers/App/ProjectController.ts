@@ -6,6 +6,7 @@ import "../../Styles/Project.css";
 import { ProjectData } from "../../Store/UserStore";
 import { router } from "../../main";
 import { ProjectPopupController } from "../ProjectPopupControllers/ProjectPopupController";
+import { removeMemberBtn } from "../../Assets/Icons";
 
 export type MembersData = {
   userId: string;
@@ -24,6 +25,8 @@ export class ProjectController {
   mainDiv: HTMLElement | null = null;
   popupState: string = "";
   popupController: ProjectPopupController | null = null;
+  removeProjectMemberId: string = "";
+  projectMembersParentElement: HTMLElement | null = null;
 
   constructor() {
     this.setProjectData = this.setProjectData.bind(this);
@@ -142,24 +145,6 @@ export class ProjectController {
           tag: "div",
           className: "project-members-div",
           children: [
-            this.membersData.forEach((member) => {
-              createElement({
-                tag: "div",
-                className: "project-member",
-                children: [
-                  createElement({
-                    tag: "div",
-                    className: "project-member-name",
-                    innerText: member.username,
-                  }),
-                  createElement({
-                    tag: "div",
-                    className: "project-member-email",
-                    innerText: member.email,
-                  }),
-                ],
-              });
-            }),
             createElement({
               tag: "div",
               className: "project-member-btn-div",
@@ -190,13 +175,71 @@ export class ProjectController {
         }),
       ],
     });
-
+    this.projectMembersParentElement = projectInfo.children[1];
+    this.renderProjectMemeber();
     mainSection.appendChild(projectInfo);
     this.projectDetailsEventDelegation(projectInfo.children[0].children[0]);
     this.form = projectInfo.children[0].children[0];
   }
 
-  createProjectMembers() {}
+  renderProjectMemeber = () => {
+    console.log("yoyoyoyoyo");
+    if (document.querySelector(".project-member")) {
+      const allMembers = document.querySelectorAll(".project-member");
+      allMembers.forEach((member) => {
+        member.remove();
+      });
+      this.renderProjectMemeber();
+    } else {
+      this.membersData.forEach((member) => {
+        const element = createElement({
+          tag: "div",
+          className: "project-member",
+          data: member.userId,
+          children: [
+            createElement({
+              tag: "div",
+              className: "project-member-name",
+              children: [
+                createElement({
+                  tag: "label",
+                  className: "project-member-name-label",
+                  innerText: "Project member:",
+                }),
+                createElement({
+                  tag: "h3",
+                  className: "project-member-name-name",
+                  innerText: member.username,
+                }),
+              ],
+            }),
+            createElement({
+              tag: "div",
+              className: "project-member-remove",
+              innerHTML: removeMemberBtn,
+              onClick: (e: Event) => {
+                const target = e.target as HTMLElement;
+                const memberElement = target.closest(
+                  ".project-member"
+                ) as HTMLElement | null;
+
+                if (memberElement) {
+                  this.removeProjectMemberId = memberElement.dataset
+                    .projectId as string;
+                } else {
+                  console.warn("No .project-member element found.");
+                }
+                this.removeMemberFromProject();
+                this.memberRemoveAnimation(element);
+              },
+            }),
+          ],
+        });
+
+        (this.projectMembersParentElement as HTMLElement).appendChild(element);
+      });
+    }
+  };
 
   createProjectTasks(mainSection: HTMLElement) {
     const tasksDiv = createElement({
@@ -226,8 +269,6 @@ export class ProjectController {
     this.projectId = projectData.project.projectId;
     this.members = projectData.project.members as string[];
     this.membersData = projectData.membersData;
-
-    console.log(this.membersData);
   };
 
   updateProjectInfoInputFields() {
@@ -310,12 +351,28 @@ export class ProjectController {
       this.popupState,
       this.projectId,
       this.members,
-      this.setProjectData
+      this.setProjectData,
+      this.renderProjectMemeber
     );
   }
 
   closePopup() {
     this.popupController = null;
     document.querySelector(".popup-overlay")?.remove();
+  }
+
+  async removeMemberFromProject() {
+    await new ProjectsService(
+      "http://localhost:3000/handle-remove-member"
+    ).removeMemberFromProject(this.projectId, this.removeProjectMemberId);
+
+    await this.fetchUserProject();
+    setTimeout(() => {
+      this.renderProjectMemeber();
+    }, 300);
+  }
+
+  memberRemoveAnimation(removedMemberDiv: HTMLElement) {
+    removedMemberDiv.id = "member-delete-animation";
   }
 }

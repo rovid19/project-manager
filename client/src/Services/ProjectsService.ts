@@ -1,4 +1,4 @@
-import { Project, userStore } from "../Store/UserStore";
+import { Project, ProjectData, userStore } from "../Store/UserStore";
 import { BaseApi } from "./ApiService";
 
 export class ProjectsService extends BaseApi {
@@ -22,7 +22,7 @@ export class ProjectsService extends BaseApi {
     userStore.setState({ projects: projectArray });
   }
 
-  async fetchUserProject(): Promise<Project> {
+  async fetchUserProject(): Promise<ProjectData> {
     const result = await this.get();
     return result;
   }
@@ -47,5 +47,9 @@ export class ProjectsService extends BaseApi {
 
   async handleAddMember(memberId: string, projectId: string) {
     await this.put({ memberId, projectId });
+  }
+
+  async removeMemberFromProject(projectId: string, projectMemberId: string) {
+    await this.put({ projectId, projectMemberId });
   }
 }

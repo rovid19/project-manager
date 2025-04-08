@@ -182,4 +182,27 @@ class ProjectsController
             echo json_encode(["error" => "projectId or memberId isnt set correctly"]);
         }
     }
+
+
+    public function handleRemoveMember()
+    {
+        $requestData = json_decode(file_get_contents("php://input"), true);
+
+
+        if (isset($requestData['projectId']) && isset($requestData['projectMemberId'])) {
+            $projectId = $this->validation->sanitizeString($requestData['projectId']);
+            $memberId = $this->validation->sanitizeString($requestData['projectMemberId']);
+
+            $query = "UPDATE project
+            SET members = JSON_REMOVE(members, JSON_UNQUOTE(JSON_SEARCH(members, 'one', :memberId)))
+            WHERE projectId = :projectId";
+
+            $this->db->query($query, ["memberId" => $memberId, "projectId" => $projectId]);
+
+            echo json_encode(["meesage" => "member has been removed from the project"]);
+            exit();
+        } else {
+            echo json_encode("projectId or memberId arent correctly set");
+        }
+    }
 }

@@ -14,18 +14,21 @@ export class ProjectPopupController extends ProjectController {
   taskAssignedMember: string = "";
   setProjectDataOnParentController: (projectData: ProjectData) => void =
     () => {};
+  renderProjectMember: () => void = () => {};
 
   constructor(
     popupState: string = "",
     projectId: string = "",
     members: string[],
-    setProjectDataOnParentController: (projectData: ProjectData) => void
+    setProjectDataOnParentController: (projectData: ProjectData) => void,
+    renderProjectMember: () => void
   ) {
     super();
     this.popupState = popupState;
     this.projectId = projectId;
     this.members = members;
     this.setProjectDataOnParentController = setProjectDataOnParentController;
+    this.renderProjectMember = renderProjectMember;
     this.createModal();
   }
 
@@ -66,7 +69,8 @@ export class ProjectPopupController extends ProjectController {
       popup,
       this.projectId,
       this.members,
-      this.setProjectDataOnParentController
+      this.setProjectDataOnParentController,
+      this.renderProjectMember
     );
   }
 

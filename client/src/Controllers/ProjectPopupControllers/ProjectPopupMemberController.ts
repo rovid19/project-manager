@@ -18,18 +18,20 @@ export class ProjectPopupMemberController {
   members: string[] = [""];
   setProjectDataOnParentController: (projectData: ProjectData) => void =
     () => {};
+  renderProjectMembers: () => void = () => {};
 
   constructor(
     popupElement: HTMLElement,
     projectId: string,
     members: string[],
-    setProjectDataOnParentController: (projectData: ProjectData) => void
+    setProjectDataOnParentController: (projectData: ProjectData) => void,
+    renderProjectMembers: () => void
   ) {
     this.popupElement = popupElement;
     this.projectId = projectId;
     this.members = members;
     this.setProjectDataOnParentController = setProjectDataOnParentController;
-
+    this.renderProjectMembers = renderProjectMembers;
     this.createMemberPopup(this.popupElement);
   }
 
@@ -104,6 +106,7 @@ export class ProjectPopupMemberController {
 
     this.setProjectDataOnParentController(result);
     this.handleRemovePopup();
+    this.renderProjectMembers();
   }
 
   handleRemovePopup() {
