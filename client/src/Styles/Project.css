@@ -181,7 +181,7 @@
   font-size: 12px;
 }
 
-.project-member {
+/*.project-member {
   display: flex;
   padding: 1rem;
   border-radius: 6px;
@@ -220,4 +220,199 @@
     transform: translateY(-10px);
     opacity: 0;
   }
+}*/
+.project-member {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  border: 1px solid #eef0f2;
+}
+
+.project-member:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-color: #e0e4e8;
+}
+
+.member-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+}
+
+.member-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.member-initials {
+  color: white;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.member-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.member-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #2d3748;
+  margin: 0;
+}
+
+.member-email {
+  font-size: 14px;
+  color: #718096;
+}
+
+.member-role {
+  font-size: 12px;
+  color: #48bb78;
+  background-color: #f0fff4;
+  padding: 2px 8px;
+  border-radius: 12px;
+  display: inline-block;
+  margin-top: 4px;
+}
+
+.member-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.remove-member-btn {
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+}
+
+.remove-member-btn:hover {
+  background-color: #fee2e2;
+}
+
+.remove-member-btn svg {
+  width: 20px;
+  height: 20px;
+  color: #ef4444;
+}
+
+@keyframes cardDelete {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+}
+
+#card-delete-animation {
+  animation: cardDelete 0.3s ease-out forwards;
+}
+
+/* tasks */
+
+.project-task-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+}
+
+.project-task-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.project-task-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.task-header {
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+}
+
+.task-title {
+  font-size: 18px;
+  color: #333;
+  margin: 0;
+}
+
+.task-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.task-assignee,
+.task-deadline {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.task-label {
+  color: #666;
+  font-size: 12px;
+}
+
+.task-assigned-user,
+.task-date {
+  color: #333;
+  font-weight: 500;
+}
+
+/* Animation for task deletion (optional) */
+@keyframes taskDelete {
+  to {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+}
+
+#task-delete-animation {
+  animation: taskDelete 0.3s ease-out forwards;
+}
+
+.remove-task-btn {
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+}
+
+.remove-task-btn:hover {
+  background-color: #fee2e2;
+}
+
+.remove-task-btn svg {
+  width: 20px;
+  height: 20px;
+  color: #ef4444;
 }

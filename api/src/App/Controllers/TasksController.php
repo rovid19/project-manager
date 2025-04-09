@@ -53,11 +53,11 @@ class TasksController
                 return;
             }
 
-            if (!$this->validation->validateUniqueId($projectId)) {
+            /*if (!$this->validation->validateUniqueId($projectId)) {
                 http_response_code(400);
                 echo json_encode(["error" => "Invalid project ID"]);
                 return;
-            }
+            }*/
 
 
             $taskId = uniqid(true);
@@ -77,6 +77,22 @@ class TasksController
             http_response_code(404);
             echo json_encode(["error" => "Task data not valid"]);
             return;
+        }
+    }
+
+    public function handleRemoveTask()
+    {
+        $requestData = json_decode(file_get_contents("php://input"), true);
+
+        if (isset($requestData)) {
+            $taskId = $this->validation->sanitizeString($requestData);
+
+            $this->db->query("DELETE FROM task WHERE taskId = :taskId", ["taskId" => $taskId]);
+            echo json_encode("task has been deleted");
+            exit();
+        } else {
+            echo json_encode("taskId isnt set correctly");
+            exit();
         }
     }
 }

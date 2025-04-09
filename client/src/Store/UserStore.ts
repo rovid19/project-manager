@@ -1,4 +1,4 @@
-import { MembersData } from "../Controllers/App/ProjectController";
+import { MembersData, Task } from "../Controllers/App/ProjectController";
 import { Store } from "./Store";
 export type UserStoreType = {
   username: string;
@@ -11,6 +11,7 @@ export type UserStoreType = {
 export type ProjectData = {
   project: Project;
   membersData: MembersData[];
+  taskData: Task[];
 };
 
 export type Project = {

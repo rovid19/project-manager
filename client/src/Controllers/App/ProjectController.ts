@@ -14,6 +14,14 @@ export type MembersData = {
   email: string;
 };
 
+export type Task = {
+  taskId: string;
+  title: string;
+  description: string;
+  deadline: string;
+  assignee: string;
+};
+
 export class ProjectController {
   title: string = "";
   description: string = "";
@@ -27,6 +35,9 @@ export class ProjectController {
   popupController: ProjectPopupController | null = null;
   removeProjectMemberId: string = "";
   projectMembersParentElement: HTMLElement | null = null;
+  projectTasks: Task[] | null = null;
+  taskContainer: HTMLElement | null = null;
+  taskId: string = "";
 
   constructor() {
     this.setProjectData = this.setProjectData.bind(this);
@@ -176,21 +187,23 @@ export class ProjectController {
       ],
     });
     this.projectMembersParentElement = projectInfo.children[1];
-    this.renderProjectMemeber();
+    this.renderProjectMember();
     mainSection.appendChild(projectInfo);
     this.projectDetailsEventDelegation(projectInfo.children[0].children[0]);
     this.form = projectInfo.children[0].children[0];
   }
 
-  renderProjectMemeber = () => {
-    console.log("yoyoyoyoyo");
+  renderProjectMember = () => {
+    // rerender members
     if (document.querySelector(".project-member")) {
       const allMembers = document.querySelectorAll(".project-member");
       allMembers.forEach((member) => {
         member.remove();
       });
-      this.renderProjectMemeber();
-    } else {
+      this.renderProjectMember();
+    }
+    // render members
+    else {
       this.membersData.forEach((member) => {
         const element = createElement({
           tag: "div",
@@ -199,44 +212,152 @@ export class ProjectController {
           children: [
             createElement({
               tag: "div",
-              className: "project-member-name",
+              className: "member-content",
               children: [
                 createElement({
-                  tag: "label",
-                  className: "project-member-name-label",
-                  innerText: "Project member:",
+                  tag: "div",
+                  className: "member-avatar",
+                  children: [
+                    createElement({
+                      tag: "span",
+                      className: "member-initials",
+                      text: member.username.charAt(0).toUpperCase(),
+                    }),
+                  ],
                 }),
                 createElement({
-                  tag: "h3",
-                  className: "project-member-name-name",
-                  innerText: member.username,
+                  tag: "div",
+                  className: "member-info",
+                  children: [
+                    createElement({
+                      tag: "h3",
+                      className: "member-name",
+                      text: member.username,
+                    }),
+                    createElement({
+                      tag: "span",
+                      className: "member-email",
+                      text: member.email,
+                    }),
+                    createElement({
+                      tag: "span",
+                      className: "member-role",
+                      text: "Team Member", // You can make this dynamic if you have roles
+                    }),
+                  ],
                 }),
               ],
             }),
             createElement({
               tag: "div",
-              className: "project-member-remove",
-              innerHTML: removeMemberBtn,
-              onClick: (e: Event) => {
-                const target = e.target as HTMLElement;
-                const memberElement = target.closest(
-                  ".project-member"
-                ) as HTMLElement | null;
-
-                if (memberElement) {
-                  this.removeProjectMemberId = memberElement.dataset
-                    .projectId as string;
-                } else {
-                  console.warn("No .project-member element found.");
-                }
-                this.removeMemberFromProject();
-                this.memberRemoveAnimation(element);
-              },
+              className: "member-actions",
+              children: [
+                createElement({
+                  tag: "div",
+                  className: "remove-member-btn",
+                  innerHTML: removeMemberBtn,
+                  onClick: (e: Event) => {
+                    const target = e.target as HTMLElement;
+                    const memberElement = target.closest(
+                      ".project-member"
+                    ) as HTMLElement | null;
+                    if (memberElement) {
+                      this.removeProjectMemberId = memberElement.dataset
+                        .projectId as string;
+                    }
+                    this.removeMemberFromProject();
+                    this.cardDeleteAni(element);
+                  },
+                }),
+              ],
             }),
           ],
         });
 
-        (this.projectMembersParentElement as HTMLElement).appendChild(element);
+        this.projectMembersParentElement?.appendChild(element);
+      });
+    }
+  };
+
+  renderProjectTasks = () => {
+    // rerender tasks
+    if (document.querySelector(".project-task-card")) {
+      const allTasks = document.querySelectorAll(".project-task-card");
+      allTasks.forEach((task) => {
+        task.remove();
+      });
+      this.renderProjectTasks();
+    }
+    // render tasks
+    else {
+      (this.projectTasks as Task[]).forEach((task) => {
+        const element = createElement({
+          tag: "div",
+          className: "project-task-card",
+          data: task.taskId,
+          children: [
+            createElement({
+              tag: "div",
+              className: "task-header",
+              children: [
+                createElement({
+                  tag: "h3",
+                  className: "task-title",
+                  text: task.title,
+                }),
+                createElement({
+                  tag: "div",
+                  className: "remove-task-btn",
+                  innerHTML: removeMemberBtn,
+                  onClick: (e: Event) => {
+                    this.removeTaskFromProject(task.taskId);
+                    this.cardDeleteAni(element);
+                  },
+                }),
+              ],
+            }),
+            createElement({
+              tag: "div",
+              className: "task-info",
+              children: [
+                createElement({
+                  tag: "div",
+                  className: "task-assignee",
+                  children: [
+                    createElement({
+                      tag: "span",
+                      className: "task-label",
+                      text: "Assigned to:",
+                    }),
+                    createElement({
+                      tag: "span",
+                      className: "task-assigned-user",
+                      text: task.assignee,
+                    }),
+                  ],
+                }),
+                createElement({
+                  tag: "div",
+                  className: "task-deadline",
+                  children: [
+                    createElement({
+                      tag: "span",
+                      className: "task-label",
+                      text: "Deadline:",
+                    }),
+                    createElement({
+                      tag: "span",
+                      className: "task-date",
+                      text: new Date(task.deadline).toLocaleDateString(),
+                    }),
+                  ],
+                }),
+              ],
+            }),
+          ],
+        });
+
+        (this.taskContainer as HTMLElement).appendChild(element);
       });
     }
   };
@@ -259,6 +380,8 @@ export class ProjectController {
       ],
     });
 
+    this.taskContainer = tasksDiv;
+    this.renderProjectTasks();
     mainSection.appendChild(tasksDiv);
   }
 
@@ -269,6 +392,7 @@ export class ProjectController {
     this.projectId = projectData.project.projectId;
     this.members = projectData.project.members as string[];
     this.membersData = projectData.membersData;
+    this.projectTasks = projectData.taskData;
   };
 
   updateProjectInfoInputFields() {
@@ -336,7 +460,8 @@ export class ProjectController {
     router.route("projects");
   }
 
-  async fetchUserProject() {
+  fetchUserProject = async () => {
+    console.log("yooo");
     const projectId = window.location.pathname.split("/")[2];
 
     let apiCall = new ProjectsService(
@@ -344,7 +469,7 @@ export class ProjectController {
     ) as ProjectsService | null;
     const projectData = await (apiCall as ProjectsService).fetchUserProject();
     this.setProjectData(projectData);
-  }
+  };
 
   createPopup() {
     this.popupController = new ProjectPopupController(
@@ -352,7 +477,9 @@ export class ProjectController {
       this.projectId,
       this.members,
       this.setProjectData,
-      this.renderProjectMemeber
+      this.renderProjectMember,
+      this.fetchUserProject,
+      this.renderProjectTasks
     );
   }
 
@@ -368,11 +495,22 @@ export class ProjectController {
 
     await this.fetchUserProject();
     setTimeout(() => {
-      this.renderProjectMemeber();
+      this.renderProjectMember();
     }, 300);
   }
 
-  memberRemoveAnimation(removedMemberDiv: HTMLElement) {
-    removedMemberDiv.id = "member-delete-animation";
+  async removeTaskFromProject(taskId: string) {
+    await new ProjectsService(
+      "http://localhost:3000/handle-remove-task"
+    ).removeTaskFromProject(taskId);
+
+    await this.fetchUserProject();
+    setTimeout(() => {
+      this.renderProjectTasks();
+    }, 300);
+  }
+
+  cardDeleteAni(removedCard: HTMLElement) {
+    removedCard.id = "card-delete-animation";
   }
 }

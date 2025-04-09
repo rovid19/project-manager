@@ -12,16 +12,22 @@ export class ProjectPopupController extends ProjectController {
   taskDescription: string = "";
   taskDeadline: Date = new Date();
   taskAssignedMember: string = "";
+
+  // prop drilling metode sa parenta
   setProjectDataOnParentController: (projectData: ProjectData) => void =
     () => {};
   renderProjectMember: () => void = () => {};
+  fetchUserProject: () => Promise<void> = async () => {};
+  renderProjectTask: () => void = () => {};
 
   constructor(
     popupState: string = "",
     projectId: string = "",
     members: string[],
     setProjectDataOnParentController: (projectData: ProjectData) => void,
-    renderProjectMember: () => void
+    renderProjectMember: () => void,
+    fetchUserProject: () => Promise<void>,
+    renderProjectTask: () => void
   ) {
     super();
     this.popupState = popupState;
@@ -29,6 +35,8 @@ export class ProjectPopupController extends ProjectController {
     this.members = members;
     this.setProjectDataOnParentController = setProjectDataOnParentController;
     this.renderProjectMember = renderProjectMember;
+    this.fetchUserProject = fetchUserProject;
+    this.renderProjectTask = renderProjectTask;
     this.createModal();
   }
 
@@ -75,6 +83,11 @@ export class ProjectPopupController extends ProjectController {
   }
 
   createTaskPopupController(popup: HTMLElement) {
-    new ProjectPopupTaskController(popup, this.projectId);
+    new ProjectPopupTaskController(
+      popup,
+      this.projectId,
+      this.fetchUserProject,
+      this.renderProjectTask
+    );
   }
 }

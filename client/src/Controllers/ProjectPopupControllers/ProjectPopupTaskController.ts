@@ -10,10 +10,21 @@ export class ProjectPopupTaskController {
   projectId: string = "";
   popupElement: HTMLElement | null = null;
 
-  constructor(popup: HTMLElement, projectId: string) {
+  //prop drilling
+  fetchUserProject: () => Promise<void> = async () => {};
+  renderProjectTask: () => void = () => {};
+
+  constructor(
+    popup: HTMLElement,
+    projectId: string,
+    fetchUserProject: () => Promise<void>,
+    renderProjectTask: () => void
+  ) {
     this.popupElement = popup;
     this.projectId = projectId;
     this.createTaskPopup(this.popupElement);
+    this.fetchUserProject = fetchUserProject;
+    this.renderProjectTask = renderProjectTask;
   }
 
   createTaskPopup(mainDiv: HTMLElement) {
@@ -144,7 +155,8 @@ export class ProjectPopupTaskController {
     apiCall = null;
 
     this.deleteTaskPopup();
-    this.fetchAllTasks();
+    await this.fetchUserProject();
+    this.renderProjectTask();
   }
 
   private taskFormDelegation(form: HTMLElement) {

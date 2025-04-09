@@ -1,0 +1,47 @@
+Date : 2025-04-09 00:02:05
+Directory : /Users/rock/Documents/Projekti/project-manager/client
+Total : 13 files,  162 codes, 1 comments, 16 blanks, all 179 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| TypeScript |         12 |        124 |          1 |         10 |        135 |
+| CSS        |          1 |         38 |          0 |          6 |         44 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++-------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                                          | files      | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                             |         13 |        162 |          1 |         16 |        179 |
+| src                                                                                                                           |         13 |        162 |          1 |         16 |        179 |
+| src/Assets                                                                                                                    |          1 |          3 |          0 |          1 |          4 |
+| src/Controllers                                                                                                               |          4 |        120 |          1 |          7 |        128 |
+| src/Controllers/App                                                                                                           |          2 |         85 |          1 |          7 |         93 |
+| src/Controllers/ProjectPopupControllers                                                                                       |          2 |         35 |          0 |          0 |         35 |
+| src/Routes                                                                                                                    |          1 |         -3 |          0 |          0 |         -3 |
+| src/Services                                                                                                                  |          4 |          1 |          0 |          1 |          2 |
+| src/Store                                                                                                                     |          2 |          3 |          0 |          1 |          4 |
+| src/Styles                                                                                                                    |          1 |         38 |          0 |          6 |         44 |
++-------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                                                                      | language   | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| /Users/rock/Documents/Projekti/project-manager/client/src/Assets/Icons.ts                                                     | TypeScript |          3 |          0 |          1 |          4 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Controllers/App/ProjectController.ts                                | TypeScript |         86 |          1 |          6 |         93 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Controllers/App/ProjectsController.ts                               | TypeScript |         -1 |          0 |          1 |          0 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Controllers/ProjectPopupControllers/ProjectPopupController.ts       | TypeScript |         19 |          0 |          0 |         19 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Controllers/ProjectPopupControllers/ProjectPopupMemberController.ts | TypeScript |         16 |          0 |          0 |         16 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Routes/Router.ts                                                    | TypeScript |         -3 |          0 |          0 |         -3 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Services/ApiService.ts                                              | TypeScript |          1 |          0 |          0 |          1 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Services/AuthService.ts                                             | TypeScript |         -1 |          0 |          0 |         -1 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Services/ProjectsService.ts                                         | TypeScript |          2 |          0 |          1 |          3 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Services/TaskService.ts                                             | TypeScript |         -1 |          0 |          0 |         -1 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Store/Store.ts                                                      | TypeScript |         -3 |          0 |          0 |         -3 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Store/UserStore.ts                                                  | TypeScript |          6 |          0 |          1 |          7 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/Project.css                                                  | CSS        |         38 |          0 |          6 |         44 |
+| Total                                                                                                                         |            |        162 |          1 |         16 |        179 |
++-------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+

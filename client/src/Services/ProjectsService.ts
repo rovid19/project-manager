@@ -52,4 +52,8 @@ export class ProjectsService extends BaseApi {
   async removeMemberFromProject(projectId: string, projectMemberId: string) {
     await this.put({ projectId, projectMemberId });
   }
+
+  async removeTaskFromProject(taskId: string) {
+    await this.put(taskId);
+  }
 }

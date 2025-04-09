@@ -74,7 +74,11 @@ class ProjectsController
                 p.projectId =:projectId
             ", ["projectId" => $projectId], "return");
 
-            echo json_encode(["project" => $project[0], "membersData" => $projectMemberData]);
+            $projectTaskData = $this->db->query("
+            SELECT * FROM task WHERE projectId = :projectId
+            ", ["projectId" => $projectId], "return");
+
+            echo json_encode(["project" => $project[0], "membersData" => $projectMemberData, "taskData" => $projectTaskData]);
             exit();
         } else {
             echo json_encode(["message" => "project id isn't set correctly"]);

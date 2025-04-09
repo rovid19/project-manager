@@ -1,0 +1,59 @@
+Date : 2025-04-09 00:02:12
+Directory : /Users/rock/Documents/Projekti/project-manager/api
+Total : 22 files,  1129 codes, 444 comments, 319 blanks, all 1892 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| PHP      |         19 |      1,090 |        444 |        316 |      1,850 |
+| JSON     |          3 |         39 |          0 |          3 |         42 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++-----------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                          | files      | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                             |         22 |      1,129 |        444 |        319 |      1,892 |
+| . (Files)                                                                                     |          2 |         34 |          0 |          2 |         36 |
+| public                                                                                        |          1 |         19 |          2 |          9 |         30 |
+| src                                                                                           |          9 |        476 |         58 |        162 |        696 |
+| src (Files)                                                                                   |          1 |         14 |          2 |          6 |         22 |
+| src/App                                                                                       |          3 |        279 |         26 |        100 |        405 |
+| src/App/Controllers                                                                           |          3 |        279 |         26 |        100 |        405 |
+| src/Config                                                                                    |          1 |          8 |          0 |          2 |         10 |
+| src/Framework                                                                                 |          3 |        158 |         20 |         46 |        224 |
+| src/utils                                                                                     |          1 |         17 |         10 |          8 |         35 |
+| vendor                                                                                        |         10 |        600 |        384 |        146 |      1,130 |
+| vendor (Files)                                                                                |          1 |         20 |          1 |          5 |         26 |
+| vendor/composer                                                                               |          9 |        580 |        383 |        141 |      1,104 |
++-----------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-----------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                                                      | language | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| /Users/rock/Documents/Projekti/project-manager/api/composer.json                              | JSON     |         16 |          0 |          1 |         17 |
+| /Users/rock/Documents/Projekti/project-manager/api/composer.lock                              | JSON     |         18 |          0 |          1 |         19 |
+| /Users/rock/Documents/Projekti/project-manager/api/public/Index.php                           | PHP      |         19 |          2 |          9 |         30 |
+| /Users/rock/Documents/Projekti/project-manager/api/src/App/Controllers/AuthController.php     | PHP      |         73 |          5 |         35 |        113 |
+| /Users/rock/Documents/Projekti/project-manager/api/src/App/Controllers/ProjectsController.php | PHP      |        146 |         14 |         49 |        209 |
+| /Users/rock/Documents/Projekti/project-manager/api/src/App/Controllers/TasksController.php    | PHP      |         60 |          7 |         16 |         83 |
+| /Users/rock/Documents/Projekti/project-manager/api/src/Config/db.php                          | PHP      |          8 |          0 |          2 |         10 |
+| /Users/rock/Documents/Projekti/project-manager/api/src/Framework/Database.php                 | PHP      |         39 |         12 |         12 |         63 |
+| /Users/rock/Documents/Projekti/project-manager/api/src/Framework/Router.php                   | PHP      |         91 |          2 |         25 |        118 |
+| /Users/rock/Documents/Projekti/project-manager/api/src/Framework/Validation.php               | PHP      |         28 |          6 |          9 |         43 |
+| /Users/rock/Documents/Projekti/project-manager/api/src/Routes.php                             | PHP      |         14 |          2 |          6 |         22 |
+| /Users/rock/Documents/Projekti/project-manager/api/src/utils/Helpers.php                      | PHP      |         17 |         10 |          8 |         35 |
+| /Users/rock/Documents/Projekti/project-manager/api/vendor/autoload.php                        | PHP      |         20 |          1 |          5 |         26 |
+| /Users/rock/Documents/Projekti/project-manager/api/vendor/composer/ClassLoader.php            | PHP      |        286 |        235 |         59 |        580 |
+| /Users/rock/Documents/Projekti/project-manager/api/vendor/composer/InstalledVersions.php      | PHP      |        188 |        140 |         51 |        379 |
+| /Users/rock/Documents/Projekti/project-manager/api/vendor/composer/autoload_classmap.php      | PHP      |          6 |          1 |          4 |         11 |
+| /Users/rock/Documents/Projekti/project-manager/api/vendor/composer/autoload_namespaces.php    | PHP      |          5 |          1 |          4 |         10 |
+| /Users/rock/Documents/Projekti/project-manager/api/vendor/composer/autoload_psr4.php          | PHP      |          7 |          1 |          4 |         12 |
+| /Users/rock/Documents/Projekti/project-manager/api/vendor/composer/autoload_real.php          | PHP      |         24 |          4 |          9 |         37 |
+| /Users/rock/Documents/Projekti/project-manager/api/vendor/composer/autoload_static.php        | PHP      |         36 |          1 |          8 |         45 |
+| /Users/rock/Documents/Projekti/project-manager/api/vendor/composer/installed.json             | JSON     |          5 |          0 |          1 |          6 |
+| /Users/rock/Documents/Projekti/project-manager/api/vendor/composer/installed.php              | PHP      |         23 |          0 |          1 |         24 |
+| Total                                                                                         |          |      1,129 |        444 |        319 |      1,892 |
++-----------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
