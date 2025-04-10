@@ -61,10 +61,17 @@ export class ProjectPopupMemberController {
               },
               children: [
                 createElement({
-                  tag: "img",
-                  className: "member-picture",
-                  src: "path/to/default-avatar.png",
-                  alt: "Member avatar",
+                  tag: "div",
+                  className: "member-avatar",
+                  children: [
+                    createElement({
+                      tag: "span",
+                      className: "member-initials",
+                      text: user.username
+                        ? user.username.charAt(0).toUpperCase()
+                        : user.username,
+                    }),
+                  ],
                 }),
                 createElement({
                   tag: "div",

@@ -1,6 +1,7 @@
 import { TaskService } from "../../Services/TaskService";
 import { userStore } from "../../Store/UserStore";
 import { createElement } from "../../Utils/Helpers";
+import { MembersData, Task } from "../App/ProjectController";
 
 export class ProjectPopupTaskController {
   title: string = "";
@@ -9,6 +10,7 @@ export class ProjectPopupTaskController {
   assignee: string = "";
   projectId: string = "";
   popupElement: HTMLElement | null = null;
+  membersData: MembersData[] | null = null;
 
   //prop drilling
   fetchUserProject: () => Promise<void> = async () => {};
@@ -18,10 +20,12 @@ export class ProjectPopupTaskController {
     popup: HTMLElement,
     projectId: string,
     fetchUserProject: () => Promise<void>,
-    renderProjectTask: () => void
+    renderProjectTask: () => void,
+    membersData: MembersData[]
   ) {
     this.popupElement = popup;
     this.projectId = projectId;
+    this.membersData = membersData;
     this.createTaskPopup(this.popupElement);
     this.fetchUserProject = fetchUserProject;
     this.renderProjectTask = renderProjectTask;
@@ -112,6 +116,9 @@ export class ProjectPopupTaskController {
                   text: "Select Team Member",
                   disabled: true,
                   selected: true,
+                  onChange: (e: Event) => {
+                    console.log("changed");
+                  },
                 }),
               ],
             }),
@@ -131,12 +138,37 @@ export class ProjectPopupTaskController {
       ],
     });
 
+    this.renderMemberInSelect(taskForm.children[4].children[1]);
     mainDiv.appendChild(taskForm);
     this.taskFormDelegation(taskForm);
   }
 
+  private handleIdSort(assigneeUsername: string) {
+    this.membersData?.find((member) => {
+      if (member.username === assigneeUsername) {
+        this.assignee = member.userId;
+      }
+    });
+    console.log(this.assignee);
+  }
+
   private deleteTaskPopup() {
     document.querySelector(".popup-overlay")?.remove();
+  }
+
+  private renderMemberInSelect(selectElement: HTMLSelectElement) {
+    this.membersData?.forEach((member) => {
+      const element = createElement({
+        tag: "option",
+        className: "select-option",
+        value: member.username,
+        text: member.username,
+        disabled: false,
+        data: member.username,
+      });
+
+      selectElement.appendChild(element);
+    });
   }
 
   private async handleTaskSubmit(e: Event) {
@@ -148,7 +180,7 @@ export class ProjectPopupTaskController {
       title: this.title,
       description: this.description,
       deadline: this.deadline,
-      assignee: userStore.getState().userId,
+      assignee: this.assignee,
       projectId: this.projectId,
     });
 
@@ -174,7 +206,7 @@ export class ProjectPopupTaskController {
             this.deadline = new Date(target.value);
             break;
           case "assignedMember":
-            this.assignee = target.value;
+            this.handleIdSort(target.value);
             break;
         }
       }

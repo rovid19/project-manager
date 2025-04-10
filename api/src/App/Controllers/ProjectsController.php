@@ -75,7 +75,17 @@ class ProjectsController
             ", ["projectId" => $projectId], "return");
 
             $projectTaskData = $this->db->query("
-            SELECT * FROM task WHERE projectId = :projectId
+            SELECT
+            t.taskId,
+            t.title,
+            t.description,
+            t.deadline,
+            t.assignee,
+            u.username,
+            u.userId
+            FROM task t
+            JOIN users u ON t.assignee = u.userId
+            WHERE projectId = :projectId
             ", ["projectId" => $projectId], "return");
 
             echo json_encode(["project" => $project[0], "membersData" => $projectMemberData, "taskData" => $projectTaskData]);

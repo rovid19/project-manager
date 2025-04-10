@@ -20,6 +20,8 @@ export type Task = {
   description: string;
   deadline: string;
   assignee: string;
+  userId: string;
+  username: string;
 };
 
 export class ProjectController {
@@ -242,7 +244,7 @@ export class ProjectController {
                     createElement({
                       tag: "span",
                       className: "member-role",
-                      text: "Team Member", // You can make this dynamic if you have roles
+                      text: "Team Member",
                     }),
                   ],
                 }),
@@ -290,75 +292,76 @@ export class ProjectController {
     }
     // render tasks
     else {
-      (this.projectTasks as Task[]).forEach((task) => {
-        const element = createElement({
-          tag: "div",
-          className: "project-task-card",
-          data: task.taskId,
-          children: [
-            createElement({
-              tag: "div",
-              className: "task-header",
-              children: [
-                createElement({
-                  tag: "h3",
-                  className: "task-title",
-                  text: task.title,
-                }),
-                createElement({
-                  tag: "div",
-                  className: "remove-task-btn",
-                  innerHTML: removeMemberBtn,
-                  onClick: (e: Event) => {
-                    this.removeTaskFromProject(task.taskId);
-                    this.cardDeleteAni(element);
-                  },
-                }),
-              ],
-            }),
-            createElement({
-              tag: "div",
-              className: "task-info",
-              children: [
-                createElement({
-                  tag: "div",
-                  className: "task-assignee",
-                  children: [
-                    createElement({
-                      tag: "span",
-                      className: "task-label",
-                      text: "Assigned to:",
-                    }),
-                    createElement({
-                      tag: "span",
-                      className: "task-assigned-user",
-                      text: task.assignee,
-                    }),
-                  ],
-                }),
-                createElement({
-                  tag: "div",
-                  className: "task-deadline",
-                  children: [
-                    createElement({
-                      tag: "span",
-                      className: "task-label",
-                      text: "Deadline:",
-                    }),
-                    createElement({
-                      tag: "span",
-                      className: "task-date",
-                      text: new Date(task.deadline).toLocaleDateString(),
-                    }),
-                  ],
-                }),
-              ],
-            }),
-          ],
-        });
+      console.log(this.projectTasks),
+        (this.projectTasks as Task[]).forEach((task) => {
+          const element = createElement({
+            tag: "div",
+            className: "project-task-card",
+            data: task.taskId,
+            children: [
+              createElement({
+                tag: "div",
+                className: "task-header",
+                children: [
+                  createElement({
+                    tag: "h3",
+                    className: "task-title",
+                    text: task.title,
+                  }),
+                  createElement({
+                    tag: "div",
+                    className: "remove-task-btn",
+                    innerHTML: removeMemberBtn,
+                    onClick: (e: Event) => {
+                      this.removeTaskFromProject(task.taskId);
+                      this.cardDeleteAni(element);
+                    },
+                  }),
+                ],
+              }),
+              createElement({
+                tag: "div",
+                className: "task-info",
+                children: [
+                  createElement({
+                    tag: "div",
+                    className: "task-assignee",
+                    children: [
+                      createElement({
+                        tag: "span",
+                        className: "task-label",
+                        text: "Assigned to:",
+                      }),
+                      createElement({
+                        tag: "span",
+                        className: "task-assigned-user",
+                        text: task.username,
+                      }),
+                    ],
+                  }),
+                  createElement({
+                    tag: "div",
+                    className: "task-deadline",
+                    children: [
+                      createElement({
+                        tag: "span",
+                        className: "task-label",
+                        text: "Deadline:",
+                      }),
+                      createElement({
+                        tag: "span",
+                        className: "task-date",
+                        text: new Date(task.deadline).toLocaleDateString(),
+                      }),
+                    ],
+                  }),
+                ],
+              }),
+            ],
+          });
 
-        (this.taskContainer as HTMLElement).appendChild(element);
-      });
+          (this.taskContainer as HTMLElement).appendChild(element);
+        });
     }
   };
 
@@ -479,7 +482,8 @@ export class ProjectController {
       this.setProjectData,
       this.renderProjectMember,
       this.fetchUserProject,
-      this.renderProjectTasks
+      this.renderProjectTasks,
+      this.membersData
     );
   }
 

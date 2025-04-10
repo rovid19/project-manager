@@ -31,33 +31,8 @@ class TasksController
             $description = $this->validation->sanitizeString($taskData['description']);
             //$assignee = $this->validation->validateEmail($this->validation->sanitizeString($taskData['assignee']));
             $assignee = $this->validation->sanitizeString($taskData['assignee']);
-            $deadline = $this->validation->validateDate($taskData['deadline']);
+            $deadline = htmlspecialchars(trim($taskData['deadline']), ENT_QUOTES, 'UTF-8');
             $projectId = $this->validation->sanitizeString($taskData['projectId']);
-
-
-            if (empty($title)) {
-                http_response_code(400);
-                echo json_encode(["message" => "title field cannot be empty"]);
-                return;
-            }
-
-            /*if (!$assignee) {
-                http_response_code(400);
-                echo json_encode(["message" => "email isnt valid"]);
-                return;
-            }*/
-
-            if (!$deadline) {
-                http_response_code(400);
-                echo json_encode(["message" => "data isnt valid"]);
-                return;
-            }
-
-            /*if (!$this->validation->validateUniqueId($projectId)) {
-                http_response_code(400);
-                echo json_encode(["error" => "Invalid project ID"]);
-                return;
-            }*/
 
 
             $taskId = uniqid(true);

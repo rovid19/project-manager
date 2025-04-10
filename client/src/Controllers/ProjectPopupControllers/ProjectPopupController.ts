@@ -1,5 +1,5 @@
 import { createElement } from "../../Utils/Helpers";
-import { ProjectController } from "../App/ProjectController";
+import { MembersData, ProjectController, Task } from "../App/ProjectController";
 import "../../Styles/ProjectPopup.css";
 import { store } from "../../Store/Store";
 import { closeModalBtn } from "../../Assets/Icons";
@@ -13,7 +13,7 @@ export class ProjectPopupController extends ProjectController {
   taskDeadline: Date = new Date();
   taskAssignedMember: string = "";
 
-  // prop drilling metode sa parenta
+  //metode sa parenta
   setProjectDataOnParentController: (projectData: ProjectData) => void =
     () => {};
   renderProjectMember: () => void = () => {};
@@ -27,7 +27,8 @@ export class ProjectPopupController extends ProjectController {
     setProjectDataOnParentController: (projectData: ProjectData) => void,
     renderProjectMember: () => void,
     fetchUserProject: () => Promise<void>,
-    renderProjectTask: () => void
+    renderProjectTask: () => void,
+    membersData: MembersData[]
   ) {
     super();
     this.popupState = popupState;
@@ -37,6 +38,8 @@ export class ProjectPopupController extends ProjectController {
     this.renderProjectMember = renderProjectMember;
     this.fetchUserProject = fetchUserProject;
     this.renderProjectTask = renderProjectTask;
+    this.membersData = membersData;
+
     this.createModal();
   }
 
@@ -87,7 +90,8 @@ export class ProjectPopupController extends ProjectController {
       popup,
       this.projectId,
       this.fetchUserProject,
-      this.renderProjectTask
+      this.renderProjectTask,
+      this.membersData
     );
   }
 }
