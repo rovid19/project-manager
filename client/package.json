@@ -7,9 +7,10 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "start": "vite preview"
+    "start": "serve dist"
   },
   "devDependencies": {
+    "serve": "^14.2.4",
     "typescript": "~5.7.2",
     "vite": "^6.1.0"
   }
