@@ -1,6 +1,6 @@
 import { Project } from "./UserStore";
 
-type State = {
+/*type State = {
   currentUser: string | null;
   theme: "light" | "dark";
   mainDivApp: HTMLElement | null;
@@ -8,7 +8,7 @@ type State = {
   activeLink: string;
   previousActiveLink: string;
   isAuth: boolean;
-};
+};*/
 
 type setState = {
   [key: string]: string | HTMLElement | null | Project[];
@@ -46,7 +46,7 @@ export class Store {
     }
   }
 
-  unsubscribe(listener: Function, key: string) {
+  unsubscribe(/*listener: Function,*/ key: string) {
     if (this.listeners[key]) {
       this.listeners[key] = [];
       delete this.listeners[key];

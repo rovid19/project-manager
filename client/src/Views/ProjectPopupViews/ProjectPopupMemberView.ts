@@ -2,7 +2,7 @@ import { createElement } from "../../Utils/Helpers";
 import "../../Styles/ProjectMemberPopup.css";
 import { ProjectsService } from "../../Services/ProjectsService";
 
-import { Project, ProjectData } from "../../Store/UserStore";
+import { ProjectData } from "../../Store/UserStore";
 
 type User = {
   userId: string;
@@ -10,7 +10,7 @@ type User = {
   email: string;
 };
 
-export class ProjectPopupMemberController {
+export class ProjectPopupMemberView {
   projectId: string = "";
   popupElement: HTMLElement | null = null;
   allUsersArray: User[] = [];

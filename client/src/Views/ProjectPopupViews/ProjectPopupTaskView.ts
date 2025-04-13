@@ -1,9 +1,8 @@
 import { TaskService } from "../../Services/TaskService";
-import { userStore } from "../../Store/UserStore";
 import { createElement } from "../../Utils/Helpers";
-import { MembersData, Task } from "../App/ProjectController";
+import { MembersData } from "../App/ProjectView";
 
-export class ProjectPopupTaskController {
+export class ProjectPopupTaskView {
   title: string = "";
   description: string = "";
   deadline: Date = new Date();
@@ -116,7 +115,7 @@ export class ProjectPopupTaskController {
                   text: "Select Team Member",
                   disabled: true,
                   selected: true,
-                  onChange: (e: Event) => {
+                  onChange: () => {
                     console.log("changed");
                   },
                 }),

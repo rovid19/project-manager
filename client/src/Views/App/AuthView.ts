@@ -6,7 +6,7 @@ import { store } from "../../Store/Store";
 import { AuthService } from "../../Services/AuthService";
 import { userStore } from "../../Store/UserStore";
 
-export class AuthController {
+export class AuthView {
   isRegister: boolean = false;
   loginContainer: HTMLElement | null = null;
   form: HTMLElement | null = null;

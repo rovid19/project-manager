@@ -1,17 +1,17 @@
 import { createElement } from "../../Utils/Helpers";
-import "../../Styles/Tasks.css";
+import "../../Styles/Reports.css";
 import "../../Styles/SharedStylings/SectionHeader.css";
 import "../../Styles/SharedStylings/UpperInnerSection.css";
 
 import { store } from "../../Store/Store";
 
-export class TasksController {
+export class ReportsView {
   constructor() {}
   delete() {
     document.querySelector(".upper-section")?.remove();
   }
-  createTasks() {
-    const tasksContainer = createElement({
+  createReports() {
+    const reportsContainer = createElement({
       tag: "div",
       className: "upper-section",
       children: [
@@ -26,7 +26,7 @@ export class TasksController {
                 createElement({
                   tag: "h3",
                   className: "section-title",
-                  text: "Tasks",
+                  text: "Reports",
                 }),
               ],
             }),
@@ -36,6 +36,6 @@ export class TasksController {
     });
 
     const currentState = store.getState();
-    currentState.mainSection.appendChild(tasksContainer);
+    currentState.mainSection.appendChild(reportsContainer);
   }
 }

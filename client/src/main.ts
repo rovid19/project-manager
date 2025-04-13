@@ -11,18 +11,18 @@ import "./Styles/Root.css";
 import { getUser } from "./Utils/Helpers";
 
 export const router = new Router([
-  "/dashboard/DashboardController/createDashboard",
-  "/projects/ProjectsController/createProjects",
-  "/projects/:projectId/ProjectController/createProject",
-  "/tasks/TasksController/createTasks",
-  "/teams/TeamsController/createTeams",
-  "/reports/ReportsController/createReports",
-  "/login/AuthController/createAuth",
-  "/register/AuthController/createAuth",
-  "/projects/:projectId/tasks/:taskId/ProjectsController/createSingleProjectPage",
-  "/teams/TeamsController/createTeams",
-  "/tasks/TasksController/createTasks",
-  "/reports/ReportsController/createReports",
+  "/dashboard/DashboardView/createDashboard",
+  "/projects/ProjectsView/createProjects",
+  "/projects/:projectId/ProjectView/createProject",
+  "/tasks/TasksView/createTasks",
+  "/teams/TeamsView/createTeams",
+  "/reports/ReportsView/createReports",
+  "/login/AuthView/createAuth",
+  "/register/AuthView/createAuth",
+  "/projects/:projectId/tasks/:taskId/ProjectsView/createSingleProjectPage",
+  "/teams/TeamsView/createTeams",
+  "/tasks/TasksView/createTasks",
+  "/reports/ReportsView/createReports",
 ]);
 
 router.route();

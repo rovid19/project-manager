@@ -1,4 +1,4 @@
-import { MembersData, Task } from "../Controllers/App/ProjectController";
+import { MembersData, Task } from "../Views/App/ProjectView";
 import { Store } from "./Store";
 export type UserStoreType = {
   username: string;
@@ -24,7 +24,7 @@ export type Project = {
 
 class UserStore extends Store {
   constructor(initialState: UserStoreType) {
-    super();
+    super(initialState);
   }
 }
 

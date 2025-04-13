@@ -13,7 +13,7 @@ import { ProjectsService } from "../../Services/ProjectsService";
 import { Project, userStore } from "../../Store/UserStore";
 import { renderProjectCards } from "../../Components/ProjectCard";
 
-export class ProjectsController {
+export class ProjectsView {
   private projectsDiv: HTMLElement | null = null;
   private createProjectModal: HTMLElement | null = null;
   private iconSelected: string = "";
@@ -30,7 +30,7 @@ export class ProjectsController {
   delete() {
     this.projectsDiv = null;
     document.querySelector(".upper-section")?.remove();
-    userStore.unsubscribe(this.createProjectsGrid.bind(this), "projects");
+    userStore.unsubscribe(/*this.createProjectsGrid.bind(this),*/ "projects");
   }
 
   async createProjects() {

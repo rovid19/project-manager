@@ -8,7 +8,7 @@ import "../../Styles/SharedStylings/UpperInnerSection.css";
 
 import { ProjectData } from "../../Store/UserStore";
 import { router } from "../../main";
-import { ProjectPopupController } from "../ProjectPopupControllers/ProjectPopupController";
+import { ProjectPopupView } from "../ProjectPopupViews/ProjectPopupView";
 import { removeMemberBtn } from "../../Assets/Icons";
 
 export type MembersData = {
@@ -27,7 +27,7 @@ export type Task = {
   username: string;
 };
 
-export class ProjectController {
+export class ProjectView {
   title: string = "";
   description: string = "";
   icon: string = "";
@@ -37,7 +37,7 @@ export class ProjectController {
   membersData: MembersData[] = [];
   mainDiv: HTMLElement | null = null;
   popupState: string = "";
-  popupController: ProjectPopupController | null = null;
+  popupController: ProjectPopupView | null = null;
   removeProjectMemberId: string = "";
   projectMembersParentElement: HTMLElement | null = null;
   projectTasks: Task[] | null = null;
@@ -334,7 +334,7 @@ export class ProjectController {
                     tag: "div",
                     className: "remove-task-btn",
                     innerHTML: removeMemberBtn,
-                    onClick: (e: Event) => {
+                    onClick: () => {
                       this.removeTaskFromProject(task.taskId);
                       this.cardDeleteAni(element);
                     },
@@ -497,7 +497,7 @@ export class ProjectController {
   };
 
   createPopup() {
-    this.popupController = new ProjectPopupController(
+    this.popupController = new ProjectPopupView(
       this.popupState,
       this.projectId,
       this.members,

@@ -1,4 +1,4 @@
-import { BaseApi } from "./ApiService";
+import { BaseApi } from "./BaseService";
 
 type TaskData = {
   title: string;

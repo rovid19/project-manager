@@ -1,6 +1,6 @@
 import { userStore } from "../Store/UserStore";
 import { redirectToHome } from "../Utils/Helpers";
-import { BaseApi } from "./ApiService";
+import { BaseApi } from "./BaseService";
 
 export class AuthService extends BaseApi {
   async getUser() {

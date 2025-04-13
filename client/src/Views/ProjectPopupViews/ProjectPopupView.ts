@@ -1,13 +1,13 @@
 import { createElement } from "../../Utils/Helpers";
-import { MembersData, ProjectController, Task } from "../App/ProjectController";
+import { MembersData, ProjectView } from "../App/ProjectView";
 import "../../Styles/ProjectPopup.css";
 import { store } from "../../Store/Store";
 import { closeModalBtn } from "../../Assets/Icons";
-import { ProjectPopupTaskController } from "./ProjectPopupTaskController";
-import { ProjectPopupMemberController } from "./ProjectPopupMemberController";
-import { Project, ProjectData } from "../../Store/UserStore";
+import { ProjectPopupTaskView } from "./ProjectPopupTaskView";
+import { ProjectPopupMemberView } from "./ProjectPopupMemberView";
+import { ProjectData } from "../../Store/UserStore";
 
-export class ProjectPopupController extends ProjectController {
+export class ProjectPopupView extends ProjectView {
   taskTitle: string = "";
   taskDescription: string = "";
   taskDeadline: Date = new Date();
@@ -58,7 +58,7 @@ export class ProjectPopupController extends ProjectController {
           tag: "div",
           className: "popup-close-div",
           innerHTML: closeModalBtn,
-          onClick: (e: Event) => {
+          onClick: () => {
             this.closePopup();
           },
         }),
@@ -76,7 +76,7 @@ export class ProjectPopupController extends ProjectController {
   }
 
   createMemberPopupController(popup: HTMLElement) {
-    new ProjectPopupMemberController(
+    new ProjectPopupMemberView(
       popup,
       this.projectId,
       this.members,
@@ -86,7 +86,7 @@ export class ProjectPopupController extends ProjectController {
   }
 
   createTaskPopupController(popup: HTMLElement) {
-    new ProjectPopupTaskController(
+    new ProjectPopupTaskView(
       popup,
       this.projectId,
       this.fetchUserProject,

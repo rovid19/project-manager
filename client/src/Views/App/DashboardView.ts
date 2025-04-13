@@ -7,7 +7,7 @@ import "../../Styles/SharedStylings/ProjectCards.css";
 
 import { renderProjectCards } from "../../Components/ProjectCard";
 
-export class DashboardController {
+export class DashboardView {
   delete() {
     document.querySelector(".upper-section")?.remove();
   }

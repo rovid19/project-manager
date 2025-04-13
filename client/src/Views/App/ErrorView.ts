@@ -3,7 +3,7 @@ import { createElement } from "../../Utils/Helpers";
 import "../../Styles/Error.css";
 import { error } from "../../Assets/Icons";
 
-export class ErrorController {
+export class ErrorView {
   errorContainer: HTMLElement | null = null;
   constructor() {}
 

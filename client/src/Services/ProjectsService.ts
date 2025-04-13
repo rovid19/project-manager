@@ -1,5 +1,5 @@
 import { Project, ProjectData, userStore } from "../Store/UserStore";
-import { BaseApi } from "./ApiService";
+import { BaseApi } from "./BaseService";
 
 export class ProjectsService extends BaseApi {
   async createNewProject(projectInfo: Project) {

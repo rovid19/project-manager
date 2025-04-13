@@ -4,7 +4,7 @@ import "../../Styles/Teams.css";
 import "../../Styles/SharedStylings/SectionHeader.css";
 import "../../Styles/SharedStylings/UpperInnerSection.css";
 
-export class TeamsController {
+export class TeamsView {
   constructor() {}
   delete() {
     document.querySelector(".upper-section")?.remove();
