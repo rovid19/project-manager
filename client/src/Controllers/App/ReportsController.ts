@@ -1,7 +1,41 @@
+import { createElement } from "../../Utils/Helpers";
+import "../../Styles/Reports.css";
+import "../../Styles/SharedStylings/SectionHeader.css";
+import "../../Styles/SharedStylings/UpperInnerSection.css";
+
+import { store } from "../../Store/Store";
+
 export class ReportsController {
   constructor() {}
-  delete() {}
+  delete() {
+    document.querySelector(".upper-section")?.remove();
+  }
   createReports() {
-    //  console.log("Reports view created");
+    const reportsContainer = createElement({
+      tag: "div",
+      className: "upper-section",
+      children: [
+        createElement({
+          tag: "div",
+          className: "inner-section",
+          children: [
+            createElement({
+              tag: "div",
+              className: "section-header",
+              children: [
+                createElement({
+                  tag: "h3",
+                  className: "section-title",
+                  text: "Reports",
+                }),
+              ],
+            }),
+          ],
+        }),
+      ],
+    });
+
+    const currentState = store.getState();
+    currentState.mainSection.appendChild(reportsContainer);
   }
 }

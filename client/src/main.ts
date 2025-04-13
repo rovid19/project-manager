@@ -10,9 +10,6 @@ import { userStore } from "./Store/UserStore";
 import "./Styles/Root.css";
 import { getUser } from "./Utils/Helpers";
 
-store.subscribe(activeLink, "activeLink");
-userStore.subscribe(updateUserInfo, "username");
-
 export const router = new Router([
   "/dashboard/DashboardController/createDashboard",
   "/projects/ProjectsController/createProjects",
@@ -23,10 +20,16 @@ export const router = new Router([
   "/login/AuthController/createAuth",
   "/register/AuthController/createAuth",
   "/projects/:projectId/tasks/:taskId/ProjectsController/createSingleProjectPage",
+  "/teams/TeamsController/createTeams",
+  "/tasks/TasksController/createTasks",
+  "/reports/ReportsController/createReports",
 ]);
 
 router.route();
 
-getUser();
-createSidebar();
-createMainContent();
+getUser().then(() => {
+  createSidebar();
+  createMainContent();
+  store.subscribe(activeLink, "activeLink");
+  userStore.subscribe(updateUserInfo, "username");
+});

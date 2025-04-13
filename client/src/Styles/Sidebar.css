@@ -81,15 +81,6 @@ li:hover {
   width: 100%;
 }
 
-.user-container-avatar-container {
-  height: 100%;
-  width: 20%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-}
-
 .user-container-icon-container {
   height: 100%;
   width: 20%;
@@ -121,4 +112,17 @@ li:hover {
 
 .user-container-link:hover {
   color: #646ae0;
+}
+
+.user-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 20px;
+  font-weight: 600;
 }

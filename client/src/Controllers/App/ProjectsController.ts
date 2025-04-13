@@ -1,11 +1,13 @@
 import "../../Styles/Projects.css";
+import "../../Styles/SharedStylings/SectionHeader.css";
+import "../../Styles/SharedStylings/UpperInnerSection.css";
+import "../../Styles/SharedStylings/ProjectCards.css";
 import { store } from "../../Store/Store";
 import {
   createElement,
   fetchAllUserProjects,
   formValidation,
 } from "../../Utils/Helpers";
-import "../../Styles/Projects.css";
 import { backRight, icons } from "../../Assets/Icons";
 import { ProjectsService } from "../../Services/ProjectsService";
 import { Project, userStore } from "../../Store/UserStore";
@@ -22,11 +24,12 @@ export class ProjectsController {
     projectId: "",
   };
   private iconArry: SVGSVGElement[] = [];
+  private pageHeader: HTMLElement | null = null;
   constructor() {}
 
   delete() {
     this.projectsDiv = null;
-    document.querySelector(".projects")?.remove();
+    document.querySelector(".upper-section")?.remove();
     userStore.unsubscribe(this.createProjectsGrid.bind(this), "projects");
   }
 
@@ -35,10 +38,10 @@ export class ProjectsController {
 
     const currentState = store.getState();
 
-    const projects = createElement({ tag: "div", className: "projects" });
+    const projects = createElement({ tag: "div", className: "upper-section" });
     const innerProjects = createElement({
       tag: "div",
-      className: "inner-projects",
+      className: "inner-section",
     });
     this.projectsDiv = innerProjects;
     currentState.mainSection?.appendChild(projects);
@@ -52,10 +55,17 @@ export class ProjectsController {
   private createPageTitle() {
     const pageHeader = createElement({
       tag: "div",
-      className: "page-header",
-      children: [createElement({ tag: "h3", text: "Projects" })],
+      className: "section-header",
+      children: [
+        createElement({
+          tag: "h3",
+          text: "Projects",
+          className: "section-title",
+        }),
+      ],
     });
     (this.projectsDiv as HTMLElement).appendChild(pageHeader);
+    this.pageHeader = pageHeader;
   }
 
   private createNewProjectButton() {
@@ -68,7 +78,7 @@ export class ProjectsController {
         this.createProjectDiv();
       },
     });
-    (this.projectsDiv as HTMLElement).appendChild(button);
+    (this.pageHeader as HTMLElement).appendChild(button);
   }
 
   private deleteProjectsGrid() {

@@ -1,7 +1,7 @@
 import { createElement } from "../Utils/Helpers";
 import "../Styles/Sidebar.css";
 import { store } from "../Store/Store";
-import { avatarIcon, iconArray, logoutIcon } from "../Assets/Icons";
+import { iconArray, logoutIcon } from "../Assets/Icons";
 import { router } from "../main";
 import { userStore } from "../Store/UserStore";
 import { AuthService } from "../Services/AuthService";
@@ -69,13 +69,6 @@ function createUserSection(sidebar: HTMLElement) {
   const username = currentState.username;
 
   const containerElements = {
-    container: { tag: "div", className: "user-container" },
-    avatarContainer: {
-      tag: "div",
-      className: "user-container-avatar-container",
-      innerHTML: avatarIcon,
-    },
-
     usernameContainer: {
       tag: "div",
       className: "user-container-container",
@@ -105,7 +98,18 @@ function createUserSection(sidebar: HTMLElement) {
     },
   };
 
-  const userContainer = createElement(containerElements.container);
+  const userContainer = createElement({
+    tag: "div",
+    className: "user-container",
+    children: [
+      createElement({
+        tag: "div",
+        className: "user-avatar",
+        text: userStore.getState().username.charAt(0).toUpperCase(),
+      }),
+    ],
+  });
+
   sidebar.appendChild(userContainer);
 
   // appending children to main element / moguce je napraviti isto i kroz children propse

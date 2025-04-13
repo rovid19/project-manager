@@ -4,18 +4,15 @@ import { BaseApi } from "./ApiService";
 
 export class AuthService extends BaseApi {
   async getUser() {
-    try {
-      const result = await this.get();
+    const result = await this.get();
 
-      if (result.username.length > 1) {
-        userStore.setState({
-          username: result.username,
-          email: result.email,
-          userId: result.userId,
-        });
-      }
-    } catch (e) {
-      throw e;
+    if (result.username.length > 1) {
+      userStore.setState({
+        username: result.username,
+        email: result.email,
+        userId: result.userId,
+      });
+      console.log(result);
     }
   }
   async loginUser() {

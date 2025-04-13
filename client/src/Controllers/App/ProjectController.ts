@@ -1,8 +1,11 @@
 import { ProjectsService } from "../../Services/ProjectsService";
 import { store } from "../../Store/Store";
 import { createElement } from "../../Utils/Helpers";
-import "../../Styles/Projects.css";
+
 import "../../Styles/Project.css";
+import "../../Styles/SharedStylings/SectionHeader.css";
+import "../../Styles/SharedStylings/UpperInnerSection.css";
+
 import { ProjectData } from "../../Store/UserStore";
 import { router } from "../../main";
 import { ProjectPopupController } from "../ProjectPopupControllers/ProjectPopupController";
@@ -46,26 +49,33 @@ export class ProjectController {
   }
 
   delete() {
-    document.querySelector(".projects")?.remove();
+    const upperSection = document.querySelector(
+      ".upper-section"
+    ) as HTMLElement;
+
+    upperSection.remove();
   }
 
   async createProject() {
     await this.fetchUserProject();
 
     const currentState = store.getState();
-    const project = createElement({ tag: "div", className: "projects" });
+    const project = createElement({
+      tag: "div",
+      className: "upper-section",
+    }) as HTMLElement;
     const innerProject = createElement({
       tag: "div",
-      className: "inner-project",
-    });
+      className: "inner-section",
+    }) as HTMLElement;
     const pageHeader = createElement({
       tag: "div",
-      className: "page-header",
+      className: "section-header",
       children: [
         createElement({
           tag: "h3",
           text: `Projects / ${this.title}`,
-          className: "page-title",
+          className: "section-title",
         }),
         createElement({
           tag: "button",
@@ -79,12 +89,24 @@ export class ProjectController {
       ],
     });
 
+    this.setCustomCss(project, innerProject, pageHeader.children[0]);
     currentState.mainSection?.appendChild(project);
     project.appendChild(innerProject);
     innerProject.appendChild(pageHeader);
 
     this.createProjectInfo(innerProject);
     this.createProjectTasks(innerProject);
+  }
+
+  setCustomCss(
+    upperSection: HTMLElement,
+    innerSection: HTMLElement,
+    sectionHeader: HTMLElement
+  ) {
+    upperSection.style.backgroundColor = "#f5f7f9";
+    innerSection.style.width = "40%";
+    innerSection.style.margin = "0 auto";
+    sectionHeader.style.fontWeight = "400";
   }
 
   createProjectInfo(mainSection: HTMLElement) {

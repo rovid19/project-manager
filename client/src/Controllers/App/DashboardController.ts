@@ -1,13 +1,15 @@
 import { store } from "../../Store/Store";
 import { createElement, fetchAllUserProjects } from "../../Utils/Helpers";
 import "../../Styles/Dashboard.css";
-import "../../Styles/Projects.css";
+import "../../Styles/SharedStylings/UpperInnerSection.css";
+import "../../Styles/SharedStylings/SectionHeader.css";
+import "../../Styles/SharedStylings/ProjectCards.css";
 
 import { renderProjectCards } from "../../Components/ProjectCard";
 
 export class DashboardController {
   delete() {
-    document.querySelector(".dashboard")?.remove();
+    document.querySelector(".upper-section")?.remove();
   }
 
   async createDashboard() {
@@ -16,10 +18,10 @@ export class DashboardController {
     const currentState = store.getState();
 
     // dashboard container
-    const dashboard = createElement({ tag: "div", className: "dashboard" });
+    const dashboard = createElement({ tag: "div", className: "upper-section" });
     const innerDashboard = createElement({
       tag: "div",
-      className: "inner-dashboard",
+      className: "inner-section",
     });
     currentState.mainSection?.appendChild(dashboard);
     dashboard.appendChild(innerDashboard);
@@ -37,7 +39,7 @@ export class DashboardController {
       children: [
         createElement({
           tag: "h2",
-          className: "section-title",
+          className: "overview-title",
           text: "Project Overview",
         }),
       ],
@@ -149,8 +151,19 @@ export class DashboardController {
   createPageTitle(dashboard: HTMLElement) {
     const pageDiv = createElement({
       tag: "div",
-      className: "page-header",
-      children: [createElement({ tag: "h3", text: "Dashboard" })],
+      className: "section-header",
+      children: [
+        createElement({
+          tag: "h3",
+          children: [
+            createElement({
+              tag: "h3",
+              text: "Dashboard",
+              className: "section-title",
+            }),
+          ],
+        }),
+      ],
     });
     dashboard.appendChild(pageDiv);
   }
