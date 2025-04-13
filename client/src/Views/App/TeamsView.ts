@@ -1,4 +1,4 @@
-import { store } from "../../Store/Store";
+import { store } from "../../store/Store";
 import { createElement } from "../../Utils/Helpers";
 import "../../Styles/Teams.css";
 import "../../Styles/SharedStylings/SectionHeader.css";

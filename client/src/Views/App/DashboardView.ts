@@ -1,4 +1,4 @@
-import { store } from "../../Store/Store";
+import { store } from "../../store/Store";
 import { createElement, fetchAllUserProjects } from "../../Utils/Helpers";
 import "../../Styles/Dashboard.css";
 import "../../Styles/SharedStylings/UpperInnerSection.css";

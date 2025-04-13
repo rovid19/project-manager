@@ -1,5 +1,5 @@
 import { createElement } from "../Utils/Helpers";
-import { store } from "../Store/Store";
+import { store } from "../store/Store";
 import "../Styles/MainContent.css";
 
 export function createMainContent() {

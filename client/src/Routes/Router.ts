@@ -1,4 +1,4 @@
-import { store } from "../Store/Store";
+import { store } from "../store/Store";
 
 type Routes = {
   [key: string]: {
@@ -85,7 +85,7 @@ export class Router {
     if (this.controller) this.removePreviousController();
 
     // import module klase, trenutno imam named export, ali moguce je i default loadat samo je malo drugaciji kod onda
-    const module = await import(`../Views/App/${controllerName}`);
+    const module = await import(`../Views/App/${controllerName}.ts`); // moram includat file extension .ts zbog vite-a koji ak se ne includa faila build na dynamic importu
 
     // tu je kod drugaciji ak loadam default onda mogu accessati ko objekt new module.default, a ko named export je na ovaj nacin
     this.controller = new module[controllerName]();

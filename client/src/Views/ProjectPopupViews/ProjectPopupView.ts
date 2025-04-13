@@ -1,11 +1,11 @@
 import { createElement } from "../../Utils/Helpers";
 import { MembersData, ProjectView } from "../App/ProjectView";
 import "../../Styles/ProjectPopup.css";
-import { store } from "../../Store/Store";
+import { store } from "../../store/Store";
 import { closeModalBtn } from "../../Assets/Icons";
 import { ProjectPopupTaskView } from "./ProjectPopupTaskView";
 import { ProjectPopupMemberView } from "./ProjectPopupMemberView";
-import { ProjectData } from "../../Store/UserStore";
+import { ProjectData } from "../../store/UserStore";
 
 export class ProjectPopupView extends ProjectView {
   taskTitle: string = "";

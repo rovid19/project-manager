@@ -1,9 +1,9 @@
 import { createElement } from "../Utils/Helpers";
 import "../Styles/Sidebar.css";
-import { store } from "../Store/Store";
+import { store } from "../store/Store";
 import { iconArray, logoutIcon } from "../Assets/Icons";
 import { router } from "../main";
-import { userStore } from "../Store/UserStore";
+import { userStore } from "../store/UserStore";
 import { AuthService } from "../Services/AuthService";
 
 export function createSidebar() {

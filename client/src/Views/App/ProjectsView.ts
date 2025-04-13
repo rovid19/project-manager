@@ -2,7 +2,7 @@ import "../../Styles/Projects.css";
 import "../../Styles/SharedStylings/SectionHeader.css";
 import "../../Styles/SharedStylings/UpperInnerSection.css";
 import "../../Styles/SharedStylings/ProjectCards.css";
-import { store } from "../../Store/Store";
+import { store } from "../../store/Store";
 import {
   createElement,
   fetchAllUserProjects,
@@ -10,7 +10,7 @@ import {
 } from "../../Utils/Helpers";
 import { backRight, icons } from "../../Assets/Icons";
 import { ProjectsService } from "../../Services/ProjectsService";
-import { Project, userStore } from "../../Store/UserStore";
+import { Project, userStore } from "../../store/UserStore";
 import { renderProjectCards } from "../../Components/ProjectCard";
 
 export class ProjectsView {

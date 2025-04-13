@@ -2,9 +2,9 @@ import { createElement } from "../../Utils/Helpers";
 import "../../Styles/Login.css";
 import { router } from "../../main";
 
-import { store } from "../../Store/Store";
+import { store } from "../../store/Store";
 import { AuthService } from "../../Services/AuthService";
-import { userStore } from "../../Store/UserStore";
+import { userStore } from "../../store/UserStore";
 
 export class AuthView {
   isRegister: boolean = false;

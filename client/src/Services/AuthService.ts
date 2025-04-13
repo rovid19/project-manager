@@ -1,4 +1,4 @@
-import { userStore } from "../Store/UserStore";
+import { userStore } from "../store/UserStore";
 import { redirectToHome } from "../Utils/Helpers";
 import { BaseApi } from "./BaseService";
 

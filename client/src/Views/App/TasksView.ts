@@ -3,7 +3,7 @@ import "../../Styles/Tasks.css";
 import "../../Styles/SharedStylings/SectionHeader.css";
 import "../../Styles/SharedStylings/UpperInnerSection.css";
 
-import { store } from "../../Store/Store";
+import { store } from "../../store/Store";
 
 export class TasksView {
   constructor() {}
