@@ -1,10 +1,10 @@
 import { createElement } from "../Utils/Helpers";
 import "../Styles/Sidebar.css";
-import { store } from "../Store/Store";
 import { iconArray, logoutIcon } from "../Assets/Icons";
 import { router } from "../main";
 import { userStore } from "../Store/UserStore";
 import { AuthService } from "../Services/AuthService";
+import { store } from "../Store/Store";
 
 export function createSidebar() {
   const currentState = store.getState();

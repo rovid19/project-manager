@@ -1,5 +1,4 @@
 import { ProjectsService } from "../../Services/ProjectsService";
-import { store } from "../../Store/Store";
 import { createElement } from "../../Utils/Helpers";
 
 import "../../Styles/Project.css";
@@ -10,6 +9,7 @@ import { ProjectData } from "../../Store/UserStore";
 import { router } from "../../main";
 import { ProjectPopupView } from "../ProjectPopupViews/ProjectPopupView";
 import { removeMemberBtn } from "../../Assets/Icons";
+import { store } from "../../Store/Store";
 
 export type MembersData = {
   userId: string;
