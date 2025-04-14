@@ -1,5 +1,6 @@
 import { MembersData, Task } from "../Views/App/ProjectView";
-import { Store } from "./Store";
+import { Store } from "./store";
+
 export type UserStoreType = {
   username: string;
   email: string;

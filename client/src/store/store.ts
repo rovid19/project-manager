@@ -1,4 +1,4 @@
-import { Project } from "./UserStore";
+import { Project } from "./userStore";
 
 /*type State = {
   currentUser: string | null;

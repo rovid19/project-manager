@@ -1,12 +1,12 @@
 import { ProjectsService } from "../../Services/ProjectsService";
-import { store } from "../../store/Store";
+import { store } from "../../store/store";
 import { createElement } from "../../Utils/Helpers";
 
 import "../../Styles/Project.css";
 import "../../Styles/SharedStylings/SectionHeader.css";
 import "../../Styles/SharedStylings/UpperInnerSection.css";
 
-import { ProjectData } from "../../store/UserStore";
+import { ProjectData } from "../../store/userStore";
 import { router } from "../../main";
 import { ProjectPopupView } from "../ProjectPopupViews/ProjectPopupView";
 import { removeMemberBtn } from "../../Assets/Icons";

@@ -1,4 +1,4 @@
-import { store } from "../store/Store";
+import { store } from "../store/store";
 
 type Routes = {
   [key: string]: {

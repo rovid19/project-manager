@@ -1,4 +1,4 @@
-import { store } from "../../store/Store";
+import { store } from "../../store/store";
 import { createElement } from "../../Utils/Helpers";
 import "../../Styles/Error.css";
 import { error } from "../../Assets/Icons";

@@ -2,7 +2,7 @@ import { createElement } from "../../Utils/Helpers";
 import "../../Styles/ProjectMemberPopup.css";
 import { ProjectsService } from "../../Services/ProjectsService";
 
-import { ProjectData } from "../../store/UserStore";
+import { ProjectData } from "../../store/userStore";
 
 type User = {
   userId: string;

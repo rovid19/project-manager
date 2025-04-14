@@ -1,5 +1,5 @@
 import { router } from "../main";
-import { Project, userStore } from "../store/UserStore";
+import { Project, userStore } from "../store/userStore";
 import { createElement } from "../Utils/Helpers";
 
 export function renderProjectCards(

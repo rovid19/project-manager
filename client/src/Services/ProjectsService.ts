@@ -1,4 +1,4 @@
-import { Project, ProjectData, userStore } from "../store/UserStore";
+import { Project, ProjectData, userStore } from "../store/userStore";
 import { BaseApi } from "./BaseService";
 
 export class ProjectsService extends BaseApi {

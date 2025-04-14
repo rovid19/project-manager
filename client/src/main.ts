@@ -5,8 +5,8 @@ import {
   updateUserInfo,
 } from "./Components/Sidebar";
 import { Router } from "./Routes/Router";
-import { store } from "./store/Store";
-import { userStore } from "./store/UserStore";
+import { store } from "./store/store";
+import { userStore } from "./store/userStore";
 import "./Styles/Root.css";
 import { getUser } from "./Utils/Helpers";
 
