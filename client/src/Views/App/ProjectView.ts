@@ -33,7 +33,7 @@ export class ProjectView {
   icon: string = "";
   projectId: string = "";
   form: HTMLElement | null = null;
-  members: string[] = [""];
+  members: string[] = [];
   membersData: MembersData[] = [];
   mainDiv: HTMLElement | null = null;
   popupState: string = "";
@@ -415,9 +415,11 @@ export class ProjectView {
     this.description = projectData.project.description;
     this.icon = projectData.project.icon;
     this.projectId = projectData.project.projectId;
-    this.members = projectData.project.members as string[];
+    this.members = JSON.parse(projectData.project.members);
     this.membersData = projectData.membersData;
     this.projectTasks = projectData.taskData;
+
+    console.log(typeof this.members);
   };
 
   updateProjectInfoInputFields() {
@@ -486,7 +488,6 @@ export class ProjectView {
   }
 
   fetchUserProject = async () => {
-    console.log("yooo");
     const projectId = window.location.pathname.split("/")[2];
 
     let apiCall = new ProjectsService(
@@ -507,12 +508,13 @@ export class ProjectView {
       this.renderProjectTasks,
       this.membersData
     );
+    console.log(this.popupController);
   }
 
-  closePopup() {
+  closePopup = () => {
     this.popupController = null;
     document.querySelector(".popup-overlay")?.remove();
-  }
+  };
 
   async removeMemberFromProject() {
     await new ProjectsService(

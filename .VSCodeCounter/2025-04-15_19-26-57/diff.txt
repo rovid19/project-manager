@@ -1,0 +1,134 @@
+Date : 2025-04-15 19:26:57
+Directory : /Users/rock/Documents/Projekti/project-manager/api
+Total : 74 files,  -3750 codes, 235 comments, -239 blanks, all -3754 lines
+
+Languages
++--------------------+------------+------------+------------+------------+------------+
+| language           | files      | code       | comment    | blank      | total      |
++--------------------+------------+------------+------------+------------+------------+
+| PHP                |         19 |      1,102 |        439 |        316 |      1,857 |
+| JSON with Comments |          1 |        -19 |         -2 |         -3 |        -24 |
+| HTML               |          2 |        -25 |          0 |         -3 |        -28 |
+| JSON               |          5 |       -896 |          0 |          1 |       -895 |
+| CSS                |         18 |     -1,305 |       -120 |       -217 |     -1,642 |
+| TypeScript         |         29 |     -2,607 |        -82 |       -333 |     -3,022 |
++--------------------+------------+------------+------------+------------+------------+
+
+Directories
++-------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                        | files      | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                           |         74 |     -3,750 |        235 |       -239 |     -3,754 |
+| . (Files)                                                                                                   |          2 |         34 |          0 |          2 |         36 |
+| ..                                                                                                          |         52 |     -4,891 |       -204 |       -558 |     -5,653 |
+| ../client                                                                                                   |         52 |     -4,891 |       -204 |       -558 |     -5,653 |
+| ../client (Files)                                                                                           |          5 |       -976 |         -2 |         -8 |       -986 |
+| ../client/src                                                                                               |         47 |     -3,915 |       -202 |       -550 |     -4,667 |
+| ../client/src (Files)                                                                                       |          3 |        -44 |         -1 |         -6 |        -51 |
+| ../client/src/Assets                                                                                        |          1 |        -57 |          0 |        -11 |        -68 |
+| ../client/src/Components                                                                                    |          4 |       -283 |        -13 |        -35 |       -331 |
+| ../client/src/Routes                                                                                        |          1 |        -88 |        -14 |        -23 |       -125 |
+| ../client/src/Services                                                                                      |          4 |       -164 |         -1 |        -36 |       -201 |
+| ../client/src/Store                                                                                         |          2 |        -81 |        -21 |        -22 |       -124 |
+| ../client/src/Styles                                                                                        |         18 |     -1,305 |       -120 |       -217 |     -1,642 |
+| ../client/src/Styles (Files)                                                                                |         14 |     -1,183 |       -119 |       -199 |     -1,501 |
+| ../client/src/Styles/SharedStylings                                                                         |          4 |       -122 |         -1 |        -18 |       -141 |
+| ../client/src/Types                                                                                         |          1 |         -4 |          0 |          0 |         -4 |
+| ../client/src/Utils                                                                                         |          1 |        -76 |         -4 |        -18 |        -98 |
+| ../client/src/Views                                                                                         |         12 |     -1,813 |        -28 |       -182 |     -2,023 |
+| ../client/src/Views/App                                                                                     |          8 |     -1,363 |        -24 |       -137 |     -1,524 |
+| ../client/src/Views/ProjectPopupViews                                                                       |          3 |       -382 |         -3 |        -40 |       -425 |
+| ../client/src/Views/TeamsPopupView                                                                          |          1 |        -68 |         -1 |         -5 |        -74 |
+| public                                                                                                      |          1 |         19 |          2 |          9 |         30 |
+| src                                                                                                         |          9 |        488 |         53 |        162 |        703 |
+| src (Files)                                                                                                 |          1 |         15 |          2 |          7 |         24 |
+| src/App                                                                                                     |          3 |        290 |         21 |         99 |        410 |
+| src/App/Controllers                                                                                         |          3 |        290 |         21 |         99 |        410 |
+| src/Config                                                                                                  |          1 |          8 |          0 |          2 |         10 |
+| src/Framework                                                                                               |          3 |        158 |         20 |         46 |        224 |
+| src/utils                                                                                                   |          1 |         17 |         10 |          8 |         35 |
+| vendor                                                                                                      |         10 |        600 |        384 |        146 |      1,130 |
+| vendor (Files)                                                                                              |          1 |         20 |          1 |          5 |         26 |
+| vendor/composer                                                                                             |          9 |        580 |        383 |        141 |      1,104 |
++-------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| filename                                                                                                    | language           | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| /Users/rock/Documents/Projekti/project-manager/api/composer.json                                            | JSON               |         16 |          0 |          1 |         17 |
+| /Users/rock/Documents/Projekti/project-manager/api/composer.lock                                            | JSON               |         18 |          0 |          1 |         19 |
+| /Users/rock/Documents/Projekti/project-manager/api/public/Index.php                                         | PHP                |         19 |          2 |          9 |         30 |
+| /Users/rock/Documents/Projekti/project-manager/api/src/App/Controllers/AuthController.php                   | PHP                |         73 |          5 |         35 |        113 |
+| /Users/rock/Documents/Projekti/project-manager/api/src/App/Controllers/ProjectsController.php               | PHP                |        159 |         14 |         50 |        223 |
+| /Users/rock/Documents/Projekti/project-manager/api/src/App/Controllers/TasksController.php                  | PHP                |         58 |          2 |         14 |         74 |
+| /Users/rock/Documents/Projekti/project-manager/api/src/Config/db.php                                        | PHP                |          8 |          0 |          2 |         10 |
+| /Users/rock/Documents/Projekti/project-manager/api/src/Framework/Database.php                               | PHP                |         39 |         12 |         12 |         63 |
+| /Users/rock/Documents/Projekti/project-manager/api/src/Framework/Router.php                                 | PHP                |         91 |          2 |         25 |        118 |
+| /Users/rock/Documents/Projekti/project-manager/api/src/Framework/Validation.php                             | PHP                |         28 |          6 |          9 |         43 |
+| /Users/rock/Documents/Projekti/project-manager/api/src/Routes.php                                           | PHP                |         15 |          2 |          7 |         24 |
+| /Users/rock/Documents/Projekti/project-manager/api/src/utils/Helpers.php                                    | PHP                |         17 |         10 |          8 |         35 |
+| /Users/rock/Documents/Projekti/project-manager/api/vendor/autoload.php                                      | PHP                |         20 |          1 |          5 |         26 |
+| /Users/rock/Documents/Projekti/project-manager/api/vendor/composer/ClassLoader.php                          | PHP                |        286 |        235 |         59 |        580 |
+| /Users/rock/Documents/Projekti/project-manager/api/vendor/composer/InstalledVersions.php                    | PHP                |        188 |        140 |         51 |        379 |
+| /Users/rock/Documents/Projekti/project-manager/api/vendor/composer/autoload_classmap.php                    | PHP                |          6 |          1 |          4 |         11 |
+| /Users/rock/Documents/Projekti/project-manager/api/vendor/composer/autoload_namespaces.php                  | PHP                |          5 |          1 |          4 |         10 |
+| /Users/rock/Documents/Projekti/project-manager/api/vendor/composer/autoload_psr4.php                        | PHP                |          7 |          1 |          4 |         12 |
+| /Users/rock/Documents/Projekti/project-manager/api/vendor/composer/autoload_real.php                        | PHP                |         24 |          4 |          9 |         37 |
+| /Users/rock/Documents/Projekti/project-manager/api/vendor/composer/autoload_static.php                      | PHP                |         36 |          1 |          8 |         45 |
+| /Users/rock/Documents/Projekti/project-manager/api/vendor/composer/installed.json                           | JSON               |          5 |          0 |          1 |          6 |
+| /Users/rock/Documents/Projekti/project-manager/api/vendor/composer/installed.php                            | PHP                |         23 |          0 |          1 |         24 |
+| /Users/rock/Documents/Projekti/project-manager/client/index.html                                            | HTML               |        -13 |          0 |         -1 |        -14 |
+| /Users/rock/Documents/Projekti/project-manager/client/package-lock.json                                     | JSON               |       -920 |          0 |         -1 |       -921 |
+| /Users/rock/Documents/Projekti/project-manager/client/package.json                                          | JSON               |        -15 |          0 |         -1 |        -16 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Assets/Icons.ts                                   | TypeScript         |        -57 |          0 |        -11 |        -68 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Components/MainContent.ts                         | TypeScript         |        -12 |          0 |         -2 |        -14 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Components/PopupModal.ts                          | TypeScript         |        -26 |          0 |         -3 |        -29 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Components/ProjectCard.ts                         | TypeScript         |        -57 |          0 |         -6 |        -63 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Components/Sidebar.ts                             | TypeScript         |       -188 |        -13 |        -24 |       -225 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Routes/Router.ts                                  | TypeScript         |        -88 |        -14 |        -23 |       -125 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Services/AuthService.ts                           | TypeScript         |        -49 |          0 |         -9 |        -58 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Services/BaseService.ts                           | TypeScript         |        -55 |         -1 |        -11 |        -67 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Services/ProjectsService.ts                       | TypeScript         |        -47 |          0 |        -13 |        -60 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Services/TaskService.ts                           | TypeScript         |        -13 |          0 |         -3 |        -16 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Store/Store.ts                                    | TypeScript         |        -48 |        -21 |        -16 |        -85 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Store/UserStore.ts                                | TypeScript         |        -33 |          0 |         -6 |        -39 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/Dashboard.css                              | CSS                |        -45 |        -44 |         -9 |        -98 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/Error.css                                  | CSS                |        -11 |          0 |         -2 |        -13 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/Login.css                                  | CSS                |        -81 |          0 |        -13 |        -94 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/MainContent.css                            | CSS                |         -5 |         -1 |         -1 |         -7 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/Project.css                                | CSS                |       -315 |        -43 |        -54 |       -412 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/ProjectMemberPopup.css                     | CSS                |        -89 |          0 |        -14 |       -103 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/ProjectPopup.css                           | CSS                |        -71 |          0 |        -10 |        -81 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/Projects.css                               | CSS                |       -146 |         -2 |        -25 |       -173 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/Reports.css                                | CSS                |          0 |          0 |         -1 |         -1 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/Root.css                                   | CSS                |        -12 |          0 |         -3 |        -15 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/SharedStylings/Popup.css                   | CSS                |        -41 |          0 |         -6 |        -47 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/SharedStylings/ProjectCards.css            | CSS                |        -43 |         -1 |         -8 |        -52 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/SharedStylings/SectionHeader.css           | CSS                |        -11 |          0 |         -2 |        -13 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/SharedStylings/UpperInnerSection.css       | CSS                |        -27 |          0 |         -2 |        -29 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/Sidebar.css                                | CSS                |       -110 |         -1 |        -18 |       -129 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/Tasks.css                                  | CSS                |          0 |          0 |         -1 |         -1 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/TeamPopup.css                              | CSS                |        -62 |          0 |         -9 |        -71 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/Teams.css                                  | CSS                |       -236 |        -28 |        -39 |       -303 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Types/css.d.ts                                    | TypeScript         |         -4 |          0 |          0 |         -4 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Utils/Helpers.ts                                  | TypeScript         |        -76 |         -4 |        -18 |        -98 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Views/App/AuthView.ts                             | TypeScript         |       -177 |        -11 |        -23 |       -211 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Views/App/DashboardView.ts                        | TypeScript         |       -159 |         -6 |        -20 |       -185 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Views/App/ErrorView.ts                            | TypeScript         |        -41 |          0 |         -6 |        -47 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Views/App/ProjectView.ts                          | TypeScript         |       -496 |         -4 |        -44 |       -544 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Views/App/ProjectsView.ts                         | TypeScript         |       -256 |         -3 |        -30 |       -289 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Views/App/ReportsView.ts                          | TypeScript         |        -38 |          0 |         -4 |        -42 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Views/App/TasksView.ts                            | TypeScript         |        -38 |          0 |         -4 |        -42 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Views/App/TeamsView.ts                            | TypeScript         |       -158 |          0 |         -6 |       -164 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Views/ProjectPopupViews/ProjectPopupMemberView.ts | TypeScript         |       -118 |         -1 |        -13 |       -132 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Views/ProjectPopupViews/ProjectPopupTaskView.ts   | TypeScript         |       -199 |         -1 |        -17 |       -217 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Views/ProjectPopupViews/ProjectPopupView.ts       | TypeScript         |        -65 |         -1 |        -10 |        -76 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Views/TeamsPopupView/TeamsPopupView.ts            | TypeScript         |        -68 |         -1 |         -5 |        -74 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/index.html                                        | HTML               |        -12 |          0 |         -2 |        -14 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/main.ts                                           | TypeScript         |        -32 |          0 |         -3 |        -35 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/vite-env.d.ts                                     | TypeScript         |          0 |         -1 |         -1 |         -2 |
+| /Users/rock/Documents/Projekti/project-manager/client/tsconfig.json                                         | JSON with Comments |        -19 |         -2 |         -3 |        -24 |
+| /Users/rock/Documents/Projekti/project-manager/client/vite.config.ts                                        | TypeScript         |         -9 |          0 |         -2 |        -11 |
+| Total                                                                                                       |                    |     -3,750 |        235 |       -239 |     -3,754 |
++-------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+

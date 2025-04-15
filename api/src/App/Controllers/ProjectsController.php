@@ -88,6 +88,8 @@ class ProjectsController
             WHERE projectId = :projectId
             ", ["projectId" => $projectId], "return");
 
+            //inspect($project);
+
             echo json_encode(["project" => $project[0], "membersData" => $projectMemberData, "taskData" => $projectTaskData]);
             exit();
         } else {
@@ -131,10 +133,11 @@ class ProjectsController
     {
         $requestData = json_decode(file_get_contents("php://input"), true);
 
-        if ($requestData !== "[]") {
-            $membersString = str_replace(['"', '[', "]"], "", $requestData);
+        if (count($requestData) > 0) {
+            /* $membersString = str_replace(['"', '[', "]"], "", $requestData);
             $membersArray = explode(",", $membersString);
-            $sanitizedMembersArray = $this->validation->sanitizeArray($membersArray);
+            $sanitizedMembersArray = $this->validation->sanitizeArray($membersArray);*/
+            $sanitizedMembersArray = $this->validation->sanitizeArray($requestData);
 
             // validacija id-eva
             foreach ($sanitizedMembersArray as $id) {

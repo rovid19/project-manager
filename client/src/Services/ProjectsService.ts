@@ -24,6 +24,8 @@ export class ProjectsService extends BaseApi {
 
   async fetchUserProject(): Promise<ProjectData> {
     const result = await this.get();
+    console.log(JSON.parse(result.project.members));
+
     return result;
   }
 

@@ -15,17 +15,19 @@ export class ProjectPopupMemberView {
   popupElement: HTMLElement | null = null;
   allUsersArray: User[] = [];
   selectedMemberId: string = "";
-  members: string[] = [""];
+  members: string[];
   setProjectDataOnParentController: (projectData: ProjectData) => void =
     () => {};
   renderProjectMembers: () => void = () => {};
 
   constructor(
     popupElement: HTMLElement,
-    projectId: string,
-    members: string[],
-    setProjectDataOnParentController: (projectData: ProjectData) => void,
-    renderProjectMembers: () => void
+    projectId: string = "",
+    members: string[] = [],
+    setProjectDataOnParentController: (
+      projectData: ProjectData
+    ) => void = () => {},
+    renderProjectMembers: () => void = () => {}
   ) {
     this.popupElement = popupElement;
     this.projectId = projectId;
@@ -121,7 +123,9 @@ export class ProjectPopupMemberView {
   }
 
   async getAllUsers() {
+    console.log(typeof this.members);
     let apiCall = new ProjectsService("http://localhost:3000/get-all-users");
+
     const result = await apiCall.getAllUsers(this.members);
 
     (result as User[]).forEach((item) => this.allUsersArray.push(item));

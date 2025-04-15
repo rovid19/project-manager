@@ -1,31 +1,31 @@
 # Summary
 
-Date : 2025-03-25 17:20:13
+Date : 2025-04-15 19:26:57
 
 Directory /Users/rock/Documents/Projekti/project-manager/api
 
-Total : 22 files,  1067 codes, 442 comments, 300 blanks, all 1809 lines
+Total : 22 files,  1141 codes, 439 comments, 319 blanks, all 1899 lines
 
 Summary / [Details](details.md) / [Diff Summary](diff.md) / [Diff Details](diff-details.md)
 
 ## Languages
 | language | files | code | comment | blank | total |
 | :--- | ---: | ---: | ---: | ---: | ---: |
-| PHP | 19 | 1,028 | 442 | 297 | 1,767 |
+| PHP | 19 | 1,102 | 439 | 316 | 1,857 |
 | JSON | 3 | 39 | 0 | 3 | 42 |
 
 ## Directories
 | path | files | code | comment | blank | total |
 | :--- | ---: | ---: | ---: | ---: | ---: |
-| . | 22 | 1,067 | 442 | 300 | 1,809 |
+| . | 22 | 1,141 | 439 | 319 | 1,899 |
 | . (Files) | 2 | 34 | 0 | 2 | 36 |
 | public | 1 | 19 | 2 | 9 | 30 |
-| src | 9 | 414 | 56 | 143 | 613 |
-| src (Files) | 1 | 13 | 2 | 5 | 20 |
-| src/App | 3 | 225 | 25 | 85 | 335 |
-| src/App/Controllers | 3 | 225 | 25 | 85 | 335 |
+| src | 9 | 488 | 53 | 162 | 703 |
+| src (Files) | 1 | 15 | 2 | 7 | 24 |
+| src/App | 3 | 290 | 21 | 99 | 410 |
+| src/App/Controllers | 3 | 290 | 21 | 99 | 410 |
 | src/Config | 1 | 8 | 0 | 2 | 10 |
-| src/Framework | 3 | 151 | 19 | 43 | 213 |
+| src/Framework | 3 | 158 | 20 | 46 | 224 |
 | src/utils | 1 | 17 | 10 | 8 | 35 |
 | vendor | 10 | 600 | 384 | 146 | 1,130 |
 | vendor (Files) | 1 | 20 | 1 | 5 | 26 |

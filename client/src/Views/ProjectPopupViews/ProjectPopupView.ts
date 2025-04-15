@@ -1,11 +1,10 @@
-import { createElement } from "../../Utils/Helpers";
 import { MembersData, ProjectView } from "../App/ProjectView";
-import "../../Styles/ProjectPopup.css";
-import { closeModalBtn } from "../../Assets/Icons";
+import "../../Styles/SharedStylings/Popup.css";
 import { ProjectPopupTaskView } from "./ProjectPopupTaskView";
 import { ProjectPopupMemberView } from "./ProjectPopupMemberView";
 import { ProjectData } from "../../Store/UserStore";
 import { store } from "../../Store/Store";
+import { createPopupModal } from "../../Components/PopupModal";
 
 export class ProjectPopupView extends ProjectView {
   taskTitle: string = "";
@@ -41,38 +40,18 @@ export class ProjectPopupView extends ProjectView {
     this.membersData = membersData;
 
     this.createModal();
+    console.log(typeof this.members);
   }
 
   createModal() {
-    const currentState = store.getState();
-    const popupOverlay = createElement({
-      tag: "div",
-      className: "popup-overlay",
-    });
-
-    const popup = createElement({
-      tag: "div",
-      className: "project-popup",
-      children: [
-        createElement({
-          tag: "div",
-          className: "popup-close-div",
-          innerHTML: closeModalBtn,
-          onClick: () => {
-            this.closePopup();
-          },
-        }),
-        createElement({ tag: "div", className: "popup-main-div" }),
-      ],
-    });
+    const popup = createPopupModal(this.closePopup);
 
     if (this.popupState === "team") this.createMemberPopupController(popup);
     if (this.popupState === "member")
-      this.createMemberPopupController(popup.children[1]);
+      this.createMemberPopupController(popup.children[0]);
     if (this.popupState === "task") this.createTaskPopupController(popup);
 
-    currentState.mainDivApp.appendChild(popupOverlay);
-    popupOverlay.appendChild(popup);
+    store.getState().mainDivApp.appendChild(popup);
   }
 
   createMemberPopupController(popup: HTMLElement) {

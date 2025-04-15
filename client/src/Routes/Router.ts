@@ -37,10 +37,16 @@ export class Router {
     let isMatched = false;
     let isCorrectPath = false;
 
-    const path =
+    let path =
       uri.length > 0
         ? uri.toLowerCase()
         : window.location.pathname.slice(1).toLowerCase();
+    console.log(path);
+    // default to dashboard
+    if (!path) {
+      path = "dashboard";
+      history.pushState("", "", "/dashboard");
+    }
 
     store.setState({ activeLink: path.split("/").filter(Boolean)[0] });
     //console.log(path.split("/").filter(Boolean));
@@ -76,7 +82,7 @@ export class Router {
     }*/
 
     if (!isMatched) {
-      this.loadController("ErrorController", "createError");
+      this.loadController("ErrorView", "createError");
     }
   }
 

@@ -25,11 +25,10 @@ export const router = new Router([
   "/reports/ReportsView/createReports",
 ]);
 
-router.route();
-
 getUser().then(() => {
   createSidebar();
   createMainContent();
   store.subscribe(activeLink, "activeLink");
   userStore.subscribe(updateUserInfo, "username");
+  router.route();
 });
