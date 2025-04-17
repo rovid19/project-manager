@@ -40,7 +40,6 @@ export class ProjectPopupView extends ProjectView {
     this.membersData = membersData;
 
     this.createModal();
-    console.log(typeof this.members);
   }
 
   createModal() {
@@ -57,6 +56,7 @@ export class ProjectPopupView extends ProjectView {
   createMemberPopupController(popup: HTMLElement) {
     new ProjectPopupMemberView(
       popup,
+      "project",
       this.projectId,
       this.members,
       this.setProjectDataOnParentController,

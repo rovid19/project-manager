@@ -4,7 +4,18 @@ namespace Framework;
 
 class Validation
 {
+    public function isUserLoggedIn()
+    {
+        session_start();
+        if (isset($_SESSION['user-id'])) {
+            $userId = $_SESSION['user-id'];
 
+            return $userId;
+        } else {
+            echo json_encode("user isn't logged in");
+            exit();
+        }
+    }
     public function sanitizeString($inputString)
     {
 

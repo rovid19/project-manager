@@ -21,3 +21,8 @@ $router->put('/handle-remove-member', 'ProjectsController@handleRemoveMember');
 // tasks
 $router->post("/create-new-task", "TasksController@createNewTask");
 $router->put('/handle-remove-task', 'TasksController@handleRemoveTask');
+
+
+// teams
+$router->get("/get-all-user-teams", "TeamsController@getAllUserTeams");
+$router->post("/handle-create-team", "TeamsController@handleCreateTeam");

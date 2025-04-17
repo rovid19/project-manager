@@ -3,15 +3,44 @@ import { createElement } from "../../Utils/Helpers";
 import "../../Styles/Teams.css";
 import "../../Styles/SharedStylings/SectionHeader.css";
 import "../../Styles/SharedStylings/UpperInnerSection.css";
-import { TeamsPopupView } from "../TeamsPopupView/TeamsPopupView";
+import { TeamsPopupView } from "../TeamsExtraViews/TeamsPopupView";
+import { TeamsService } from "../../Services/TeamsService";
+
+export type Team = {
+  teamName: string;
+  teamDescription: string;
+  teamId: string;
+  isAdmin: boolean;
+};
 
 export class TeamsView {
   popupController: TeamsPopupView | null = null;
+  allTeamsLeader: Team[] = [];
+  allTeamsParticipant: Team[] = [];
+  teamLeaderContainer: HTMLElement | null = null;
+  teamParticipantContainer: HTMLElement | null = null;
   constructor() {}
   delete() {
     document.querySelector(".upper-section")?.remove();
   }
-  createTeams() {
+
+  fetchAllTeams = async () => {
+    this.allTeamsLeader = [];
+    this.allTeamsParticipant = [];
+
+    const result = await new TeamsService(
+      `http://localhost:3000/get-all-user-teams`
+    ).fetchAllTeams();
+
+    result.forEach((team) => {
+      if (team.isAdmin) this.allTeamsLeader.push(team);
+      else this.allTeamsParticipant.push(team);
+    });
+
+    console.log(result);
+  };
+  async createTeams() {
+    await this.fetchAllTeams();
     const teamsSection = createElement({
       tag: "div",
       className: "upper-section",
@@ -53,10 +82,6 @@ export class TeamsView {
                     createElement({
                       tag: "div",
                       className: "teams-grid",
-                      children: [
-                        this.createTeamCard("Development Team", 8, 3),
-                        this.createTeamCard("Design Squad", 5, 2),
-                      ],
                     }),
                   ],
                 }),
@@ -72,10 +97,6 @@ export class TeamsView {
                     createElement({
                       tag: "div",
                       className: "teams-grid",
-                      children: [
-                        this.createTeamCard("Frontend Team", 6, 4, true),
-                        this.createTeamCard("Backend Team", 7, 3, true),
-                      ],
                     }),
                   ],
                 }),
@@ -86,74 +107,100 @@ export class TeamsView {
       ],
     });
 
+    this.teamLeaderContainer = teamsSection.children[0].children[1]
+      .children[1] as HTMLElement;
+    this.teamParticipantContainer = teamsSection.children[0].children[1]
+      .children[0] as HTMLElement;
+
+    this.renderTeamCards();
+
     const currentState = store.getState();
     currentState.mainSection?.appendChild(teamsSection);
   }
 
-  private createTeamCard(
-    name: string,
-    members: number,
-    projects: number,
-    isLeader: boolean = false
-  ) {
-    return createElement({
-      tag: "div",
-      className: "team-card",
-      onClick: () => console.log(`Team ${name} clicked`),
-      children: [
-        createElement({
-          tag: "div",
-          className: "team-card-header",
-          children: [
-            createElement({
-              tag: "div",
-              className: "team-avatar",
-              children: [
-                createElement({
-                  tag: "span",
-                  text: name.charAt(0).toUpperCase(),
-                }),
-              ],
-            }),
-            createElement({
-              tag: "h4",
-              className: "team-name",
-              text: name,
-            }),
-          ],
-        }),
-        createElement({
-          tag: "div",
-          className: "team-info",
-          children: [
-            createElement({
-              tag: "span",
-              className: `team-role${isLeader ? "leader" : "member"}`,
-              text: isLeader ? "Team Leader" : "Team Member",
-            }),
-            createElement({
-              tag: "div",
-              className: "team-stats",
-              children: [
-                createElement({
-                  tag: "span",
-                  text: `${members} members`,
-                }),
-                createElement({
-                  tag: "span",
-                  text: `${projects} projects`,
-                }),
-              ],
-            }),
-          ],
-        }),
-      ],
+  deleteTeamCards = () => {
+    document.querySelectorAll(".team-card").forEach((card) => card.remove());
+  };
+
+  renderTeamCards = () => {
+    console.log("renderTeamCards");
+    this.createTeamCard(
+      this.allTeamsParticipant,
+      this.teamParticipantContainer as HTMLElement
+    );
+    this.createTeamCard(
+      this.allTeamsLeader,
+      this.teamLeaderContainer as HTMLElement
+    );
+
+    console.log(this.allTeamsLeader, this.teamLeaderContainer);
+  };
+
+  createTeamCard = (teamArray: Team[], parentElement: HTMLElement) => {
+    teamArray.forEach((team) => {
+      const mainElement = createElement({
+        tag: "div",
+        className: "team-card",
+        onClick: () => console.log(`Team ${team.teamName} clicked`),
+        children: [
+          createElement({
+            tag: "div",
+            className: "team-card-header",
+            children: [
+              createElement({
+                tag: "div",
+                className: "team-avatar",
+                children: [
+                  createElement({
+                    tag: "span",
+                    text: team.teamName.charAt(0).toUpperCase(),
+                  }),
+                ],
+              }),
+              createElement({
+                tag: "h4",
+                className: "team-name",
+                text: team.teamName,
+              }),
+            ],
+          }),
+          createElement({
+            tag: "div",
+            className: "team-info",
+            children: [
+              createElement({
+                tag: "span",
+                className: `team-role${team.isAdmin ? "leader" : "member"}`,
+                text: team.isAdmin ? "Team Leader" : "Team Member",
+              }),
+              createElement({
+                tag: "div",
+                className: "team-stats",
+                children: [
+                  createElement({
+                    tag: "span",
+                    text: `${2} members`,
+                  }),
+                  createElement({
+                    tag: "span",
+                    text: `${3} projects`,
+                  }),
+                ],
+              }),
+            ],
+          }),
+        ],
+      });
+
+      parentElement.appendChild(mainElement);
     });
-  }
+  };
 
   handleCreateTeamPopup() {
-    console.log("yp");
-    this.popupController = new TeamsPopupView();
+    this.popupController = new TeamsPopupView(
+      this.renderTeamCards,
+      this.fetchAllTeams
+    );
   }
 
   closePopup = () => {

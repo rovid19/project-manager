@@ -22,7 +22,6 @@ export class BaseApi {
   }
 
   async post(data: any) {
-    console.log(data);
     try {
       const response = await fetch(this.apiUrl, {
         method: "POST",

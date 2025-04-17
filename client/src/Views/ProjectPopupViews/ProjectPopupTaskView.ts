@@ -148,7 +148,6 @@ export class ProjectPopupTaskView {
         this.assignee = member.userId;
       }
     });
-    console.log(this.assignee);
   }
 
   private deleteTaskPopup() {

@@ -41,7 +41,7 @@ export class Router {
       uri.length > 0
         ? uri.toLowerCase()
         : window.location.pathname.slice(1).toLowerCase();
-    console.log(path);
+
     // default to dashboard
     if (!path) {
       path = "dashboard";

@@ -314,76 +314,75 @@ export class ProjectView {
     }
     // render tasks
     else {
-      console.log(this.projectTasks),
-        (this.projectTasks as Task[]).forEach((task) => {
-          const element = createElement({
-            tag: "div",
-            className: "project-task-card",
-            data: task.taskId,
-            children: [
-              createElement({
-                tag: "div",
-                className: "task-header",
-                children: [
-                  createElement({
-                    tag: "h3",
-                    className: "task-title",
-                    text: task.title,
-                  }),
-                  createElement({
-                    tag: "div",
-                    className: "remove-task-btn",
-                    innerHTML: removeMemberBtn,
-                    onClick: () => {
-                      this.removeTaskFromProject(task.taskId);
-                      this.cardDeleteAni(element);
-                    },
-                  }),
-                ],
-              }),
-              createElement({
-                tag: "div",
-                className: "task-info",
-                children: [
-                  createElement({
-                    tag: "div",
-                    className: "task-assignee",
-                    children: [
-                      createElement({
-                        tag: "span",
-                        className: "task-label",
-                        text: "Assigned to:",
-                      }),
-                      createElement({
-                        tag: "span",
-                        className: "task-assigned-user",
-                        text: task.username,
-                      }),
-                    ],
-                  }),
-                  createElement({
-                    tag: "div",
-                    className: "task-deadline",
-                    children: [
-                      createElement({
-                        tag: "span",
-                        className: "task-label",
-                        text: "Deadline:",
-                      }),
-                      createElement({
-                        tag: "span",
-                        className: "task-date",
-                        text: new Date(task.deadline).toLocaleDateString(),
-                      }),
-                    ],
-                  }),
-                ],
-              }),
-            ],
-          });
-
-          (this.taskContainer as HTMLElement).appendChild(element);
+      (this.projectTasks as Task[]).forEach((task) => {
+        const element = createElement({
+          tag: "div",
+          className: "project-task-card",
+          data: task.taskId,
+          children: [
+            createElement({
+              tag: "div",
+              className: "task-header",
+              children: [
+                createElement({
+                  tag: "h3",
+                  className: "task-title",
+                  text: task.title,
+                }),
+                createElement({
+                  tag: "div",
+                  className: "remove-task-btn",
+                  innerHTML: removeMemberBtn,
+                  onClick: () => {
+                    this.removeTaskFromProject(task.taskId);
+                    this.cardDeleteAni(element);
+                  },
+                }),
+              ],
+            }),
+            createElement({
+              tag: "div",
+              className: "task-info",
+              children: [
+                createElement({
+                  tag: "div",
+                  className: "task-assignee",
+                  children: [
+                    createElement({
+                      tag: "span",
+                      className: "task-label",
+                      text: "Assigned to:",
+                    }),
+                    createElement({
+                      tag: "span",
+                      className: "task-assigned-user",
+                      text: task.username,
+                    }),
+                  ],
+                }),
+                createElement({
+                  tag: "div",
+                  className: "task-deadline",
+                  children: [
+                    createElement({
+                      tag: "span",
+                      className: "task-label",
+                      text: "Deadline:",
+                    }),
+                    createElement({
+                      tag: "span",
+                      className: "task-date",
+                      text: new Date(task.deadline).toLocaleDateString(),
+                    }),
+                  ],
+                }),
+              ],
+            }),
+          ],
         });
+
+        (this.taskContainer as HTMLElement).appendChild(element);
+      });
     }
   };
 
@@ -418,8 +417,6 @@ export class ProjectView {
     this.members = JSON.parse(projectData.project.members);
     this.membersData = projectData.membersData;
     this.projectTasks = projectData.taskData;
-
-    console.log(typeof this.members);
   };
 
   updateProjectInfoInputFields() {
@@ -508,7 +505,6 @@ export class ProjectView {
       this.renderProjectTasks,
       this.membersData
     );
-    console.log(this.popupController);
   }
 
   closePopup = () => {

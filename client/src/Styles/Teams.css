@@ -159,21 +159,27 @@
 }
 
 .teams-box-member-teams {
+  display: flex;
+  flex-direction: column;
   flex: 1;
   background: white;
   border-radius: 16px;
   padding: 24px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
   border: 1px solid #e2e8f0;
+  gap: 8px;
 }
 
 .teams-box-leader-teams {
+  display: flex;
+  flex-direction: column;
   flex: 1;
   background: white;
   border-radius: 16px;
   padding: 24px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
   border: 1px solid #e2e8f0;
+  gap: 8px;
 }
 
 .teams-box-header {
