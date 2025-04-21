@@ -4,6 +4,7 @@ type Routes = {
   [key: string]: {
     controller: string;
     controllerMethod: string;
+    folder: string;
     [key: string]: Routes | string;
   };
 };
@@ -19,13 +20,23 @@ export class Router {
   registerRoutes(routes: string[]): void {
     routes.forEach((route: string) => {
       const routeArray = route.slice(1).split("/");
+      const routeFolder = routeArray
+        .filter((item) => item.startsWith("@"))
+        .map((item) => item.replace("@", "/"))
+        .join("");
+
+      const routeArrayWithoutFolder = routeArray.filter(
+        (item) => !item.startsWith("@")
+      );
 
       // postavaljanje path parama na existing route
-      if (routeArray.length > 3) this.registerPathParameter(routeArray);
+      if (routeArrayWithoutFolder.length > 3)
+        this.registerPathParameter(routeArrayWithoutFolder, routeFolder);
       else {
-        this.routes[routeArray[0]] = {
-          controller: routeArray[1],
-          controllerMethod: routeArray[2],
+        this.routes[routeArrayWithoutFolder[0]] = {
+          controller: routeArrayWithoutFolder[1],
+          controllerMethod: routeArrayWithoutFolder[2],
+          folder: routeFolder,
         };
       }
     });
@@ -35,7 +46,6 @@ export class Router {
     //projects/192321390 projects/:projectId
 
     let isMatched = false;
-    let isCorrectPath = false;
 
     let path =
       uri.length > 0
@@ -49,29 +59,42 @@ export class Router {
     }
 
     store.setState({ activeLink: path.split("/").filter(Boolean)[0] });
-    //console.log(path.split("/").filter(Boolean));
+
     for (const [key, route] of Object.entries(this.routes)) {
       const pathArray = path.split("/");
       const keyArray = key.split("/");
 
       if (keyArray.length > 1 && pathArray.length > 1) {
+        let booleanArray: boolean[] = [];
+
+        // foreach koji checka svaki item u keyarrayu ubacuje true or false u booleanarray na temelju kojeg kasnije znam jel je to taj path ili nije
         keyArray.forEach((item) => {
-          if (item.startsWith(":") || pathArray.find((key) => key === item))
-            isCorrectPath = true;
-          else isCorrectPath = false;
+          if (item.startsWith(":") || pathArray.includes(item))
+            booleanArray.push(true);
+          else booleanArray.push(false);
         });
 
-        if (isCorrectPath) {
-          this.loadController(route.controller, route.controllerMethod);
+        isMatched = booleanArray.every((item) => item === true);
+
+        if (isMatched) {
+          this.loadController(
+            route.controller,
+            route.controllerMethod,
+            route.folder
+          );
         }
 
-        return;
+        if (isMatched) break;
       } else {
         if (path === key) {
-          this.loadController(route.controller, route.controllerMethod);
+          this.loadController(
+            route.controller,
+            route.controllerMethod,
+            route.folder
+          );
 
           isMatched = true;
-          return;
+          if (isMatched) break;
         }
       }
     }
@@ -82,16 +105,20 @@ export class Router {
     }*/
 
     if (!isMatched) {
-      this.loadController("ErrorView", "createError");
+      this.loadController("ErrorView", "createError", "");
     }
   }
 
-  async loadController(controllerName: string, controllerMethod: string) {
+  async loadController(
+    controllerName: string,
+    controllerMethod: string,
+    folder: string
+  ) {
     // obrisi prethodni controller - stoream controller na klasi da ih konstantno brisem i da je samo jedan controller aktivan atm
     if (this.controller) this.removePreviousController();
 
     // import module klase, trenutno imam named export, ali moguce je i default loadat samo je malo drugaciji kod onda
-    const module = await import(`../Views/App/${controllerName}`);
+    const module = await import(`../Views${folder}/${controllerName}`);
 
     // tu je kod drugaciji ak loadam default onda mogu accessati ko objekt new module.default, a ko named export je na ovaj nacin
     this.controller = new module[controllerName]();
@@ -105,12 +132,13 @@ export class Router {
     this.controller = null;
   }
 
-  registerPathParameter(route: any) {
+  registerPathParameter(route: any, routeFolder: string) {
     const routeName = this.defineRouteName(route);
     const controllerArray = route.reverse().slice(0, 2).reverse();
     this.routes[routeName] = {
       controller: controllerArray[0],
       controllerMethod: controllerArray[1],
+      folder: routeFolder,
     };
   }
 

@@ -1,4 +1,4 @@
-import { MembersData, Task } from "../Views/App/ProjectView";
+import { MembersData, Task } from "../Types/ProjectsTypes";
 import { Store } from "./Store";
 
 export type UserStoreType = {

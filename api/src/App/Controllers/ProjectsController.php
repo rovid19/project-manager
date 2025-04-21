@@ -110,6 +110,8 @@ class ProjectsController
             "projectId" => $this->projectId['projectId']
         ]);
 
+
+
         // trazenje tog projekta jer UPDATE query ne returna nis
         $project = $this->db->query("SELECT * FROM project WHERE projectId = :projectId", [
             "projectId" => $this->projectId['projectId']
@@ -121,6 +123,8 @@ class ProjectsController
     public function handleDeleteProject()
     {
         $projectId = $this->projectId['projectId'];
+
+        inspect($projectId);
 
         $this->db->query("DELETE FROM project WHERE projectId = :projectId", [
             "projectId" => $projectId

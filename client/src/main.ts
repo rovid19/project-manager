@@ -11,18 +11,22 @@ import "./Styles/Root.css";
 import { getUser } from "./Utils/Helpers";
 
 export const router = new Router([
-  "/dashboard/DashboardView/createDashboard",
-  "/projects/ProjectsView/createProjects",
-  "/projects/:projectId/ProjectView/createProject",
-  "/tasks/TasksView/createTasks",
-  "/teams/TeamsView/createTeams",
-  "/reports/ReportsView/createReports",
-  "/login/AuthView/createAuth",
-  "/register/AuthView/createAuth",
+  // auth
+  "/login/AuthView/createAuth/@Auth",
+  "/register/AuthView/createAuth/@Auth",
+  // dashboard
+  "/dashboard/DashboardView/createDashboard/@Dashboard",
+  // projects
+  "/projects/ProjectsView/renderProjectsPage/@Projects/@ProjectsPage",
+  "/projects/:projectId/ProjectView/renderProjectPage/@Projects/@ProjectPage",
   "/projects/:projectId/tasks/:taskId/ProjectsView/createSingleProjectPage",
-  "/teams/TeamsView/createTeams",
-  "/tasks/TasksView/createTasks",
-  "/reports/ReportsView/createReports",
+  // tasks
+  "/tasks/TasksView/createTasks/@Tasks",
+  // teams
+  "/teams/TeamsView/renderTeams/@Teams/@TeamsPage",
+  "/teams/:teamId/TeamView/renderTeam/@Teams/@TeamPage",
+  // reports
+  "/reports/ReportsView/createReports/@Reports",
 ]);
 
 getUser().then(() => {

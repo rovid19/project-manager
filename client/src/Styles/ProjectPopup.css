@@ -1,7 +1,7 @@
 .task-popup-form {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 8px;
 }
 
 .task-popup-title {

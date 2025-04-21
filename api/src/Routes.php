@@ -11,7 +11,7 @@ $router->post("/create-new-project", "ProjectsController@createNewProject");
 $router->get("/get-all-user-projects", "ProjectsController@getAllUserProjects");
 $router->get("/get-project/{projectId}", "ProjectsController@getUserProject");
 $router->put("/handle-project-submissions/{projectId}", "ProjectsController@handleProjectSubmission");
-$router->delete("/handle-delete-project", "ProjectsController@handleDeleteProject");
+$router->delete("/handle-delete-project/{projectId}", "ProjectsController@handleDeleteProject");
 $router->post('/get-all-users', 'ProjectsController@getAllUsers');
 $router->put('/handle-add-member-to-project', 'ProjectsController@handleAddMember');
 $router->put('/handle-remove-member', 'ProjectsController@handleRemoveMember');
@@ -26,3 +26,4 @@ $router->put('/handle-remove-task', 'TasksController@handleRemoveTask');
 // teams
 $router->get("/get-all-user-teams", "TeamsController@getAllUserTeams");
 $router->post("/handle-create-team", "TeamsController@handleCreateTeam");
+$router->get("/fetch-all-team-members/{teamId}", "TeamsController@fetchAllTeamMembers");

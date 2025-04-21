@@ -10,10 +10,12 @@ class TeamsController
 {
     private $db;
     private $validation;
-    public function __construct($db)
+    private $teamId;
+    public function __construct($db, $teamId = "")
     {
         $this->db = $db;
         $this->validation = new Validation();
+        $this->teamId = $teamId;
     }
 
 
@@ -74,6 +76,27 @@ class TeamsController
             http_response_code(400);
             echo json_encode("teamName or selectedMembers werent set properly");
             exit();
+        }
+    }
+
+    public function fetchAllTeamMembers()
+    {
+        if (!empty($this->teamId)) {
+            $teamId = $this->validation->sanitizeString($this->teamId);
+
+            $teamMembers = $this->db->query("
+            SELECT ut.,
+            ut.isAdmin
+            u.username,
+            u.email,
+            u.userId
+            FROM user_teams AS ut
+            JOIN users AS u 
+            ON ut.userId = u.userId
+            WHERE ut.teamId = :teamId
+            ", ["teamId" => $teamId], "return");
+
+            echo json_encode($teamMembers);
         }
     }
 }

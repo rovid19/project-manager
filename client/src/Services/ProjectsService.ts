@@ -20,11 +20,12 @@ export class ProjectsService extends BaseApi {
     });
 
     userStore.setState({ projects: projectArray });
+
+    return projectArray;
   }
 
   async fetchUserProject(): Promise<ProjectData> {
     const result = await this.get();
-    console.log(JSON.parse(result.project.members));
 
     return result;
   }
@@ -33,7 +34,9 @@ export class ProjectsService extends BaseApi {
     title: string;
     description: string;
   }): Promise<any> {
+    console.log(projectData);
     const result = await this.put(projectData);
+    console.log(result);
     return result;
   }
 
