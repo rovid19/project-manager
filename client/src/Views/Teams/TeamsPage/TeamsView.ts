@@ -135,7 +135,7 @@ export class TeamsView {
                 children: [
                   createElement({
                     tag: "span",
-                    text: team.teamName.charAt(0).toUpperCase(),
+                    text: (team.teamName as string).charAt(0).toUpperCase(),
                   }),
                 ],
               }),
@@ -198,7 +198,7 @@ export class TeamsView {
 
     const result = await new TeamsService(
       `http://localhost:3000/get-all-user-teams`
-    ).fetchAllTeams();
+    ).getAllTeams();
 
     result.forEach((team) => {
       if (team.isAdmin) this.allTeamsLeader.push(team);

@@ -27,3 +27,5 @@ $router->put('/handle-remove-task', 'TasksController@handleRemoveTask');
 $router->get("/get-all-user-teams", "TeamsController@getAllUserTeams");
 $router->post("/handle-create-team", "TeamsController@handleCreateTeam");
 $router->get("/fetch-all-team-members/{teamId}", "TeamsController@fetchAllTeamMembers");
+$router->get("/fetch-specific-team/{teamId}", "TeamsController@fetchSpecificTeam");
+$router->put("/team/{teamId}", "TeamsController@saveTeamDetails");

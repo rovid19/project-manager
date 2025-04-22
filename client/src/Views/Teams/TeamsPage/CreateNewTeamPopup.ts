@@ -168,7 +168,7 @@ export class CreateNewTeamPopup extends TeamsView {
 
     await new TeamsService(
       "http://localhost:3000/handle-create-team"
-    ).handleCreateTeam({
+    ).createTeam({
       teamName: this.teamName,
       teamDescription: this.teamDescription,
       selectedMembers: this.selectedMembers,

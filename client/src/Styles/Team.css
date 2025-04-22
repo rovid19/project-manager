@@ -1,17 +1,17 @@
 .delete-team-btn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 0.8rem 1.5rem;
+  background-color: #ff4757;
   color: white;
-  padding: 10px 20px;
-  border-radius: 8px;
   border: none;
-  font-size: 14px;
+  border-radius: 6px;
+  font-size: 0.9rem;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s;
 }
 
 .delete-team-btn:hover {
+  background-color: #ff6b81;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
 }
 
 .team-management-container {

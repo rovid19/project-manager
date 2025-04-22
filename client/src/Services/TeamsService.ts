@@ -9,11 +9,24 @@ export type TeamData = {
 };
 
 export class TeamsService extends BaseApi {
-  async handleCreateTeam(teamData: TeamData) {
+  async createTeam(teamData: TeamData) {
     await this.post(teamData);
   }
 
-  async fetchAllTeams() {
+  async getAllTeams() {
     return (await this.get()) as Team[];
+  }
+
+  async updateTeamDetails(team: Team) {
+    console.log(team);
+    await this.put(team);
+  }
+
+  async getAllTeamMembers() {
+    return await this.get();
+  }
+
+  async getTeam() {
+    return await this.get();
   }
 }

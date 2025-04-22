@@ -99,4 +99,48 @@ class TeamsController
             echo json_encode($teamMembers);
         }
     }
+
+    public function fetchSpecificTeam()
+    {
+        if (!empty($this->teamId["teamId"])) {
+            $teamId = $this->validation->sanitizeString($this->teamId["teamId"]);
+
+            $team = $this->db->query("SELECT * FROM teams WHERE teamId = :teamId", ["teamId" => $teamId], "return");
+
+            echo json_encode($team);
+        } else {
+            echo json_encode("teeamId is missing");
+            exit();
+        }
+    }
+
+    public function fetchAllTeamProjects($teamId) {}
+
+
+    public function saveTeamDetails()
+    {
+        $requestData = json_decode(file_get_contents("php://input"), true);
+
+        if (!empty($requestData["teamName"]) || !empty($requestData["teamDescription"])) {
+            $teamName = $this->validation->sanitizeString(($requestData["teamName"]));
+            $teamDescription = $this->validation->sanitizeString($requestData["teamDescription"]);
+            $teamId = $this->validation->sanitizeString($this->teamId["teamId"]);
+
+            $this->db->query(
+                "UPDATE teams 
+                SET teamName = :teamName, 
+                teamDescription = :teamDescription 
+                WHERE teamId = :teamId",
+                [
+                    "teamName" => $teamName,
+                    "teamDescription" => $teamDescription,
+                    "teamId" => $teamId
+                ]
+            );
+
+            echo json_encode(["message" => "successfully updated"]);
+        } else {
+            echo json_encode("you have to edit atleast one of the fields to save new team details");
+        }
+    }
 }
