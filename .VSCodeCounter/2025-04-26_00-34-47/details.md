@@ -1,10 +1,10 @@
 # Details
 
-Date : 2025-04-09 00:02:12
+Date : 2025-04-26 00:34:47
 
 Directory /Users/rock/Documents/Projekti/project-manager/api
 
-Total : 22 files,  1129 codes, 444 comments, 319 blanks, all 1892 lines
+Total : 23 files,  1283 codes, 444 comments, 359 blanks, all 2086 lines
 
 [Summary](results.md) / Details / [Diff Summary](diff.md) / [Diff Details](diff-details.md)
 
@@ -15,13 +15,14 @@ Total : 22 files,  1129 codes, 444 comments, 319 blanks, all 1892 lines
 | [api/composer.lock](/api/composer.lock) | JSON | 18 | 0 | 1 | 19 |
 | [api/public/Index.php](/api/public/Index.php) | PHP | 19 | 2 | 9 | 30 |
 | [api/src/App/Controllers/AuthController.php](/api/src/App/Controllers/AuthController.php) | PHP | 73 | 5 | 35 | 113 |
-| [api/src/App/Controllers/ProjectsController.php](/api/src/App/Controllers/ProjectsController.php) | PHP | 146 | 14 | 49 | 209 |
-| [api/src/App/Controllers/TasksController.php](/api/src/App/Controllers/TasksController.php) | PHP | 60 | 7 | 16 | 83 |
+| [api/src/App/Controllers/ProjectsController.php](/api/src/App/Controllers/ProjectsController.php) | PHP | 157 | 18 | 55 | 230 |
+| [api/src/App/Controllers/TasksController.php](/api/src/App/Controllers/TasksController.php) | PHP | 58 | 2 | 14 | 74 |
+| [api/src/App/Controllers/TeamsController.php](/api/src/App/Controllers/TeamsController.php) | PHP | 127 | 0 | 33 | 160 |
 | [api/src/Config/db.php](/api/src/Config/db.php) | PHP | 8 | 0 | 2 | 10 |
 | [api/src/Framework/Database.php](/api/src/Framework/Database.php) | PHP | 39 | 12 | 12 | 63 |
 | [api/src/Framework/Router.php](/api/src/Framework/Router.php) | PHP | 91 | 2 | 25 | 118 |
-| [api/src/Framework/Validation.php](/api/src/Framework/Validation.php) | PHP | 28 | 6 | 9 | 43 |
-| [api/src/Routes.php](/api/src/Routes.php) | PHP | 14 | 2 | 6 | 22 |
+| [api/src/Framework/Validation.php](/api/src/Framework/Validation.php) | PHP | 39 | 6 | 9 | 54 |
+| [api/src/Routes.php](/api/src/Routes.php) | PHP | 21 | 3 | 9 | 33 |
 | [api/src/utils/Helpers.php](/api/src/utils/Helpers.php) | PHP | 17 | 10 | 8 | 35 |
 | [api/vendor/autoload.php](/api/vendor/autoload.php) | PHP | 20 | 1 | 5 | 26 |
 | [api/vendor/composer/ClassLoader.php](/api/vendor/composer/ClassLoader.php) | PHP | 286 | 235 | 59 | 580 |

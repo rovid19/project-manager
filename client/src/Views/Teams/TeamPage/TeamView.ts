@@ -1,12 +1,13 @@
 import { createElement } from "../../../Utils/Helpers";
 import "../../../Styles/SharedStylings/UpperInnerSection.css";
 import "../../../Styles/SharedStylings/SectionHeader.css";
-import "../../../Styles/Team.css";
+import "../../../Styles/Views/Teams/Team/Team.css";
 import { store } from "../../../Store/Store";
 import { TeamMember } from "../../../Types/TeamsTypes";
 import type { TeamSettingsManager } from "./TeamSettingsManager";
 import type { TeamMembersManager } from "./TeamMembersManager";
 import { TeamsService } from "../../../Services/TeamsService";
+import { router } from "../../../main";
 
 export class TeamView {
   teamMembers: TeamMember[] = [];
@@ -46,7 +47,7 @@ export class TeamView {
                   tag: "button",
                   className: "delete-team-btn",
                   text: "Delete",
-                  // onClick: () => this.handleCreateTeamPopup(),
+                  onClick: () => this.submitDeleteProject(),
                 }),
               ],
             }),
@@ -79,7 +80,8 @@ export class TeamView {
     this.teamMembersManager = new TeamMembersManager(
       this.innerSection as HTMLElement,
       this.handleManagerClassReset,
-      this.teamId
+      this.teamId,
+      this.teamMembers
     );
   }
 
@@ -105,18 +107,26 @@ export class TeamView {
     // Implement API call to remove member
   }
 
-  private openAddMembersPopup() {
-    console.log("Opening add members popup");
-    // Implement popup to add members
+  async submitDeleteProject() {
+    await new TeamsService(
+      `http://localhost:3000/team/${this.teamId}/delete`
+    ).deleteTeam();
+    history.pushState("", "", "/teams");
+    router.route("teams");
   }
 
   handleGetTeamIdFromUrl() {
     this.teamId = window.location.pathname.split("/")[2];
   }
 
-  handleSetTeamDetails(teamName: string, teamDescription: string) {
+  handleSetTeamDetails(
+    teamName: string,
+    teamDescription: string,
+    teamMembers: TeamMember[]
+  ) {
     this.teamName = teamName;
     this.teamDescription = teamDescription;
+    this.teamMembers = teamMembers;
   }
 
   handleSetTeamNameInHeaderSection() {
@@ -125,11 +135,17 @@ export class TeamView {
   }
 
   async fetchTeam() {
-    const team = await new TeamsService(
+    const teamData = await new TeamsService(
       `http://localhost:3000/fetch-specific-team/${this.teamId}`
     ).getTeam();
 
-    this.handleSetTeamDetails(team[0].teamName, team[0].teamDescription);
+    this.handleSetTeamDetails(
+      teamData.team[0].teamName,
+      teamData.team[0].teamDescription,
+      teamData.teamMembers
+    );
+
+    console.log(this.teamMembers);
     this.handleSetTeamNameInHeaderSection();
   }
 

@@ -1,4 +1,4 @@
-import "../../../Styles/Projects.css";
+import "../../../Styles/Views/Projects/Projects.css";
 import "../../../Styles/SharedStylings/SectionHeader.css";
 import "../../../Styles/SharedStylings/Popup.css";
 import "../../../Styles/SharedStylings/UpperInnerSection.css";

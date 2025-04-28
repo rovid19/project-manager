@@ -79,14 +79,14 @@ class TeamsController
         }
     }
 
-    public function fetchAllTeamMembers()
+    public function fetchAllTeamMembers($returnCondition = "")
     {
         if (!empty($this->teamId)) {
-            $teamId = $this->validation->sanitizeString($this->teamId);
+            $teamId = $this->validation->sanitizeString($this->teamId['teamId']);
 
             $teamMembers = $this->db->query("
-            SELECT ut.,
-            ut.isAdmin
+            SELECT
+            ut.isAdmin,
             u.username,
             u.email,
             u.userId
@@ -96,7 +96,11 @@ class TeamsController
             WHERE ut.teamId = :teamId
             ", ["teamId" => $teamId], "return");
 
-            echo json_encode($teamMembers);
+            if ($returnCondition === "return") {
+                return $teamMembers;
+            } else {
+                echo json_encode($teamMembers);
+            }
         }
     }
 
@@ -106,8 +110,9 @@ class TeamsController
             $teamId = $this->validation->sanitizeString($this->teamId["teamId"]);
 
             $team = $this->db->query("SELECT * FROM teams WHERE teamId = :teamId", ["teamId" => $teamId], "return");
+            $teamMembers = $this->fetchAllTeamMembers("return");
 
-            echo json_encode($team);
+            echo json_encode(["team" => $team, "teamMembers" => $teamMembers]);
         } else {
             echo json_encode("teeamId is missing");
             exit();
@@ -141,6 +146,39 @@ class TeamsController
             echo json_encode(["message" => "successfully updated"]);
         } else {
             echo json_encode("you have to edit atleast one of the fields to save new team details");
+        }
+    }
+
+    public function deleteTeam()
+    {
+        if (!empty($this->teamId["teamId"])) {
+            $teamId = $this->validation->sanitizeString(($this->teamId["teamId"]));
+
+            $this->db->query("DELETE FROM teams WHERE teamId = :teamId", ["teamId" => $teamId]);
+
+            echo json_encode(["message" => "team successfully deleted"]);
+        } else {
+            echo json_encode(["message" => "teamId is missing"]);
+        }
+    }
+
+    public function addTeamMember()
+    {
+        $requestData = json_decode(file_get_contents("php://input"), true);
+
+        if (!empty($requestData["selectedMember"] && !empty($this->teamId['teamId']))) {
+            $teamId = $this->validation->sanitizeString($this->teamId['teamId']);
+            $userId = $this->validation->sanitizeString($requestData["selectedMember"]);
+            $userTeamId = uniqid("", true);
+
+            $this->db->query("INSERT INTO user_teams (userTeamsId, teamId, userId, isAdmin) VALUES (:userTeamsId, :teamId, :userId, :isAdmin)", [
+                "userTeamsId" => $userTeamId,
+                "teamId" => $teamId,
+                "userId" => $userId,
+                "isAdmin" => 0
+            ]);
+
+            echo json_encode(["message" => "team member added successfully!"]);
         }
     }
 }

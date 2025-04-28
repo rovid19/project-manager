@@ -69,17 +69,16 @@ export class ProjectViewMemberManager extends ProjectView {
 
     this.projectContainerElement?.appendChild(projectMemberDiv);
     this.projectMemberDiv = projectMemberDiv;
-    this.renderProjectMember();
+    this.renderProjectMembers();
   }
-  renderProjectMember = () => {
-    console.log("ran");
+  renderProjectMembers = () => {
     // rerender members
     if (document.querySelector(".project-member")) {
       const allMembers = document.querySelectorAll(".project-member");
       allMembers.forEach((member) => {
         member.remove();
       });
-      this.renderProjectMember();
+      this.renderProjectMembers();
     }
     // render members
     else {
@@ -145,7 +144,7 @@ export class ProjectViewMemberManager extends ProjectView {
                       this.removeProjectMemberId = memberElement.dataset
                         .projectId as string;
                     }
-                    this.handleRemoveMemberFromProject();
+                    this.removeMemberFromProject();
                     this.cardDeleteAni(element);
                   },
                 }),
@@ -160,7 +159,7 @@ export class ProjectViewMemberManager extends ProjectView {
   };
 
   //API CALLS------------------------------------------------------
-  async handleRemoveMemberFromProject() {
+  async removeMemberFromProject() {
     await new ProjectsService(
       "http://localhost:3000/handle-remove-member"
     ).removeMemberFromProject(this.projectId, this.removeProjectMemberId);

@@ -1,7 +1,6 @@
 import { createElement } from "../../Utils/Helpers";
-import "../../Styles/Login.css";
+import "../../Styles/Views/Auth/Login.css";
 import { router } from "../../main";
-
 import { store } from "../../Store/Store";
 import { AuthService } from "../../Services/AuthService";
 import { userStore } from "../../Store/UserStore";

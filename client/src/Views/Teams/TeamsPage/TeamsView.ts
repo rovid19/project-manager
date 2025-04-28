@@ -1,6 +1,6 @@
 import { store } from "../../../Store/Store";
 import { createElement } from "../../../Utils/Helpers";
-import "../../../Styles/Teams.css";
+import "../../../Styles/Views/Teams/Teams.css";
 import "../../../Styles/SharedStylings/SectionHeader.css";
 import "../../../Styles/SharedStylings/UpperInnerSection.css";
 import { CreateNewTeamPopup } from "./CreateNewTeamPopup";

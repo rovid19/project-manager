@@ -1,12 +1,12 @@
-Date : 2025-04-09 00:02:12
+Date : 2025-04-26 00:34:47
 Directory : /Users/rock/Documents/Projekti/project-manager/api
-Total : 22 files,  1129 codes, 444 comments, 319 blanks, all 1892 lines
+Total : 23 files,  1283 codes, 444 comments, 359 blanks, all 2086 lines
 
 Languages
 +----------+------------+------------+------------+------------+------------+
 | language | files      | code       | comment    | blank      | total      |
 +----------+------------+------------+------------+------------+------------+
-| PHP      |         19 |      1,090 |        444 |        316 |      1,850 |
+| PHP      |         20 |      1,244 |        444 |        356 |      2,044 |
 | JSON     |          3 |         39 |          0 |          3 |         42 |
 +----------+------------+------------+------------+------------+------------+
 
@@ -14,15 +14,15 @@ Directories
 +-----------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
 | path                                                                                          | files      | code       | comment    | blank      | total      |
 +-----------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
-| .                                                                                             |         22 |      1,129 |        444 |        319 |      1,892 |
+| .                                                                                             |         23 |      1,283 |        444 |        359 |      2,086 |
 | . (Files)                                                                                     |          2 |         34 |          0 |          2 |         36 |
 | public                                                                                        |          1 |         19 |          2 |          9 |         30 |
-| src                                                                                           |          9 |        476 |         58 |        162 |        696 |
-| src (Files)                                                                                   |          1 |         14 |          2 |          6 |         22 |
-| src/App                                                                                       |          3 |        279 |         26 |        100 |        405 |
-| src/App/Controllers                                                                           |          3 |        279 |         26 |        100 |        405 |
+| src                                                                                           |         10 |        630 |         58 |        202 |        890 |
+| src (Files)                                                                                   |          1 |         21 |          3 |          9 |         33 |
+| src/App                                                                                       |          4 |        415 |         25 |        137 |        577 |
+| src/App/Controllers                                                                           |          4 |        415 |         25 |        137 |        577 |
 | src/Config                                                                                    |          1 |          8 |          0 |          2 |         10 |
-| src/Framework                                                                                 |          3 |        158 |         20 |         46 |        224 |
+| src/Framework                                                                                 |          3 |        169 |         20 |         46 |        235 |
 | src/utils                                                                                     |          1 |         17 |         10 |          8 |         35 |
 | vendor                                                                                        |         10 |        600 |        384 |        146 |      1,130 |
 | vendor (Files)                                                                                |          1 |         20 |          1 |          5 |         26 |
@@ -37,13 +37,14 @@ Files
 | /Users/rock/Documents/Projekti/project-manager/api/composer.lock                              | JSON     |         18 |          0 |          1 |         19 |
 | /Users/rock/Documents/Projekti/project-manager/api/public/Index.php                           | PHP      |         19 |          2 |          9 |         30 |
 | /Users/rock/Documents/Projekti/project-manager/api/src/App/Controllers/AuthController.php     | PHP      |         73 |          5 |         35 |        113 |
-| /Users/rock/Documents/Projekti/project-manager/api/src/App/Controllers/ProjectsController.php | PHP      |        146 |         14 |         49 |        209 |
-| /Users/rock/Documents/Projekti/project-manager/api/src/App/Controllers/TasksController.php    | PHP      |         60 |          7 |         16 |         83 |
+| /Users/rock/Documents/Projekti/project-manager/api/src/App/Controllers/ProjectsController.php | PHP      |        157 |         18 |         55 |        230 |
+| /Users/rock/Documents/Projekti/project-manager/api/src/App/Controllers/TasksController.php    | PHP      |         58 |          2 |         14 |         74 |
+| /Users/rock/Documents/Projekti/project-manager/api/src/App/Controllers/TeamsController.php    | PHP      |        127 |          0 |         33 |        160 |
 | /Users/rock/Documents/Projekti/project-manager/api/src/Config/db.php                          | PHP      |          8 |          0 |          2 |         10 |
 | /Users/rock/Documents/Projekti/project-manager/api/src/Framework/Database.php                 | PHP      |         39 |         12 |         12 |         63 |
 | /Users/rock/Documents/Projekti/project-manager/api/src/Framework/Router.php                   | PHP      |         91 |          2 |         25 |        118 |
-| /Users/rock/Documents/Projekti/project-manager/api/src/Framework/Validation.php               | PHP      |         28 |          6 |          9 |         43 |
-| /Users/rock/Documents/Projekti/project-manager/api/src/Routes.php                             | PHP      |         14 |          2 |          6 |         22 |
+| /Users/rock/Documents/Projekti/project-manager/api/src/Framework/Validation.php               | PHP      |         39 |          6 |          9 |         54 |
+| /Users/rock/Documents/Projekti/project-manager/api/src/Routes.php                             | PHP      |         21 |          3 |          9 |         33 |
 | /Users/rock/Documents/Projekti/project-manager/api/src/utils/Helpers.php                      | PHP      |         17 |         10 |          8 |         35 |
 | /Users/rock/Documents/Projekti/project-manager/api/vendor/autoload.php                        | PHP      |         20 |          1 |          5 |         26 |
 | /Users/rock/Documents/Projekti/project-manager/api/vendor/composer/ClassLoader.php            | PHP      |        286 |        235 |         59 |        580 |
@@ -55,5 +56,5 @@ Files
 | /Users/rock/Documents/Projekti/project-manager/api/vendor/composer/autoload_static.php        | PHP      |         36 |          1 |          8 |         45 |
 | /Users/rock/Documents/Projekti/project-manager/api/vendor/composer/installed.json             | JSON     |          5 |          0 |          1 |          6 |
 | /Users/rock/Documents/Projekti/project-manager/api/vendor/composer/installed.php              | PHP      |         23 |          0 |          1 |         24 |
-| Total                                                                                         |          |      1,129 |        444 |        319 |      1,892 |
+| Total                                                                                         |          |      1,283 |        444 |        359 |      2,086 |
 +-----------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+

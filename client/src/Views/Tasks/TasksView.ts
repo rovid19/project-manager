@@ -1,5 +1,5 @@
 import { createElement } from "../../Utils/Helpers";
-import "../../Styles/Tasks.css";
+import "../../Styles/Views/Tasks/Tasks.css";
 import "../../Styles/SharedStylings/SectionHeader.css";
 import "../../Styles/SharedStylings/UpperInnerSection.css";
 

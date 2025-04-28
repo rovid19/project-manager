@@ -1,19 +1,27 @@
+import { TeamMember } from "../../../Types/TeamsTypes.ts";
 import { createElement } from "../../../Utils/Helpers";
+import { AddMemberContainer } from "../../ReusableComponents/AddMember/AddMemberContainer.ts";
 import { TeamView } from "./TeamView";
 
 export class TeamMembersManager extends TeamView {
+  membersDiv: HTMLElement | null = null;
+  addMemberPopup: AddMemberContainer | null = null;
   handleManagerClassReset: () => Promise<void>;
 
   constructor(
     innerSection: HTMLElement,
     handleManagerClassReset: () => Promise<void>,
-    teamId: string
+    teamId: string,
+    teamMembers: TeamMember[]
   ) {
     super();
     this.innerSection = innerSection;
+    this.teamId = teamId;
+    this.teamMembers = teamMembers;
     this.renderTeamMembersSection();
     this.handleManagerClassReset = handleManagerClassReset;
-    this.teamId = teamId;
+
+    console.log(this.teamId);
   }
 
   //UI RENDER------------------------------------------------------
@@ -47,10 +55,14 @@ export class TeamMembersManager extends TeamView {
       ],
     });
 
+    this.membersDiv = teamMembersSection.children[1];
+    console.log(this.membersDiv);
     this.innerSection?.appendChild(teamMembersSection);
+    this.renderAddMembersComponent();
   }
 
   private renderTeamMembers() {
+    console.log(this.teamMembers);
     if (this.teamMembers.length === 0) {
       return [
         createElement({
@@ -115,6 +127,23 @@ export class TeamMembersManager extends TeamView {
   }
 
   //CORE LOGIC-----------------------------------------------------
+
+  renderAddMembersComponent() {
+    console.log(this.teamId);
+    this.addMemberPopup = new AddMemberContainer(
+      this.membersDiv as HTMLElement,
+      this.teamId,
+      "team",
+      "",
+      [],
+      () => {},
+      () => {},
+      () => {},
+      () => {}
+    );
+  }
+
+  handleClassReset() {}
 
   //API CALLS------------------------------------------------------
 

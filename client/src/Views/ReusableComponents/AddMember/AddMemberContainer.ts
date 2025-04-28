@@ -1,48 +1,47 @@
-import { createElement } from "../../../../Utils/Helpers";
-import "../../../../Styles/ProjectMemberPopup.css";
-import { ProjectsService } from "../../../../Services/ProjectsService";
-import { MembersData, User } from "../../../../Types/ProjectsTypes";
+import { createElement } from "../../../Utils/Helpers";
+import "../../../Styles/Views/Projects/Project/ProjectMemberPopup.css";
+import { ProjectsService } from "../../../Services/ProjectsService";
+import { MembersData, User } from "../../../Types/ProjectsTypes";
+import { SelectedMember } from "../../Teams/TeamsPage/CreateNewTeamPopup";
 
-export class ProjectViewMemberPopup {
+export class AddMemberContainer {
   projectId: string = "";
-  popupElement: HTMLElement | null = null;
+  teamId: string = "";
+  popupElement: HTMLElement;
   allUsersArray: User[] = [];
   selectedMemberId: string = "";
   members: string[];
   view: string = "project";
-  setProjectDataOnParentController: (newMembers: MembersData[]) => void =
-    () => {};
-  renderProjectMembers: () => void = () => {};
-  handleSelectMember: (e: Event) => void;
-  setAllMembers: (userArray: User[]) => void = () => {};
-  handleManagerClassReset: () => void = () => {};
+  setProjectDataOnParentController: (newMembers: MembersData[]) => void;
+  handleManagerClassReset: () => void;
+  setSelectedMembers: (selectedMembers: SelectedMember[]) => void;
+  closePopup: () => void;
 
   constructor(
     popupElement: HTMLElement,
+    teamId: string,
     view: string,
     projectId: string = "",
     members: string[] = [],
-    setProjectDataOnParentController: (
-      newMembers: MembersData[]
-    ) => void = () => {},
-    renderProjectMembers: () => void = () => {},
-    handleSelectMember: (e: Event) => void = () => {},
-    setAllMembers: (userArray: User[]) => void = () => {},
-    handleManagerClassReset: () => void
+    setProjectDataOnParentController: (newMembers: MembersData[]) => void,
+    handleManagerClassReset: () => void,
+    setSelectedMembers: (selectedMembers: SelectedMember[]) => void,
+    closePopup: () => void
   ) {
     this.popupElement = popupElement;
+    this.teamId = teamId;
     this.view = view;
     this.projectId = projectId;
     this.members = members;
     this.setProjectDataOnParentController = setProjectDataOnParentController;
-    this.renderProjectMembers = renderProjectMembers;
-    this.createMemberPopup(this.popupElement);
-    this.handleSelectMember = handleSelectMember;
-    this.setAllMembers = setAllMembers;
     this.handleManagerClassReset = handleManagerClassReset;
+    this.setSelectedMembers = setSelectedMembers;
+    this.closePopup = closePopup;
+    this.setupMemberPopupClass();
   }
 
-  async createMemberPopup(popupMainDiv: Element) {
+  //UI RENDER------------------------------------------------------
+  async renderMemebersContainer() {
     await this.getAllUsers();
 
     const memberContainer = createElement({
@@ -64,8 +63,6 @@ export class ProjectViewMemberPopup {
               data: user.userId,
               onClick: (e: Event) => {
                 e.preventDefault();
-                if (this.view === "project") this.handleAddMember(e);
-                else this.handleSelectMember(e);
               },
               children: [
                 createElement({
@@ -104,39 +101,43 @@ export class ProjectViewMemberPopup {
       ],
     });
 
-    popupMainDiv.appendChild(memberContainer);
-    // this.memberListEventDelegation(memberContainer.children[1]);
-    // if (this.view === "team") this.setAllMembers(this.allUsersArray);
+    this.popupElement.appendChild(memberContainer);
   }
 
-  private async handleAddMember(e: Event) {
-    const target = e.target as HTMLElement;
-    this.selectedMemberId = (target.closest(".member-item") as HTMLElement)
-      .dataset.projectId as string;
-    await new ProjectsService(
-      "http://localhost:3000/handle-add-member-to-project"
-    ).handleAddMember(this.selectedMemberId, this.projectId);
-    const result = await new ProjectsService(
-      `http://localhost:3000/get-project/${this.projectId}`
-    ).fetchUserProject();
-
-    console.log(result);
-
-    this.setProjectDataOnParentController(result.membersData);
-    this.handleRemovePopup();
-    this.handleManagerClassReset();
+  //CORE LOGIC------------------------------------------------------
+  async setupMemberPopupClass() {
+    this.renderMemebersContainer();
+    if (this.view === "createNewTeam") {
+      const { AddMemberCreateTeamPopup } = await import(
+        "./AddMemberCreateTeamPopup"
+      );
+      new AddMemberCreateTeamPopup(this.popupElement, this.setSelectedMembers);
+    } else if (this.view === "project") {
+      const { AddMemberProjectPopup } = await import("./AddMemberProjectPopup");
+      new AddMemberProjectPopup(
+        this.popupElement,
+        this.view,
+        this.projectId,
+        this.members,
+        this.setProjectDataOnParentController,
+        this.handleManagerClassReset,
+        this.closePopup
+      );
+    } else {
+      const { AddMemberEditTeam } = await import("./AddMemberEditTeam");
+      new AddMemberEditTeam(
+        this.popupElement,
+        this.teamId,
+        this.handleManagerClassReset
+      );
+    }
   }
 
-  handleRemovePopup() {
-    document.querySelector(".popup-overlay")?.remove();
-  }
-
+  //API CALLS--------------------------------------------------------
   async getAllUsers() {
     let apiCall = new ProjectsService("http://localhost:3000/get-all-users");
 
     const result = await apiCall.getAllUsers(this.members);
-
-    console.log(result);
 
     (result as User[]).forEach((item) => this.allUsersArray.push(item));
   }

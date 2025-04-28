@@ -1,11 +1,11 @@
 import { ProjectsService } from "../../../Services/ProjectsService";
 import { createElement } from "../../../Utils/Helpers";
-import "../../../Styles/Project.css";
+import "../../../Styles/Views/Projects/Project/Project.css";
 import "../../../Styles/SharedStylings/SectionHeader.css";
 import "../../../Styles/SharedStylings/UpperInnerSection.css";
 import { ProjectData } from "../../../Store/UserStore";
 import { router } from "../../../main";
-import { ProjectPopupView } from "./ProjectPopups/ProjectViewPopup";
+import { ProjectViewPopup } from "./ProjectPopups/ProjectViewPopup";
 import { store } from "../../../Store/Store";
 import type { ProjectViewTaskManager } from "./ProjectViewTaskManager";
 import type { ProjectViewMemberManager } from "./ProjectViewMemberManager";
@@ -22,7 +22,7 @@ export class ProjectView {
   membersData: MembersData[] = [];
   mainDiv: HTMLElement | null = null;
   popupState: string = "";
-  popupController: ProjectPopupView | null = null;
+  popupController: ProjectViewPopup | null = null;
   removeProjectMemberId: string = "";
   projectMembersParentElement: HTMLElement | null = null;
   projectTasks: Task[] | null = null;
@@ -73,7 +73,7 @@ export class ProjectView {
       ],
     });
 
-    this.handleSetCustomCss(project, innerProject, pageHeader.children[0]);
+    this.setCustomCSS(project, innerProject, pageHeader.children[0]);
     currentState.mainSection?.appendChild(project);
     project.appendChild(innerProject);
     innerProject.appendChild(pageHeader);
@@ -102,7 +102,7 @@ export class ProjectView {
       this.membersData,
       this.projectId,
       this.projectContainerElement as HTMLElement,
-      this.handleOpenPopup,
+      this.openPopup,
       this.handleChangePopupValue,
       this.handleManagerClassReset
     );
@@ -110,7 +110,7 @@ export class ProjectView {
       this.projectTasks as Task[],
       this.projectContainerElement as HTMLElement,
       this.fetchUserProject,
-      this.handleOpenPopup,
+      this.openPopup,
       this.handleChangePopupValue,
       this.handleManagerClassReset
     );
@@ -126,7 +126,7 @@ export class ProjectView {
     await this.handleManagerClassSetup();
   };
 
-  handleSetCustomCss(
+  setCustomCSS(
     upperSection: HTMLElement,
     innerSection: HTMLElement,
     sectionHeader: HTMLElement
@@ -137,7 +137,7 @@ export class ProjectView {
     sectionHeader.style.fontWeight = "400";
   }
 
-  handleSetProjectData = (projectData: ProjectData) => {
+  setProjectData = (projectData: ProjectData) => {
     this.title = projectData.project.title;
     this.description = projectData.project.description;
     this.icon = projectData.project.icon;
@@ -152,30 +152,28 @@ export class ProjectView {
     router.route("projects");
   }
 
-  handleOpenPopup = () => {
-    this.popupController = new ProjectPopupView(
+  openPopup = () => {
+    this.popupController = new ProjectViewPopup(
       this.popupState,
       this.projectId,
       this.members,
       () => {},
-      (
-        this.memberManagerController as ProjectViewMemberManager
-      ).renderProjectMember,
       this.fetchUserProject,
-      (this.taskManagerController as ProjectViewTaskManager).renderProjectTasks,
       this.membersData,
-      this.handleClosePopup,
+      this.closePopup,
       this.handleManagerClassReset
     );
   };
 
-  handleClosePopup = () => {
+  closePopup = () => {
     this.popupController = null;
     document.querySelector(".popup-overlay")?.remove();
   };
 
   handleChangePopupValue = (value: string) => {
+    console.log(value);
     this.popupState = value;
+    console.log(this.popupState);
   };
 
   cardDeleteAni(removedCard: HTMLElement) {
@@ -199,6 +197,6 @@ export class ProjectView {
       `http://localhost:3000/get-project/${projectId}`
     ) as ProjectsService | null;
     const projectData = await (apiCall as ProjectsService).fetchUserProject();
-    this.handleSetProjectData(projectData);
+    this.setProjectData(projectData);
   };
 }

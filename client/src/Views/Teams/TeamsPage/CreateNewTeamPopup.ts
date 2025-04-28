@@ -3,11 +3,10 @@ import { store } from "../../../Store/Store";
 import { TeamsView } from "./TeamsView";
 import { createElement } from "../../../Utils/Helpers";
 import "../../../Styles/SharedStylings/Popup.css";
-import "../../../Styles/TeamPopup.css";
-import { ProjectViewMemberPopup } from "../../Projects/ProjectPage/ProjectPopups/ProjectViewMemberPopup";
+import "../../../Styles/Views/Teams/Team/TeamPopup.css";
+import { AddMemberContainer } from "../../ReusableComponents/AddMember/AddMemberContainer.ts";
 import { TeamsService } from "../../../Services/TeamsService";
 import { userStore } from "../../../Store/UserStore";
-import { User } from "../../../Types/ProjectsTypes";
 
 export type SelectedMember = {
   element?: HTMLElement;
@@ -16,12 +15,9 @@ export type SelectedMember = {
 };
 
 export class CreateNewTeamPopup extends TeamsView {
-  memberContainer: HTMLElement | null = null;
   teamName: string = "";
   teamDescription: string = "";
   selectedMembers: SelectedMember[] = [];
-  allMembers: string[] = [];
-
   renderTeamCards: () => void = () => {};
   fetchAllTeams: () => Promise<void> = async () => {};
 
@@ -85,73 +81,29 @@ export class CreateNewTeamPopup extends TeamsView {
     });
 
     this.formEventDelegation(popupContent.children[1]);
-    this.renderAllMembers(popupContent.children[1].children[2]);
+    this.setupAddMemberPopupClass(popupContent.children[1].children[2]);
     popupOverlay.querySelector(".popup-main-div")?.appendChild(popupContent);
     store.getState().mainDivApp.appendChild(popupOverlay);
   }
 
-  private renderAllMembers(memberContainer: HTMLElement) {
-    new ProjectViewMemberPopup(
+  //CORE LOGIC------------------------------------------------------
+  setSelectedMembers = (selectedMembers: SelectedMember[]) => {
+    this.selectedMembers = selectedMembers;
+    console.log(this.selectedMembers);
+  };
+
+  setupAddMemberPopupClass(memberContainer: HTMLElement) {
+    new AddMemberContainer(
       memberContainer,
-      "team",
+      "",
+      "createNewTeam",
       "",
       [],
       () => {},
       () => {},
-      this.handleSelectMember,
-      this.handleSetAllMembers,
+      this.setSelectedMembers,
       () => {}
     );
-    this.memberContainer = memberContainer;
-  }
-
-  //CORE LOGIC------------------------------------------------------
-  handleSetAllMembers = (userArray: User[]) => {
-    userArray.forEach((user) => this.allMembers.push(user.userId));
-  };
-
-  handleSelectMember = (e: Event) => {
-    const target = e.target as HTMLElement;
-    const memberElement = target.closest(".member-item") as HTMLElement;
-    const userId = (target.closest(".member-item") as HTMLElement).dataset
-      .projectId as string;
-
-    if (this.selectedMembers.some((member) => member.userId === userId)) {
-      //remove border from selected member element
-      const index = this.selectedMembers.findIndex(
-        (member) => member.userId === userId
-      );
-      this.handleMakeElementSelection(
-        this.selectedMembers[index].element as HTMLElement,
-        "remove"
-      );
-
-      //remove member from selectedMembers
-      this.selectedMembers = this.selectedMembers.filter(
-        (member) => member.userId !== userId
-      );
-    } else {
-      //add member to selectedMembers
-      this.selectedMembers.push({
-        element: memberElement,
-        userId: userId,
-        isAdmin: false,
-      });
-
-      //add border to selected member element
-      const index = this.selectedMembers.findIndex(
-        (member) => member.userId === userId
-      );
-      this.handleMakeElementSelection(
-        this.selectedMembers[index].element as HTMLElement,
-        "add"
-      );
-    }
-  };
-
-  handleMakeElementSelection(memberElement: HTMLElement, action: string) {
-    if (action === "add") memberElement.style.border = "2px solid green";
-    else memberElement.style.border = "";
   }
 
   //API CALLS------------------------------------------------------

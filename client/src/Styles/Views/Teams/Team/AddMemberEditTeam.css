@@ -1,0 +1,12 @@
+.add-member-button {
+  border: none;
+  padding: 1rem;
+  background-color: white;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.add-member-button:hover {
+  background-color: green;
+  color: white;
+}

@@ -1,9 +1,9 @@
 import { TaskService } from "../../../../Services/TaskService";
 import { createElement } from "../../../../Utils/Helpers";
-import "../../../../Styles/ProjectPopup.css";
+import "../../../../Styles/Views/Projects/Project/ProjectPopup.css";
 import { MembersData } from "../../../../Types/ProjectsTypes";
 
-export class ProjectViewTaskPopup {
+export class ProjectTaskPopup {
   title: string = "";
   description: string = "";
   deadline: Date = new Date();
@@ -13,13 +13,11 @@ export class ProjectViewTaskPopup {
   membersData: MembersData[] | null = null;
   handleManagerClassReset: () => void = () => {};
   fetchUserProject: () => Promise<void> = async () => {};
-  renderProjectTask: () => void = () => {};
 
   constructor(
     popup: HTMLElement,
     projectId: string,
     fetchUserProject: () => Promise<void>,
-    renderProjectTask: () => void,
     membersData: MembersData[],
     handleManagerClassReset: () => void
   ) {
@@ -28,7 +26,6 @@ export class ProjectViewTaskPopup {
     this.membersData = membersData;
     this.createTaskPopup(this.popupElement);
     this.fetchUserProject = fetchUserProject;
-    this.renderProjectTask = renderProjectTask;
     this.handleManagerClassReset = handleManagerClassReset;
   }
 

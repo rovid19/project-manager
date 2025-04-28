@@ -18,7 +18,6 @@ export class TeamsService extends BaseApi {
   }
 
   async updateTeamDetails(team: Team) {
-    console.log(team);
     await this.put(team);
   }
 
@@ -28,5 +27,13 @@ export class TeamsService extends BaseApi {
 
   async getTeam() {
     return await this.get();
+  }
+
+  async deleteTeam() {
+    await this.delete();
+  }
+
+  async addMemberToTeam(member: any) {
+    await this.post(member);
   }
 }

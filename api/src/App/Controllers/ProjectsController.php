@@ -124,7 +124,7 @@ class ProjectsController
     {
         $projectId = $this->projectId['projectId'];
 
-        inspect($projectId);
+
 
         $this->db->query("DELETE FROM project WHERE projectId = :projectId", [
             "projectId" => $projectId

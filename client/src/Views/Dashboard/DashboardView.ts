@@ -1,6 +1,6 @@
 import { store } from "../../Store/Store";
 import { createElement, fetchAllUserProjects } from "../../Utils/Helpers";
-import "../../Styles/Dashboard.css";
+import "../../Styles/Views/Dashboard/Dashboard.css";
 import "../../Styles/SharedStylings/UpperInnerSection.css";
 import "../../Styles/SharedStylings/SectionHeader.css";
 import "../../Styles/SharedStylings/ProjectCards.css";

@@ -1,32 +1,28 @@
 import { ProjectView } from "../ProjectView";
 import "../../../../Styles/SharedStylings/Popup.css";
-import { ProjectViewTaskPopup } from "./ProjectViewTaskPopup";
-import { ProjectViewMemberPopup } from "./ProjectViewMemberPopup";
+import { ProjectTaskPopup } from "./ProjectTaskPopup";
+import { AddMemberContainer } from "../../../ReusableComponents/AddMember/AddMemberContainer.ts";
 import { store } from "../../../../Store/Store";
 import { createPopupModal } from "../../../../Components/PopupModal";
 import { MembersData } from "../../../../Types/ProjectsTypes";
 
-export class ProjectPopupView extends ProjectView {
-  taskTitle: string = "";
+export class ProjectViewPopup extends ProjectView {
+  /*taskTitle: string = "";
   taskDescription: string = "";
   taskDeadline: Date = new Date();
-  taskAssignedMember: string = "";
+  taskAssignedMember: string = "";*/
   setProjectDataOnParentController: (newMembers: MembersData[]) => void;
-  renderProjectMember: () => void;
   fetchUserProject: () => Promise<void>;
-  renderProjectTask: () => void;
-  handleClosePopup: () => void;
+  closePopup: () => void;
   handleManagerClassReset: () => Promise<void>;
   constructor(
     popupState: string = "",
     projectId: string = "",
     members: string[],
     setProjectDataOnParentController: (newMembers: MembersData[]) => void,
-    renderProjectMember: () => void,
     fetchUserProject: () => Promise<void>,
-    renderProjectTask: () => void,
     membersData: MembersData[],
-    handleClosePopup: () => void,
+    closePopup: () => void,
     handleManagerClassReset: () => Promise<void>
   ) {
     super();
@@ -34,49 +30,51 @@ export class ProjectPopupView extends ProjectView {
     this.projectId = projectId;
     this.members = members;
     this.setProjectDataOnParentController = setProjectDataOnParentController;
-    this.renderProjectMember = renderProjectMember;
     this.fetchUserProject = fetchUserProject;
-    this.renderProjectTask = renderProjectTask;
     this.membersData = membersData;
-    this.handleClosePopup = handleClosePopup;
+    this.closePopup = closePopup;
     this.handleManagerClassReset = handleManagerClassReset;
 
     this.createModal();
   }
 
   createModal() {
-    const popup = createPopupModal(this.handleClosePopup);
+    const popup = createPopupModal(this.closePopup);
 
-    if (this.popupState === "team")
+    if (this.popupState === "team") {
+      console.log("team");
       this.createMemberPopupController(popup.children[0]);
-    if (this.popupState === "member")
+    }
+    if (this.popupState === "member") {
       this.createMemberPopupController(popup.children[0]);
-    if (this.popupState === "task")
+      console.log("member");
+    }
+    if (this.popupState === "task") {
+      console.log("task");
       this.createTaskPopupController(popup.children[0].children[1]);
-
+    }
     store.getState().mainDivApp.appendChild(popup);
   }
 
   createMemberPopupController(popup: HTMLElement) {
-    new ProjectViewMemberPopup(
+    new AddMemberContainer(
       popup,
+      "",
       "project",
       this.projectId,
       this.members,
       this.setProjectDataOnParentController,
-      this.renderProjectMember,
+      this.handleManagerClassReset,
       () => {},
-      () => {},
-      this.handleManagerClassReset
+      this.closePopup
     );
   }
 
   createTaskPopupController(popup: HTMLElement) {
-    new ProjectViewTaskPopup(
+    new ProjectTaskPopup(
       popup,
       this.projectId,
       this.fetchUserProject,
-      this.renderProjectTask,
       this.membersData,
       this.handleManagerClassReset
     );

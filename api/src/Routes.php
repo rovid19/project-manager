@@ -29,3 +29,5 @@ $router->post("/handle-create-team", "TeamsController@handleCreateTeam");
 $router->get("/fetch-all-team-members/{teamId}", "TeamsController@fetchAllTeamMembers");
 $router->get("/fetch-specific-team/{teamId}", "TeamsController@fetchSpecificTeam");
 $router->put("/team/{teamId}", "TeamsController@saveTeamDetails");
+$router->delete("/team/{teamId}/delete", "TeamsController@deleteTeam");
+$router->post("/team/{teamId}/add/member", "TeamsController@addTeamMember");

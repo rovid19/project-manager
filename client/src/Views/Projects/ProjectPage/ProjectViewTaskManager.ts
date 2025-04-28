@@ -64,7 +64,7 @@ export class ProjectViewTaskManager extends ProjectView {
                   className: "remove-task-btn",
                   innerHTML: removeMemberBtn,
                   onClick: () => {
-                    this.handleRemoveTaskFromProject(task.taskId);
+                    this.removeTaskFromProject(task.taskId);
                     this.cardDeleteAni(element);
                   },
                 }),
@@ -140,7 +140,7 @@ export class ProjectViewTaskManager extends ProjectView {
   }
 
   //API CALLS------------------------------------------------------
-  async handleRemoveTaskFromProject(taskId: string) {
+  async removeTaskFromProject(taskId: string) {
     await new ProjectsService(
       "http://localhost:3000/handle-remove-task"
     ).removeTaskFromProject(taskId);
