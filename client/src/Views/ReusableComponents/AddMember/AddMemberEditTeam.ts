@@ -6,18 +6,25 @@ export class AddMemberEditTeam {
   popupElement: HTMLElement;
   selectedMember: string = "";
   teamId: string;
-  handleManagerClassReset: () => void;
+  handleManagerClassReset: () => Promise<void>;
 
   constructor(
     popupElement: HTMLElement,
     teamId: string,
-    handleManagerClassReset: () => void
+    handleManagerClassReset: () => Promise<void>
   ) {
     this.popupElement = popupElement;
     this.teamId = teamId;
     this.handleManagerClassReset = handleManagerClassReset;
     this.createAddButtonElementForEveryMember();
+    this.removeAddMemberTitle();
     console.log(this.teamId);
+  }
+
+  removeAddMemberTitle() {
+    setTimeout(() => {
+      document.querySelector(".member-popup-title")?.remove();
+    }, 20);
   }
 
   createAddButtonElementForEveryMember() {
@@ -45,7 +52,6 @@ export class AddMemberEditTeam {
   }
 
   selectMember(e: Event) {
-    console.log("ojla");
     const target = e.target as HTMLElement;
     const targetElement = target.closest(".member-item") as HTMLElement;
 

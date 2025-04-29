@@ -1,11 +1,14 @@
+import { TeamsService } from "../../../Services/TeamsService.ts";
 import { TeamMember } from "../../../Types/TeamsTypes.ts";
-import { createElement } from "../../../Utils/Helpers";
+import { createElement, selectHtmlElement } from "../../../Utils/Helpers";
 import { AddMemberContainer } from "../../ReusableComponents/AddMember/AddMemberContainer.ts";
 import { TeamView } from "./TeamView";
 
 export class TeamMembersManager extends TeamView {
   membersDiv: HTMLElement | null = null;
   addMemberPopup: AddMemberContainer | null = null;
+  membersDivHeader: HTMLElement | null = null;
+  selectedUserId: string = "";
   handleManagerClassReset: () => Promise<void>;
 
   constructor(
@@ -43,22 +46,21 @@ export class TeamMembersManager extends TeamView {
               tag: "button",
               className: "add-member-btn",
               text: "Add Members",
-              //onClick: () => this.openAddMembersPopup(),
+              onClick: () => this.switchBetweenAddMembersAndTeamMembers(),
             }),
           ],
         }),
         createElement({
           tag: "div",
-          className: "members-list",
+          className: "members-list-div",
           children: this.renderTeamMembers(),
         }),
       ],
     });
 
     this.membersDiv = teamMembersSection.children[1];
-    console.log(this.membersDiv);
+    this.membersDivHeader = teamMembersSection.children[0];
     this.innerSection?.appendChild(teamMembersSection);
-    this.renderAddMembersComponent();
   }
 
   private renderTeamMembers() {
@@ -77,6 +79,7 @@ export class TeamMembersManager extends TeamView {
       createElement({
         tag: "div",
         className: "member-item",
+        data: member.userId,
         children: [
           createElement({
             tag: "div",
@@ -110,14 +113,19 @@ export class TeamMembersManager extends TeamView {
                     tag: "button",
                     className: "make-admin-btn",
                     text: "Make Admin",
-                    //onClick: () => this.makeAdmin(member.userId),
+                    onClick: async (e: Event) => {
+                      e.preventDefault();
+                      const element = selectHtmlElement(e, ".member-item");
+                      this.getUserId(element);
+                      await this.submitMemberAsAdmin();
+                    },
                   })
                 : null,
               createElement({
                 tag: "button",
                 className: "remove-member-btn",
                 text: "Remove",
-                //onClick: () => this.removeMember(member.userId),
+                onClick: () => this.removeMember(),
               }),
             ],
           }),
@@ -127,25 +135,58 @@ export class TeamMembersManager extends TeamView {
   }
 
   //CORE LOGIC-----------------------------------------------------
+  switchBetweenAddMembersAndTeamMembers() {
+    if (
+      (this.membersDivHeader as HTMLElement).children[1].textContent ===
+      "Team Members"
+    )
+      this.handleManagerClassReset();
+    else this.renderAddMembersComponent();
+  }
 
   renderAddMembersComponent() {
-    console.log(this.teamId);
+    this.removeTeamMembersComponent();
+    this.changeMembersHeader();
+
     this.addMemberPopup = new AddMemberContainer(
       this.membersDiv as HTMLElement,
       this.teamId,
       "team",
       "",
-      [],
+      this.teamMembers.map((item) => item.userId),
       () => {},
-      () => {},
+      this.handleManagerClassReset,
       () => {},
       () => {}
     );
   }
 
-  handleClassReset() {}
+  removeTeamMembersComponent() {
+    document.querySelectorAll(".member-item").forEach((item) => item.remove());
+  }
+
+  changeMembersHeader() {
+    (this.membersDivHeader as HTMLElement).children[0].textContent =
+      "Select New Members:";
+    (this.membersDivHeader as HTMLElement).children[1].textContent =
+      "Team Members";
+  }
+
+  removeMember() {
+    console.log("ok");
+  }
+
+  getUserId(memberElement: HTMLElement) {
+    this.selectedUserId = memberElement.dataset.projectId as string;
+  }
 
   //API CALLS------------------------------------------------------
+  async submitMemberAsAdmin() {
+    await new TeamsService(
+      `http://localhost:3000/team/${this.teamId}/add/admin`
+    ).createNewAdmin(this.selectedUserId);
 
+    this.handleManagerClassReset();
+  }
   //LISTENERS------------------------------------------------------
 }

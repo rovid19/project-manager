@@ -2,7 +2,6 @@ import { createMainContent } from "../Components/MainContent";
 import { createSidebar } from "../Components/Sidebar";
 import { router } from "../main";
 import { AuthService } from "../Services/AuthService";
-import { ProjectsService } from "../Services/ProjectsService";
 
 export function createElement({
   tag,
@@ -86,7 +85,14 @@ export function formValidation(
   return returnArray;
 }
 
-export async function fetchAllUserProjects() {
+export function selectHtmlElement(e: Event, className: string) {
+  const target = e.target as HTMLElement;
+  const targetElement = target.closest(className) as HTMLElement;
+
+  return targetElement;
+}
+
+/*export async function fetchAllUserProjects() {
   let apiCall = new ProjectsService(
     "http://localhost:3000/get-all-user-projects"
   ) as ProjectsService | null;
@@ -95,3 +101,4 @@ export async function fetchAllUserProjects() {
 
   apiCall = null;
 }
+*/

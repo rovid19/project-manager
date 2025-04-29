@@ -3,6 +3,7 @@ import "../../../Styles/Views/Projects/Project/ProjectMemberPopup.css";
 import { ProjectsService } from "../../../Services/ProjectsService";
 import { MembersData, User } from "../../../Types/ProjectsTypes";
 import { SelectedMember } from "../../Teams/TeamsPage/CreateNewTeamPopup";
+import { TeamMember } from "../../../Types/TeamsTypes";
 
 export class AddMemberContainer {
   projectId: string = "";
@@ -13,7 +14,7 @@ export class AddMemberContainer {
   members: string[];
   view: string = "project";
   setProjectDataOnParentController: (newMembers: MembersData[]) => void;
-  handleManagerClassReset: () => void;
+  handleManagerClassReset: () => Promise<void>;
   setSelectedMembers: (selectedMembers: SelectedMember[]) => void;
   closePopup: () => void;
 
@@ -24,7 +25,7 @@ export class AddMemberContainer {
     projectId: string = "",
     members: string[] = [],
     setProjectDataOnParentController: (newMembers: MembersData[]) => void,
-    handleManagerClassReset: () => void,
+    handleManagerClassReset: () => Promise<void>,
     setSelectedMembers: (selectedMembers: SelectedMember[]) => void,
     closePopup: () => void
   ) {

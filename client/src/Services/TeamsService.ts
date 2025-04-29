@@ -36,4 +36,8 @@ export class TeamsService extends BaseApi {
   async addMemberToTeam(member: any) {
     await this.post(member);
   }
+
+  async createNewAdmin(userId: string) {
+    await this.post(userId);
+  }
 }

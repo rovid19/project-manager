@@ -181,4 +181,23 @@ class TeamsController
             echo json_encode(["message" => "team member added successfully!"]);
         }
     }
+
+    public function addAdmin()
+    {
+        $requestData = json_decode(file_get_contents("php://input"), true);
+
+        if (!empty($requestData) && !empty($this->teamId["teamId"])) {
+            $userId = $this->validation->sanitizeString($requestData);
+            $teamId = $this->validation->sanitizeString($this->teamId["teamId"]);
+
+            $this->db->query("UPDATE user_teams SET isAdmin  = :isAdmin WHERE userId = :userId AND teamId = :teamId ", [
+                'isAdmin' => 1,
+                'userId' => $userId,
+                "teamId" => $teamId
+            ]);
+
+
+            echo json_encode(["message" => "user is now admin"]);
+        }
+    }
 }

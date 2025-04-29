@@ -100,7 +100,7 @@ export class CreateNewTeamPopup extends TeamsView {
       "",
       [],
       () => {},
-      () => {},
+      async () => {},
       this.setSelectedMembers,
       () => {}
     );

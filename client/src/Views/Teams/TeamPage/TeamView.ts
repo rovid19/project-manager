@@ -70,6 +70,7 @@ export class TeamView {
 
   async handleManagerClassSetup() {
     await this.fetchTeam();
+    console.log(this.teamMembers);
     const { TeamSettingsManager } = await import("./TeamSettingsManager");
     const { TeamMembersManager } = await import("./TeamMembersManager");
     this.teamSettingsManager = new TeamSettingsManager(
@@ -86,26 +87,13 @@ export class TeamView {
   }
 
   handleManagerClassReset = async () => {
+    console.log("ran");
     this.teamSettingsManager = null;
     this.teamMembersManager = null;
     (document.querySelector(".team-settings-section") as HTMLElement).remove();
     (document.querySelector(".team-members-section") as HTMLElement).remove();
     await this.handleManagerClassSetup();
   };
-
-  private saveTeamInfo() {
-    console.log("Saving team info:", this.teamName, this.teamDescription);
-  }
-
-  private makeAdmin(userId: string) {
-    console.log("Making user admin:", userId);
-    // Implement API call to make user admin
-  }
-
-  private removeMember(userId: string) {
-    console.log("Removing member:", userId);
-    // Implement API call to remove member
-  }
 
   async submitDeleteProject() {
     await new TeamsService(
