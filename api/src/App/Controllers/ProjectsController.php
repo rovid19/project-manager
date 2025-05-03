@@ -204,6 +204,31 @@ class ProjectsController
         }
     }
 
+    public function addTeam()
+    {
+        $requestData = json_decode(file_get_contents("php://input"), true);
+
+        if (!empty($requestData["teamId"])) {
+            $teamId = $this->validation->sanitizeString($requestData["teamId"]);
+
+            $allTeamMembers = $this->db->query("SELECT
+            ut.userId
+            FROM user_teams AS ut
+            WHERE teamId = :teamId 
+            ", ["teamId" => $teamId], "return");
+
+            $teamMemberArray = [];
+
+            foreach ($allTeamMembers as $teamMember) {
+                $teamMember[] = $this->db->query("SELECT * FROM users WHERE userId = :userId", ["userId" => $teamMember["userId"]], "return");
+            }
+
+            inspect($teamMemberArray);
+
+            echo json_encode($teamMemberArray);
+        }
+    }
+
 
     public function handleRemoveMember()
     {
@@ -226,4 +251,37 @@ class ProjectsController
             echo json_encode("projectId or memberId arent correctly set");
         }
     }
+
+
+    public function getAllTeams()
+    {
+
+        if (!empty($this->projectId["userId"])) {
+
+            $userId = $this->validation->sanitizeString($this->projectId["userId"]);
+            //$teamId = $this->validation->sanitizeString($this->projectId["teamId"]);
+
+            $allUserTeams = $this->db->query("
+            SELECT 
+            t.teamId,
+            t.teamDescription,
+            t.teamName,
+            t.teamMembers
+            FROM teams AS t 
+            JOIN user_teams AS ut
+            ON ut.teamId = t.teamId
+            WHERE ut.userId = :userId AND ut.isAdmin = :isAdmin", ["userId" => $userId, "isAdmin" => 1], "return");
+
+            // $memberCount = $this->countMembersInTeam($teamId);
+
+
+            echo json_encode(["allTeams" => $allUserTeams /*"memberCount" => $memberCount*/]);
+        }
+    }
+
+    /*  public function countMembersInTeam($teamId)
+    {
+        $teamMmebers = $this->db->query("SELECT * FROM user_teams WHERE teamId = :teamId", ["teamId" => $teamId], "return");
+        return count($teamMmebers);
+    }*/
 }

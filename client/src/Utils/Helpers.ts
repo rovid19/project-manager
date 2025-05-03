@@ -102,3 +102,7 @@ export function selectHtmlElement(e: Event, className: string) {
   apiCall = null;
 }
 */
+
+export function countTeamMembers(teamMembers: string) {
+  return teamMembers.split(",").length - 1;
+}

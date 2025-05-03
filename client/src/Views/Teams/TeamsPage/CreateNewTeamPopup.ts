@@ -94,6 +94,7 @@ export class CreateNewTeamPopup extends TeamsView {
 
   setupAddMemberPopupClass(memberContainer: HTMLElement) {
     new AddMemberContainer(
+      "",
       memberContainer,
       "",
       "createNewTeam",

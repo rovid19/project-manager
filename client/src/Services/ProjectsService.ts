@@ -61,4 +61,14 @@ export class ProjectsService extends BaseApi {
   async removeTaskFromProject(taskId: string) {
     await this.put(taskId);
   }
+
+  async getAllTeams() {
+    const result = await this.get();
+
+    return result;
+  }
+
+  async addTeam(teamId: string) {
+    await this.post(teamId);
+  }
 }

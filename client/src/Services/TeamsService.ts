@@ -40,4 +40,8 @@ export class TeamsService extends BaseApi {
   async createNewAdmin(userId: string) {
     await this.post(userId);
   }
+
+  async removeMember() {
+    await this.delete();
+  }
 }

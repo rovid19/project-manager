@@ -47,26 +47,36 @@ class TeamsController
         $userId = $this->validation->isUserLoggedIn();
         $requestData = json_decode(file_get_contents("php://input"), true);
 
+
         if (!empty($requestData['teamName']) && !empty($requestData['selectedMembers'])) {
             $teamName = $this->validation->sanitizeString($requestData['teamName']);
             $teamDescription = "";
             if ($requestData['teamDescription']) $teamDescription = $this->validation->sanitizeString($requestData['teamDescription']);
             $teamId = uniqid("", true);
-
-            $this->db->query("INSERT INTO teams (teamId, teamName, teamDescription) VALUES (:teamId, :teamName, :teamDescription)", [
-                "teamId" => $teamId,
-                "teamName" => $teamName,
-                "teamDescription" => $teamDescription
-            ]);
+            $teamMembers = "";
+            $memberArray = [];
 
             foreach ($requestData['selectedMembers'] as $member) {
-                $memberArray = $this->validation->sanitizeArray($member);
+                $sanitizedMember = $this->validation->sanitizeArray($member);
+                $memberArray[] = $sanitizedMember;
+                $teamMembers .= $sanitizedMember["userId"] . ",";
+            }
+
+            $this->db->query("INSERT INTO teams (teamId, teamName, teamDescription, teamMembers) VALUES (:teamId, :teamName, :teamDescription, :teamMembers)", [
+                "teamId" => $teamId,
+                "teamName" => $teamName,
+                "teamDescription" => $teamDescription,
+                "teamMembers" => $teamMembers
+            ]);
+
+
+            for ($i = 0; $i < count($memberArray); $i++) {
                 $userTeamId = uniqid("", true);
-                $this->db->query("INSERT INTO user_teams (userTeamsId,teamId,userId, isAdmin) VALUES (:userTeamsId, :teamId, :userId, :isAdmin)", [
+                $this->db->query("INSERT INTO user_teams (userTeamsId, teamId, userId, isAdmin) VALUES (:userTeamsId, :teamId, :userId, :isAdmin)", [
                     "userTeamsId" => $userTeamId,
                     "teamId" => $teamId,
-                    "userId" => $memberArray['userId'],
-                    "isAdmin" => $memberArray['isAdmin'] ? 1 : 0
+                    "userId" => $memberArray[$i]['userId'],
+                    "isAdmin" => $memberArray[$i]['isAdmin'] ? 1 : 0
                 ]);
             }
 
@@ -170,6 +180,7 @@ class TeamsController
             $teamId = $this->validation->sanitizeString($this->teamId['teamId']);
             $userId = $this->validation->sanitizeString($requestData["selectedMember"]);
             $userTeamId = uniqid("", true);
+            $this->addMemberToTeamMemberArray($teamId);
 
             $this->db->query("INSERT INTO user_teams (userTeamsId, teamId, userId, isAdmin) VALUES (:userTeamsId, :teamId, :userId, :isAdmin)", [
                 "userTeamsId" => $userTeamId,
@@ -199,5 +210,44 @@ class TeamsController
 
             echo json_encode(["message" => "user is now admin"]);
         }
+    }
+
+    public function removeMember()
+    {
+        if (!empty($this->teamId["teamId"]) && !empty($this->teamId["userId"])) {
+            $teamId = $this->validation->sanitizeString($this->teamId["teamId"]);
+            $userId = $this->validation->sanitizeString($this->teamId["userId"]);
+            $this->removeMemberFromTeamMemberArray(($teamId));
+
+            $this->db->query("DELETE FROM user_teams WHERE teamId = :teamId AND userId = :userId", ["teamId" => $teamId, "userId" => $userId]);
+
+            json_encode(["message" => "member successfully removed"]);
+        }
+    }
+
+    public function removeMemberFromTeamMemberArray($teamId)
+    {
+        $team = $this->db->query("SELECT
+        t.teamMembers
+        FROM teams as T 
+        WHERE teamId = :teamId", ["teamId" => $teamId], "return");
+
+
+        $teamMembers = implode(",", array_slice(explode(",", $team[0]['teamMembers']), 1));
+        inspect($teamMembers);
+        $this->db->query("UPDATE teams SET teamMembers = :teamMembers WHERE teamId = :teamId", ["teamMembers" => $teamMembers, "teamId" => $teamId]);
+    }
+
+    public function addMemberToTeamMemberArray($teamId)
+    {
+        $team = $this->db->query("SELECT
+        t.teamMembers
+        FROM teams as T 
+        WHERE teamId = :teamId", ["teamId" => $teamId], "return");
+
+        $teamMembers = $team[0]["teamMembers"] . ",1";
+
+
+        $this->db->query("UPDATE teams SET teamMembers = :teamMembers WHERE teamId = :teamId", ["teamMembers" => $teamMembers, "teamId" => $teamId]);
     }
 }

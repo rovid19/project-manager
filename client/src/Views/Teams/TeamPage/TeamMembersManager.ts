@@ -23,8 +23,6 @@ export class TeamMembersManager extends TeamView {
     this.teamMembers = teamMembers;
     this.renderTeamMembersSection();
     this.handleManagerClassReset = handleManagerClassReset;
-
-    console.log(this.teamId);
   }
 
   //UI RENDER------------------------------------------------------
@@ -64,7 +62,6 @@ export class TeamMembersManager extends TeamView {
   }
 
   private renderTeamMembers() {
-    console.log(this.teamMembers);
     if (this.teamMembers.length === 0) {
       return [
         createElement({
@@ -115,9 +112,7 @@ export class TeamMembersManager extends TeamView {
                     text: "Make Admin",
                     onClick: async (e: Event) => {
                       e.preventDefault();
-                      const element = selectHtmlElement(e, ".member-item");
-                      this.getUserId(element);
-                      await this.submitMemberAsAdmin();
+                      this.handleMakeAdmin(e);
                     },
                   })
                 : null,
@@ -125,7 +120,10 @@ export class TeamMembersManager extends TeamView {
                 tag: "button",
                 className: "remove-member-btn",
                 text: "Remove",
-                onClick: () => this.removeMember(),
+                onClick: (e: Event) => {
+                  e.preventDefault();
+                  this.handleRemoveMember(e);
+                },
               }),
             ],
           }),
@@ -149,6 +147,7 @@ export class TeamMembersManager extends TeamView {
     this.changeMembersHeader();
 
     this.addMemberPopup = new AddMemberContainer(
+      "",
       this.membersDiv as HTMLElement,
       this.teamId,
       "team",
@@ -172,12 +171,21 @@ export class TeamMembersManager extends TeamView {
       "Team Members";
   }
 
-  removeMember() {
-    console.log("ok");
+  getUserId(memberElement: HTMLElement) {
+    console.log(memberElement);
+    this.selectedUserId = memberElement.dataset.projectId as string;
   }
 
-  getUserId(memberElement: HTMLElement) {
-    this.selectedUserId = memberElement.dataset.projectId as string;
+  async handleMakeAdmin(e: Event) {
+    const element = selectHtmlElement(e, ".member-item");
+    this.getUserId(element);
+    await this.submitMemberAsAdmin();
+  }
+
+  async handleRemoveMember(e: Event) {
+    const element = selectHtmlElement(e, ".member-item");
+    this.getUserId(element);
+    await this.removeMemberFromTeam();
   }
 
   //API CALLS------------------------------------------------------
@@ -188,5 +196,14 @@ export class TeamMembersManager extends TeamView {
 
     this.handleManagerClassReset();
   }
+
+  async removeMemberFromTeam() {
+    await new TeamsService(
+      `http://localhost:3000/team/${this.teamId}/remove/member/${this.selectedUserId}`
+    ).removeMember();
+
+    this.handleManagerClassReset();
+  }
+
   //LISTENERS------------------------------------------------------
 }

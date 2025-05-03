@@ -42,15 +42,12 @@ export class ProjectViewPopup extends ProjectView {
     const popup = createPopupModal(this.closePopup);
 
     if (this.popupState === "team") {
-      console.log("team");
       this.createMemberPopupController(popup.children[0]);
     }
     if (this.popupState === "member") {
       this.createMemberPopupController(popup.children[0]);
-      console.log("member");
     }
     if (this.popupState === "task") {
-      console.log("task");
       this.createTaskPopupController(popup.children[0].children[1]);
     }
     store.getState().mainDivApp.appendChild(popup);
@@ -58,6 +55,7 @@ export class ProjectViewPopup extends ProjectView {
 
   createMemberPopupController(popup: HTMLElement) {
     new AddMemberContainer(
+      this.popupState,
       popup,
       "",
       "project",

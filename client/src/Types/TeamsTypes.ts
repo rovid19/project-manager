@@ -3,6 +3,7 @@ export type Team = {
   teamDescription?: string;
   teamId?: string;
   isAdmin?: boolean;
+  teamMembers?: string;
 };
 
 export type TeamMember = {

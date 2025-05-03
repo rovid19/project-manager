@@ -1,5 +1,5 @@
 import { store } from "../../../Store/Store";
-import { createElement } from "../../../Utils/Helpers";
+import { countTeamMembers, createElement } from "../../../Utils/Helpers";
 import "../../../Styles/Views/Teams/Teams.css";
 import "../../../Styles/SharedStylings/SectionHeader.css";
 import "../../../Styles/SharedStylings/UpperInnerSection.css";
@@ -121,8 +121,10 @@ export class TeamsView {
         tag: "div",
         className: "team-card",
         onClick: () => {
-          router.route(`/teams/${team.teamId}`);
-          history.pushState("", "", `/teams/${team.teamId}`);
+          if (team.isAdmin) {
+            router.route(`/teams/${team.teamId}`);
+            history.pushState("", "", `/teams/${team.teamId}`);
+          } else alert("you can only open teams you lead");
         },
         children: [
           createElement({
@@ -161,7 +163,9 @@ export class TeamsView {
                 children: [
                   createElement({
                     tag: "span",
-                    text: `${2} members`,
+                    text: `${countTeamMembers(
+                      team.teamMembers as string
+                    )} members`,
                   }),
                   createElement({
                     tag: "span",
