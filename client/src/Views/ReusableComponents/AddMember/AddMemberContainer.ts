@@ -73,7 +73,6 @@ export class AddMemberContainer {
 
   renderItems(itemArray: any) {
     return itemArray.map((item: any) => {
-      console.log(item);
       return createElement({
         tag: "div",
         className: "member-item",
@@ -117,8 +116,6 @@ export class AddMemberContainer {
       });
     });
   }
-
-  renderTeams() {}
 
   //CORE LOGIC------------------------------------------------------
   async setupMemberPopupClass() {
@@ -169,7 +166,6 @@ export class AddMemberContainer {
       `http://localhost:3000/user/${userStore.getState().userId}/get/teams`
     ).getAllTeams();
 
-    console.log(result);
     result.allTeams.forEach((item: any) => this.allTeamsArray.push(item));
     result = null;
   }

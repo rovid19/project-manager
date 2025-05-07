@@ -8,7 +8,7 @@ import { Router } from "./Routes/Router";
 import { store } from "./Store/Store";
 import { userStore } from "./Store/UserStore";
 import "./Styles/Root.css";
-import { getUser } from "./Utils/Helpers";
+import { getUser, getUserData } from "./Utils/Helpers";
 
 export const router = new Router([
   // auth
@@ -29,7 +29,8 @@ export const router = new Router([
   "/reports/ReportsView/createReports/@Reports",
 ]);
 
-getUser().then(() => {
+getUser().then(async () => {
+  await getUserData();
   createSidebar();
   createMainContent();
   store.subscribe(activeLink, "activeLink");

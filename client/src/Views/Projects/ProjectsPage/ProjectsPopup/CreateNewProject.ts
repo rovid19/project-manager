@@ -1,6 +1,7 @@
 import { icons } from "../../../../Assets/Icons";
 import { ProjectsService } from "../../../../Services/ProjectsService";
-import { Project } from "../../../../Store/UserStore";
+import { Project, userStore } from "../../../../Store/UserStore";
+import { Team } from "../../../../Types/TeamsTypes";
 import { createElement, formValidation } from "../../../../Utils/Helpers";
 
 export class CreateNewProjectPopup {
@@ -110,6 +111,9 @@ export class CreateNewProjectPopup {
       const buttonFormElement = formElement.children[4];
       const iconSelectFormElement = formElement.children[3];
 
+      console.log(createProjectPopup.children[0].children[1].children[2]);
+      // this.renderTeamsInSelect(createProjectPopup.children[1].children[2]);
+
       this.setupFormSubmitHandler(
         buttonFormElement,
         formElement,
@@ -129,6 +133,19 @@ export class CreateNewProjectPopup {
       setTimeout(() => {
         this.iconArry.push(iconDiv.children[i] as SVGSVGElement);
       }, 100);
+    });
+  }
+
+  renderTeamsInSelect(parentElement: HTMLElement) {
+    userStore.getState().teams.forEach((team: Team) => {
+      const option = createElement({
+        tag: "option",
+        innerText: team.teamName,
+        disabled: "false",
+        selected: "false",
+      });
+
+      parentElement.appendChild(option);
     });
   }
 

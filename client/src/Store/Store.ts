@@ -1,3 +1,4 @@
+import { Team } from "../Types/TeamsTypes";
 import { Project } from "./UserStore";
 
 /*type State = {
@@ -11,7 +12,7 @@ import { Project } from "./UserStore";
 };*/
 
 type setState = {
-  [key: string]: string | HTMLElement | null | Project[];
+  [key: string]: string | HTMLElement | null | Project[] | Team[];
 };
 
 export class Store {

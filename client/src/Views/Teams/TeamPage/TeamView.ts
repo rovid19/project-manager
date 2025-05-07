@@ -70,7 +70,7 @@ export class TeamView {
 
   async handleManagerClassSetup() {
     await this.fetchTeam();
-    console.log(this.teamMembers);
+
     const { TeamSettingsManager } = await import("./TeamSettingsManager");
     const { TeamMembersManager } = await import("./TeamMembersManager");
     this.teamSettingsManager = new TeamSettingsManager(
@@ -87,7 +87,6 @@ export class TeamView {
   }
 
   handleManagerClassReset = async () => {
-    console.log("ran");
     this.teamSettingsManager = null;
     this.teamMembersManager = null;
     (document.querySelector(".team-settings-section") as HTMLElement).remove();
@@ -133,7 +132,6 @@ export class TeamView {
       teamData.teamMembers
     );
 
-    console.log(this.teamMembers);
     this.handleSetTeamNameInHeaderSection();
   }
 

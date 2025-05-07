@@ -1,7 +1,7 @@
 import { createPopupModal } from "../../../Components/PopupModal";
 import { store } from "../../../Store/Store";
 import { TeamsView } from "./TeamsView";
-import { createElement } from "../../../Utils/Helpers";
+import { createElement, getUserData } from "../../../Utils/Helpers";
 import "../../../Styles/SharedStylings/Popup.css";
 import "../../../Styles/Views/Teams/Team/TeamPopup.css";
 import { AddMemberContainer } from "../../ReusableComponents/AddMember/AddMemberContainer.ts";
@@ -89,7 +89,6 @@ export class CreateNewTeamPopup extends TeamsView {
   //CORE LOGIC------------------------------------------------------
   setSelectedMembers = (selectedMembers: SelectedMember[]) => {
     this.selectedMembers = selectedMembers;
-    console.log(this.selectedMembers);
   };
 
   setupAddMemberPopupClass(memberContainer: HTMLElement) {
@@ -128,6 +127,7 @@ export class CreateNewTeamPopup extends TeamsView {
     });
 
     await this.fetchAllTeams();
+    await getUserData();
 
     this.deleteTeamCards();
     this.handleClosePopup();

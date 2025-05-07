@@ -28,10 +28,10 @@ class TeamsController
 
             $teams = $this->db->query("
             SELECT t.*,
-            ut.isAdmin
+            tm.isAdmin
             FROM teams AS t
-            JOIN user_teams AS ut ON ut.teamId = t.teamId
-            WHERE ut.userId = :userId
+            JOIN team_member AS tm ON tm.teamId = t.teamId
+            WHERE tm.userId = :userId
             ", ["userId" => $userId], "return");
 
 
@@ -72,7 +72,7 @@ class TeamsController
 
             for ($i = 0; $i < count($memberArray); $i++) {
                 $userTeamId = uniqid("", true);
-                $this->db->query("INSERT INTO user_teams (userTeamsId, teamId, userId, isAdmin) VALUES (:userTeamsId, :teamId, :userId, :isAdmin)", [
+                $this->db->query("INSERT INTO team_member (userTeamsId, teamId, userId, isAdmin) VALUES (:userTeamsId, :teamId, :userId, :isAdmin)", [
                     "userTeamsId" => $userTeamId,
                     "teamId" => $teamId,
                     "userId" => $memberArray[$i]['userId'],
@@ -96,14 +96,14 @@ class TeamsController
 
             $teamMembers = $this->db->query("
             SELECT
-            ut.isAdmin,
+            tm.isAdmin,
             u.username,
             u.email,
             u.userId
-            FROM user_teams AS ut
+            FROM team_member AS tm
             JOIN users AS u 
-            ON ut.userId = u.userId
-            WHERE ut.teamId = :teamId
+            ON tm.userId = u.userId
+            WHERE tm.teamId = :teamId
             ", ["teamId" => $teamId], "return");
 
             if ($returnCondition === "return") {
@@ -182,7 +182,7 @@ class TeamsController
             $userTeamId = uniqid("", true);
             $this->addMemberToTeamMemberArray($teamId);
 
-            $this->db->query("INSERT INTO user_teams (userTeamsId, teamId, userId, isAdmin) VALUES (:userTeamsId, :teamId, :userId, :isAdmin)", [
+            $this->db->query("INSERT INTO team_member (userTeamsId, teamId, userId, isAdmin) VALUES (:userTeamsId, :teamId, :userId, :isAdmin)", [
                 "userTeamsId" => $userTeamId,
                 "teamId" => $teamId,
                 "userId" => $userId,
@@ -201,7 +201,7 @@ class TeamsController
             $userId = $this->validation->sanitizeString($requestData);
             $teamId = $this->validation->sanitizeString($this->teamId["teamId"]);
 
-            $this->db->query("UPDATE user_teams SET isAdmin  = :isAdmin WHERE userId = :userId AND teamId = :teamId ", [
+            $this->db->query("UPDATE team_member SET isAdmin  = :isAdmin WHERE userId = :userId AND teamId = :teamId ", [
                 'isAdmin' => 1,
                 'userId' => $userId,
                 "teamId" => $teamId
@@ -219,7 +219,7 @@ class TeamsController
             $userId = $this->validation->sanitizeString($this->teamId["userId"]);
             $this->removeMemberFromTeamMemberArray(($teamId));
 
-            $this->db->query("DELETE FROM user_teams WHERE teamId = :teamId AND userId = :userId", ["teamId" => $teamId, "userId" => $userId]);
+            $this->db->query("DELETE FROM team_member WHERE teamId = :teamId AND userId = :userId", ["teamId" => $teamId, "userId" => $userId]);
 
             json_encode(["message" => "member successfully removed"]);
         }

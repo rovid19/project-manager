@@ -18,7 +18,6 @@ export class AddMemberEditTeam {
     this.handleManagerClassReset = handleManagerClassReset;
     this.createAddButtonElementForEveryMember();
     this.removeAddMemberTitle();
-    console.log(this.teamId);
   }
 
   removeAddMemberTitle() {
@@ -30,7 +29,6 @@ export class AddMemberEditTeam {
   createAddButtonElementForEveryMember() {
     setTimeout(() => {
       document.querySelectorAll(".member-item").forEach((member) => {
-        console.log(member);
         const addButton = createElement({
           tag: "button",
           className: "add-member-button",
@@ -61,7 +59,6 @@ export class AddMemberEditTeam {
   }
 
   async submitSelectedMember() {
-    console.log(this.teamId);
     await new TeamsService(
       `http://localhost:3000/team/${this.teamId}/add/member`
     ).addMemberToTeam({ selectedMember: this.selectedMember });

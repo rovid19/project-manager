@@ -1,6 +1,5 @@
 import { ProjectsService } from "../../../Services/ProjectsService";
 import { MembersData } from "../../../Types/ProjectsTypes";
-import { createElement } from "../../../Utils/Helpers";
 
 export class AddMemberProjectPopup {
   popupState: string = "";
@@ -32,6 +31,7 @@ export class AddMemberProjectPopup {
       (this.closePopup = closePopup);
 
     this.addCallbackToEveryMemberItem();
+    console.log(this.members);
   }
 
   //API CALLS--------------------------------------------------------
@@ -43,11 +43,7 @@ export class AddMemberProjectPopup {
       await new ProjectsService(
         "http://localhost:3000/handle-add-member-to-project"
       ).handleAddMember(this.selectedId, this.projectId);
-      /* const result = await new ProjectsService(
-        `http://localhost:3000/get-project/${this.projectId}`
-      ).fetchUserProject();*/
 
-      // this.setProjectDataOnParentController(result.membersData);
       this.closePopup();
       this.handleManagerClassReset();
     } else {
@@ -55,19 +51,25 @@ export class AddMemberProjectPopup {
     }
   };
 
-  async submitAddTeam(e: Event) {
-    e.preventDefault();
-    if (this.selectedId && this.projectId) {
-      await new ProjectsService(
-        `http://localhost:3000/projects/${this.projectId}/add/team `
-      ).addTeam(this.selectedId);
-    } else {
-      console.log("no team, member or project id");
-    }
+  submitAddTeam = async (e: Event) => {
+    if (this.members.length === 0) {
+      e.preventDefault();
+      this.selectMemberOrTeamId(e);
 
-    this.closePopup();
-    this.handleManagerClassReset();
-  }
+      if (this.selectedId && this.projectId) {
+        await new ProjectsService(
+          `http://localhost:3000/projects/${this.projectId}/add/team `
+        ).addTeam(this.selectedId);
+      } else {
+        console.log("no team, member or project id");
+      }
+
+      this.closePopup();
+      this.handleManagerClassReset();
+    } else {
+      alert("your project must no have any members in order to add a team");
+    }
+  };
 
   selectMemberOrTeamId(e: Event) {
     const target = e.target as HTMLElement;
@@ -79,8 +81,9 @@ export class AddMemberProjectPopup {
   addCallbackToEveryMemberItem() {
     setTimeout(() => {
       document.querySelectorAll(".member-item").forEach((memberItem) => {
-        if (this.popupState === "team") console.log();
-        else (memberItem as HTMLElement).onclick = this.submitAddMember;
+        if (this.popupState === "team") {
+          (memberItem as HTMLElement).onclick = this.submitAddTeam;
+        } else (memberItem as HTMLElement).onclick = this.submitAddMember;
       });
     }, 100);
   }

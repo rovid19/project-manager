@@ -34,9 +34,8 @@ export class ProjectsService extends BaseApi {
     title: string;
     description: string;
   }): Promise<any> {
-    console.log(projectData);
     const result = await this.put(projectData);
-    console.log(result);
+
     return result;
   }
 

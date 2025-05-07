@@ -2,6 +2,9 @@ import { createMainContent } from "../Components/MainContent";
 import { createSidebar } from "../Components/Sidebar";
 import { router } from "../main";
 import { AuthService } from "../Services/AuthService";
+import { ProjectsService } from "../Services/ProjectsService";
+import { userStore } from "../Store/UserStore";
+import { Team } from "../Types/TeamsTypes";
 
 export function createElement({
   tag,
@@ -105,4 +108,16 @@ export function selectHtmlElement(e: Event, className: string) {
 
 export function countTeamMembers(teamMembers: string) {
   return teamMembers.split(",").length - 1;
+}
+
+export async function getUserData() {
+  let result = await new ProjectsService(
+    `http://localhost:3000/user/${userStore.getState().userId}/get/teams`
+  ).getAllTeams();
+
+  let newTeamState = [] as Team[];
+
+  result.allTeams.forEach((item: any) => newTeamState.push(item));
+  userStore.setState({ teams: newTeamState });
+  result = null;
 }

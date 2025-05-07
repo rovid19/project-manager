@@ -1,10 +1,11 @@
 import { MembersData, Task } from "../Types/ProjectsTypes";
+import { Team } from "../Types/TeamsTypes";
 import { Store } from "./Store";
 
 export type UserStoreType = {
   username: string;
   email: string;
-  teams: number;
+  teams: Team[];
   projects: Project[];
   userId: string;
 };
@@ -32,7 +33,7 @@ class UserStore extends Store {
 export const userStore = new UserStore({
   username: "",
   email: "",
-  teams: 0,
+  teams: [],
   projects: [{ title: "", description: "", icon: "", projectId: "" }],
   userId: "",
 });

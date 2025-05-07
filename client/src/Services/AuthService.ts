@@ -12,7 +12,6 @@ export class AuthService extends BaseApi {
         email: result.email,
         userId: result.userId,
       });
-      console.log(result);
     }
   }
   async loginUser() {

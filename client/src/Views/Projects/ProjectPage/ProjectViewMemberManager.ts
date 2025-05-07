@@ -82,7 +82,6 @@ export class ProjectViewMemberManager extends ProjectView {
     }
     // render members
     else {
-      console.log(this.membersData);
       this.membersData.forEach((member) => {
         const element = createElement({
           tag: "div",

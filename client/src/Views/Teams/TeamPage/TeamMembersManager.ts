@@ -172,7 +172,6 @@ export class TeamMembersManager extends TeamView {
   }
 
   getUserId(memberElement: HTMLElement) {
-    console.log(memberElement);
     this.selectedUserId = memberElement.dataset.projectId as string;
   }
 

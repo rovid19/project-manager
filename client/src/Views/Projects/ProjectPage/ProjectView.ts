@@ -83,7 +83,6 @@ export class ProjectView {
 
   //CORE LOGIC-----------------------------------------------------
   async handleManagerClassSetup() {
-    console.log("yoyoyo");
     const { ProjectViewInfoManager } = await import("./ProjectViewInfoManager");
     const { ProjectViewMemberManager } = await import(
       "./ProjectViewMemberManager"
@@ -91,6 +90,7 @@ export class ProjectView {
     const { ProjectViewTaskManager } = await import("./ProjectViewTaskManager");
 
     await this.fetchUserProject();
+    console.log(this.members);
     this.infoManagerController = new ProjectViewInfoManager(
       this.projectId,
       this.title,
@@ -142,7 +142,10 @@ export class ProjectView {
     this.description = projectData.project.description;
     this.icon = projectData.project.icon;
     this.projectId = projectData.project.projectId;
-    this.members = JSON.parse(projectData.project.members);
+    this.members = [];
+    projectData.membersData.forEach((member) =>
+      this.members.push(member.userId)
+    );
     this.membersData = projectData.membersData;
     this.projectTasks = projectData.taskData;
   };
@@ -171,9 +174,7 @@ export class ProjectView {
   };
 
   handleChangePopupValue = (value: string) => {
-    console.log(value);
     this.popupState = value;
-    console.log(this.popupState);
   };
 
   cardDeleteAni(removedCard: HTMLElement) {
