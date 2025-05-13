@@ -28,6 +28,7 @@ export class ProjectView {
   projectTasks: Task[] | null = null;
   taskContainer: HTMLElement | null = null;
   taskId: string = "";
+  teamId: string = "";
   memberManagerController: ProjectViewMemberManager | null = null;
   infoManagerController: ProjectViewInfoManager | null = null;
   taskManagerController: ProjectViewTaskManager | null = null;
@@ -90,7 +91,7 @@ export class ProjectView {
     const { ProjectViewTaskManager } = await import("./ProjectViewTaskManager");
 
     await this.fetchUserProject();
-    console.log(this.members);
+
     this.infoManagerController = new ProjectViewInfoManager(
       this.projectId,
       this.title,
@@ -98,10 +99,12 @@ export class ProjectView {
       this.projectContainerElement as HTMLElement,
       this.handleManagerClassReset
     );
+    console.log(this.teamId);
     this.memberManagerController = new ProjectViewMemberManager(
       this.membersData,
       this.projectId,
       this.projectContainerElement as HTMLElement,
+      this.teamId,
       this.openPopup,
       this.handleChangePopupValue,
       this.handleManagerClassReset
@@ -138,6 +141,8 @@ export class ProjectView {
   }
 
   setProjectData = (projectData: ProjectData) => {
+    console.log(projectData);
+    this.teamId = projectData.project.teamId as string;
     this.title = projectData.project.title;
     this.description = projectData.project.description;
     this.icon = projectData.project.icon;
@@ -160,6 +165,7 @@ export class ProjectView {
       this.popupState,
       this.projectId,
       this.members,
+      this.teamId,
       () => {},
       this.fetchUserProject,
       this.membersData,

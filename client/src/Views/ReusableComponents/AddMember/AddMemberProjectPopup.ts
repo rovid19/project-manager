@@ -6,6 +6,7 @@ export class AddMemberProjectPopup {
   popupElement: HTMLElement;
   view: string;
   projectId: string;
+  teamId: string;
   members: any;
   selectedId: string = "";
   setProjectDataOnParentController: (newMembers: MembersData[]) => void;
@@ -14,6 +15,7 @@ export class AddMemberProjectPopup {
   constructor(
     popupState: string,
     popupElement: HTMLElement,
+    teamId: string,
     view: string,
     projectId: string,
     members: string[],
@@ -23,6 +25,7 @@ export class AddMemberProjectPopup {
   ) {
     (this.popupState = popupState),
       (this.popupElement = popupElement),
+      (this.teamId = teamId),
       (this.view = view),
       (this.projectId = projectId),
       (this.members = members);
@@ -52,7 +55,8 @@ export class AddMemberProjectPopup {
   };
 
   submitAddTeam = async (e: Event) => {
-    if (this.members.length === 0) {
+    console.log(this.teamId);
+    if (!this.teamId) {
       e.preventDefault();
       this.selectMemberOrTeamId(e);
 

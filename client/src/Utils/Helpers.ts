@@ -13,8 +13,10 @@ export function createElement({
   text,
   onClick,
   onChange,
+  oninput,
   name,
   data,
+  style,
   ...props
 }: any) {
   // Handle element creation
@@ -23,12 +25,20 @@ export function createElement({
   if (text) element.innerText = text;
   if (name) element.name = name;
   if (data) element.dataset.projectId = data;
+  if (style) {
+    // Handle style as string or object
+    if (typeof style === "string") {
+      element.setAttribute("style", style);
+    } else if (typeof style === "object") {
+      Object.assign(element.style, style);
+    }
+  }
   Object.assign(element, props);
 
   // Handle event listeners
   if (onClick) element.onclick = onClick;
-
-  if (onChange) element.onChange = onChange;
+  if (onChange) element.onchange = onChange;
+  if (oninput) element.oninput = oninput;
 
   // Handle children separately
   if (children) {

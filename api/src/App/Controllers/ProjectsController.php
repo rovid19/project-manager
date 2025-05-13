@@ -47,27 +47,42 @@ class ProjectsController
             "members" => "[]"
         ]);
 
+        $this->insertUserWhoCreatedProjectAsProjectMember($userId, $projectId);
+
 
         echo json_encode(["message" => "project successfully created"]);
+    }
+
+    public function insertUserWhoCreatedProjectAsProjectMember($userId, $projectId)
+    {
+
+        $this->db->query("INSERT INTO project_member (projectMemberId, userId, projectId) VALUES (:projectMemberId, :userId, :projectId)", [
+            "projectMemberId" => uniqid("", true),
+            "userId" => $userId,
+            "projectId" => $projectId
+        ]);
     }
 
     public function getUserProject()
     {
         if (isset($this->projectId['projectId'])) {
             $projectId = $this->validation->sanitizeString($this->projectId['projectId']);
-
+            $teamId = $this->validation->sanitizeString($this->projectId["teamId"]);
             $project = $this->db->query("SELECT * FROM project WHERE projectId = :projectId ", ["projectId" => $projectId], "return");
 
-            $projectMemberData = $this->db->query("
+            $projectMemberData = [];
+            if (!empty($this->projectId["teamId"])) {
+                $projectMemberData = $this->db->query("
             SELECT
             u.userId,
             u.username,
             u.email
             FROM users AS u
-            JOIN project_member AS pm
-            ON pm.userId = u.userId
-            WHERE pm.projectId = :projectId
-            ", ["projectId" => $projectId], "return");
+            JOIN team_member AS tm
+            ON tm.userId = u.userId
+            WHERE tm.teamId = :teamId
+            ", ["teamId" => $teamId], "return");
+            }
 
             $projectTaskData = $this->db->query("
             SELECT
@@ -213,6 +228,8 @@ class ProjectsController
             WHERE teamId = :teamId 
             ", ["teamId" => $teamId], "return");
 
+            $this->db->query("UPDATE project SET teamId = :teamId WHERE projectId = :projectId", ["teamId" => $teamId, "projectId" => $projectId]);
+
             foreach ($allTeamMembers as $teamMember) {
                 //$teamMember[] = $this->db->query("SELECT * FROM users WHERE userId = :userId", ["userId" => $teamMember["userId"]], "return");
                 $id = uniqid("", true);
@@ -269,6 +286,7 @@ class ProjectsController
             ON tm.teamId = t.teamId
             WHERE tm.userId = :userId AND tm.isAdmin = :isAdmin", ["userId" => $userId, "isAdmin" => 1], "return");
 
+            //$teamMembers = $this->db->query("SELECT");
             // $memberCount = $this->countMembersInTeam($teamId);
 
 
@@ -283,4 +301,19 @@ class ProjectsController
         $teamMmebers = $this->db->query("SELECT * FROM team_member WHERE teamId = :teamId", ["teamId" => $teamId], "return");
         return count($teamMmebers);
     }*/
+
+
+    public function removeTeam()
+    {
+        if (!empty($this->projectId["projectId"]) && !empty($this->projectId["teamId"])) {
+            $projectId = $this->validation->sanitizeString($this->projectId["projectId"]);
+            $teamId = $this->validation->sanitizeString($this->projectId["teamId"]);
+
+            $this->db->query("UPDATE project SET teamId = NULL WHERE projectId = :projectId", ["projectId" => $projectId]);
+
+
+
+            echo json_encode(["message" => "team successfully removed"]);
+        }
+    }
 }

@@ -21,6 +21,8 @@ export type Project = {
   description: string;
   icon: string;
   projectId: string;
+  teamId?: string;
+  userId?: string;
   members?: string[];
 };
 

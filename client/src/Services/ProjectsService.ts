@@ -70,4 +70,8 @@ export class ProjectsService extends BaseApi {
   async addTeam(teamId: string) {
     await this.post(teamId);
   }
+
+  async removeTeam() {
+    await this.delete();
+  }
 }

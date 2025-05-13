@@ -8,11 +8,13 @@ class TasksController
 {
     private $db;
     private $validation;
+    private $params;
 
-    public function __construct($db)
+    public function __construct($db, $params)
     {
         $this->db = $db;
         $this->validation = new Validation();
+        $this->params = $params;
     }
 
     public function createNewTask()
@@ -34,6 +36,7 @@ class TasksController
             $deadline = htmlspecialchars(trim($taskData['deadline']), ENT_QUOTES, 'UTF-8');
             $projectId = $this->validation->sanitizeString($taskData['projectId']);
 
+            $project = $this->db->query("SELECT * FROM project WHERE projectId = :projectId", ["projectId" => $projectId], "return");
 
             $taskId = uniqid(true);
             $sql = "INSERT INTO task (taskId, title, description,deadline, assignee, projectId) VALUES(:taskId, :title, :description, :deadline, :assignee, :projectId)";
@@ -43,7 +46,8 @@ class TasksController
                 "description" => $description,
                 "deadline" => $deadline,
                 "assignee" => $assignee,
-                "projectId" => $projectId
+                "projectId" => $projectId,
+                "teamId" => $project["teamId"]
             ]);
 
             http_response_code(201);
@@ -68,6 +72,18 @@ class TasksController
         } else {
             echo json_encode("taskId isnt set correctly");
             exit();
+        }
+    }
+
+
+    public function getAllUserTasks()
+    {
+        if (!empty($this->params["userId"])) {
+            $userId = $this->validation->sanitizeString($this->params["userId"]);
+
+            $allTasks = $this->db->query("SELECT * FROM task WHERE assignee = :assignee", ["assignee" => $userId], "return");
+
+            echo json_encode($allTasks);
         }
     }
 }

@@ -10,6 +10,7 @@ export class ProjectViewMemberManager extends ProjectView {
   removeProjectMemberId: string = "";
   projectContainerElement: HTMLElement | null = null;
   projectMemberDiv: HTMLElement | null = null;
+  teamId: string = "";
   handleOpenPopup: () => void = () => {};
   handleChangePopupValue: (value: string) => void;
   handleManagerClassReset: () => Promise<void>;
@@ -18,6 +19,7 @@ export class ProjectViewMemberManager extends ProjectView {
     membersData: MembersData[],
     projectId: string,
     projectContainerElement: HTMLElement,
+    teamId: string,
     handleOpenPopup: () => void,
     handleChangePopupValue: (value: string) => void,
     handleManagerClassReset: () => Promise<void>
@@ -26,6 +28,7 @@ export class ProjectViewMemberManager extends ProjectView {
     this.projectId = projectId;
     this.membersData = membersData;
     this.projectContainerElement = projectContainerElement;
+    this.teamId = teamId;
     this.handleOpenPopup = handleOpenPopup;
     this.handleChangePopupValue = handleChangePopupValue;
     this.handleManagerClassReset = handleManagerClassReset;
@@ -34,6 +37,7 @@ export class ProjectViewMemberManager extends ProjectView {
 
   //UI RENDER------------------------------------------------------
   renderProjectMemberDiv() {
+    console.log(this.teamId);
     const projectMemberDiv = createElement({
       tag: "div",
       className: "project-members-div",
@@ -45,14 +49,18 @@ export class ProjectViewMemberManager extends ProjectView {
             createElement({
               tag: "button",
               className: "add-team",
-              innerText: "Add Team",
+              innerText: this.teamId ? "Remove team" : "Add Team",
               onClick: (e: Event) => {
                 e.preventDefault();
-                this.handleChangePopupValue("team");
-                this.handleOpenPopup();
+                if (!this.teamId) {
+                  this.handleChangePopupValue("team");
+                  this.handleOpenPopup();
+                } else {
+                  this.removeTeamFromProject();
+                }
               },
             }),
-            createElement({
+            /*createElement({
               tag: "button",
               className: "add-member",
               innerText: "Add Member",
@@ -61,7 +69,7 @@ export class ProjectViewMemberManager extends ProjectView {
                 this.handleChangePopupValue("member");
                 this.handleOpenPopup();
               },
-            }),
+            }),*/
           ],
         }),
       ],
@@ -157,6 +165,14 @@ export class ProjectViewMemberManager extends ProjectView {
     }
   };
 
+  //CORE LOGIC------------------------------------------------------
+
+  addDeleteAnimationToEachTeamMember() {
+    document.querySelectorAll("member-item").forEach((member) => {
+      this.cardDeleteAni(member as HTMLElement);
+    });
+  }
+
   //API CALLS------------------------------------------------------
   async removeMemberFromProject() {
     await new ProjectsService(
@@ -167,5 +183,16 @@ export class ProjectViewMemberManager extends ProjectView {
     setTimeout(() => {
       this.handleManagerClassReset();
     }, 300);
+  }
+
+  async removeTeamFromProject() {
+    await new ProjectsService(
+      `http://localhost:3000/projects/${this.projectId}/remove/${this.teamId}`
+    ).removeTeam();
+
+    this.addDeleteAnimationToEachTeamMember();
+    setTimeout(() => {
+      this.handleManagerClassReset();
+    }, 320);
   }
 }

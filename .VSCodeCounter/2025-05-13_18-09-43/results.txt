@@ -1,0 +1,142 @@
+Date : 2025-05-13 18:09:43
+Directory : /Users/rock/Documents/Projekti/project-manager/client
+Total : 70 files,  6854 codes, 434 comments, 848 blanks, all 8136 lines
+
+Languages
++--------------------+------------+------------+------------+------------+------------+
+| language           | files      | code       | comment    | blank      | total      |
++--------------------+------------+------------+------------+------------+------------+
+| TypeScript         |         44 |      4,020 |        295 |        529 |      4,844 |
+| CSS                |         21 |      1,855 |        137 |        311 |      2,303 |
+| JSON               |          2 |        935 |          0 |          2 |        937 |
+| HTML               |          2 |         25 |          0 |          3 |         28 |
+| JSON with Comments |          1 |         19 |          2 |          3 |         24 |
++--------------------+------------+------------+------------+------------+------------+
+
+Directories
++--------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                                     | files      | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                        |         70 |      6,854 |        434 |        848 |      8,136 |
+| . (Files)                                                                                                                |          5 |        976 |          2 |          8 |        986 |
+| src                                                                                                                      |         65 |      5,878 |        432 |        840 |      7,150 |
+| src (Files)                                                                                                              |          3 |         43 |          7 |          6 |         56 |
+| src/Assets                                                                                                               |          1 |         57 |          0 |         11 |         68 |
+| src/Components                                                                                                           |          4 |        283 |         43 |         36 |        362 |
+| src/Routes                                                                                                               |          1 |        111 |         14 |         28 |        153 |
+| src/Services                                                                                                             |          5 |        210 |          1 |         54 |        265 |
+| src/Store                                                                                                                |          2 |         84 |         21 |         22 |        127 |
+| src/Styles                                                                                                               |         21 |      1,855 |        137 |        311 |      2,303 |
+| src/Styles (Files)                                                                                                       |          4 |        138 |          2 |         24 |        164 |
+| src/Styles/SharedStylings                                                                                                |          4 |        123 |          1 |         18 |        142 |
+| src/Styles/Views                                                                                                         |         13 |      1,594 |        134 |        269 |      1,997 |
+| src/Styles/Views/Auth                                                                                                    |          1 |         81 |          0 |         13 |         94 |
+| src/Styles/Views/Dashboard                                                                                               |          1 |         45 |         44 |          9 |         98 |
+| src/Styles/Views/Projects                                                                                                |          4 |        619 |         45 |        103 |        767 |
+| src/Styles/Views/Projects (Files)                                                                                        |          1 |        137 |          2 |         24 |        163 |
+| src/Styles/Views/Projects/Project                                                                                        |          3 |        482 |         43 |         79 |        604 |
+| src/Styles/Views/Reports                                                                                                 |          1 |          0 |          0 |          1 |          1 |
+| src/Styles/Views/Tasks                                                                                                   |          2 |        346 |         17 |         62 |        425 |
+| src/Styles/Views/Teams                                                                                                   |          4 |        503 |         28 |         81 |        612 |
+| src/Styles/Views/Teams (Files)                                                                                           |          1 |        242 |         28 |         39 |        309 |
+| src/Styles/Views/Teams/Team                                                                                              |          3 |        261 |          0 |         42 |        303 |
+| src/Types                                                                                                                |          4 |         39 |          0 |          5 |         44 |
+| src/Utils                                                                                                                |          1 |         88 |         14 |         22 |        124 |
+| src/Views                                                                                                                |         23 |      3,108 |        195 |        345 |      3,648 |
+| src/Views/Auth                                                                                                           |          1 |        177 |         11 |         22 |        210 |
+| src/Views/Dashboard                                                                                                      |          1 |        159 |          6 |         20 |        185 |
+| src/Views/Error                                                                                                          |          1 |         41 |          0 |          6 |         47 |
+| src/Views/Projects                                                                                                       |          8 |      1,157 |         32 |        122 |      1,311 |
+| src/Views/Projects/ProjectPage                                                                                           |          6 |        862 |         21 |         72 |        955 |
+| src/Views/Projects/ProjectPage (Files)                                                                                   |          4 |        605 |         17 |         50 |        672 |
+| src/Views/Projects/ProjectPage/ProjectPopups                                                                             |          2 |        257 |          4 |         22 |        283 |
+| src/Views/Projects/ProjectsPage                                                                                          |          2 |        295 |         11 |         50 |        356 |
+| src/Views/Projects/ProjectsPage (Files)                                                                                  |          1 |         99 |          3 |         23 |        125 |
+| src/Views/Projects/ProjectsPage/ProjectsPopup                                                                            |          1 |        196 |          8 |         27 |        231 |
+| src/Views/Reports                                                                                                        |          1 |         38 |          0 |          4 |         42 |
+| src/Views/ReusableComponents                                                                                             |          4 |        357 |         11 |         47 |        415 |
+| src/Views/ReusableComponents/AddMember                                                                                   |          4 |        357 |         11 |         47 |        415 |
+| src/Views/Tasks                                                                                                          |          2 |        406 |        115 |         42 |        563 |
+| src/Views/Tasks (Files)                                                                                                  |          1 |        121 |        102 |         22 |        245 |
+| src/Views/Tasks/TaskDetails                                                                                              |          1 |        285 |         13 |         20 |        318 |
+| src/Views/Teams                                                                                                          |          5 |        773 |         20 |         82 |        875 |
+| src/Views/Teams/TeamPage                                                                                                 |          3 |        445 |         11 |         51 |        507 |
+| src/Views/Teams/TeamsPage                                                                                                |          2 |        328 |          9 |         31 |        368 |
++--------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++--------------------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| filename                                                                                                                 | language           | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| /Users/rock/Documents/Projekti/project-manager/client/index.html                                                         | HTML               |         13 |          0 |          1 |         14 |
+| /Users/rock/Documents/Projekti/project-manager/client/package-lock.json                                                  | JSON               |        920 |          0 |          1 |        921 |
+| /Users/rock/Documents/Projekti/project-manager/client/package.json                                                       | JSON               |         15 |          0 |          1 |         16 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Assets/Icons.ts                                                | TypeScript         |         57 |          0 |         11 |         68 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Components/MainContent.ts                                      | TypeScript         |         12 |          0 |          2 |         14 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Components/PopupModal.ts                                       | TypeScript         |         26 |         30 |          4 |         60 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Components/ProjectCard.ts                                      | TypeScript         |         57 |          0 |          6 |         63 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Components/Sidebar.ts                                          | TypeScript         |        188 |         13 |         24 |        225 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Routes/Router.ts                                               | TypeScript         |        111 |         14 |         28 |        153 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Services/AuthService.ts                                        | TypeScript         |         48 |          0 |          9 |         57 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Services/BaseService.ts                                        | TypeScript         |         54 |          1 |         11 |         66 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Services/ProjectsService.ts                                    | TypeScript         |         55 |          0 |         19 |         74 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Services/TaskService.ts                                        | TypeScript         |         16 |          0 |          4 |         20 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Services/TeamsService.ts                                       | TypeScript         |         37 |          0 |         11 |         48 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Store/Store.ts                                                 | TypeScript         |         49 |         21 |         16 |         86 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Store/UserStore.ts                                             | TypeScript         |         35 |          0 |          6 |         41 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/Error.css                                               | CSS                |         11 |          0 |          2 |         13 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/MainContent.css                                         | CSS                |          5 |          1 |          1 |          7 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/Root.css                                                | CSS                |         12 |          0 |          3 |         15 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/SharedStylings/Popup.css                                | CSS                |         41 |          0 |          6 |         47 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/SharedStylings/ProjectCards.css                         | CSS                |         43 |          1 |          8 |         52 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/SharedStylings/SectionHeader.css                        | CSS                |         12 |          0 |          2 |         14 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/SharedStylings/UpperInnerSection.css                    | CSS                |         27 |          0 |          2 |         29 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/Sidebar.css                                             | CSS                |        110 |          1 |         18 |        129 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/Views/Auth/Login.css                                    | CSS                |         81 |          0 |         13 |         94 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/Views/Dashboard/Dashboard.css                           | CSS                |         45 |         44 |          9 |         98 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/Views/Projects/Project/Project.css                      | CSS                |        321 |         43 |         55 |        419 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/Views/Projects/Project/ProjectMemberPopup.css           | CSS                |         90 |          0 |         14 |        104 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/Views/Projects/Project/ProjectPopup.css                 | CSS                |         71 |          0 |         10 |         81 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/Views/Projects/Projects.css                             | CSS                |        137 |          2 |         24 |        163 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/Views/Reports/Reports.css                               | CSS                |          0 |          0 |          1 |          1 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/Views/Tasks/TaskDetailsPopup.css                        | CSS                |        186 |          9 |         34 |        229 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/Views/Tasks/Tasks.css                                   | CSS                |        160 |          8 |         28 |        196 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/Views/Teams/Team/AddMemberEditTeam.css                  | CSS                |         11 |          0 |          2 |         13 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/Views/Teams/Team/Team.css                               | CSS                |        188 |          0 |         31 |        219 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/Views/Teams/Team/TeamPopup.css                          | CSS                |         62 |          0 |          9 |         71 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Styles/Views/Teams/Teams.css                                   | CSS                |        242 |         28 |         39 |        309 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Types/ProjectsTypes.ts                                         | TypeScript         |         14 |          0 |          2 |         16 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Types/TasksTypes.ts                                            | TypeScript         |          8 |          0 |          1 |          9 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Types/TeamsTypes.ts                                            | TypeScript         |         13 |          0 |          2 |         15 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Types/css.d.ts                                                 | TypeScript         |          4 |          0 |          0 |          4 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Utils/Helpers.ts                                               | TypeScript         |         88 |         14 |         22 |        124 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Views/Auth/AuthView.ts                                         | TypeScript         |        177 |         11 |         22 |        210 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Views/Dashboard/DashboardView.ts                               | TypeScript         |        159 |          6 |         20 |        185 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Views/Error/ErrorView.ts                                       | TypeScript         |         41 |          0 |          6 |         47 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Views/Projects/ProjectPage/ProjectPopups/ProjectTaskPopup.ts   | TypeScript         |        187 |          0 |         15 |        202 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Views/Projects/ProjectPage/ProjectPopups/ProjectViewPopup.ts   | TypeScript         |         70 |          4 |          7 |         81 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Views/Projects/ProjectPage/ProjectView.ts                      | TypeScript         |        181 |          3 |         20 |        204 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Views/Projects/ProjectPage/ProjectViewInfoManager.ts           | TypeScript         |        124 |          5 |         13 |        142 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Views/Projects/ProjectPage/ProjectViewMemberManager.ts         | TypeScript         |        159 |          5 |          8 |        172 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Views/Projects/ProjectPage/ProjectViewTaskManager.ts           | TypeScript         |        141 |          4 |          9 |        154 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Views/Projects/ProjectsPage/ProjectsPopup/CreateNewProject.ts  | TypeScript         |        196 |          8 |         27 |        231 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Views/Projects/ProjectsPage/ProjectsView.ts                    | TypeScript         |         99 |          3 |         23 |        125 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Views/Reports/ReportsView.ts                                   | TypeScript         |         38 |          0 |          4 |         42 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Views/ReusableComponents/AddMember/AddMemberContainer.ts       | TypeScript         |        157 |          3 |         13 |        173 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Views/ReusableComponents/AddMember/AddMemberCreateTeamPopup.ts | TypeScript         |         65 |          6 |         11 |         82 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Views/ReusableComponents/AddMember/AddMemberEditTeam.ts        | TypeScript         |         57 |          0 |         12 |         69 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Views/ReusableComponents/AddMember/AddMemberProjectPopup.ts    | TypeScript         |         78 |          2 |         11 |         91 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Views/Tasks/TaskDetails/TaskDetailsPopup.ts                    | TypeScript         |        285 |         13 |         20 |        318 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Views/Tasks/TasksView.ts                                       | TypeScript         |        121 |        102 |         22 |        245 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Views/Teams/TeamPage/TeamMembersManager.ts                     | TypeScript         |        185 |          4 |         20 |        209 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Views/Teams/TeamPage/TeamSettingsManager.ts                    | TypeScript         |        140 |          5 |         13 |        158 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Views/Teams/TeamPage/TeamView.ts                               | TypeScript         |        120 |          2 |         18 |        140 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Views/Teams/TeamsPage/CreateNewTeamPopup.ts                    | TypeScript         |        134 |          6 |         15 |        155 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/Views/Teams/TeamsPage/TeamsView.ts                             | TypeScript         |        194 |          3 |         16 |        213 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/index.html                                                     | HTML               |         12 |          0 |          2 |         14 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/main.ts                                                        | TypeScript         |         31 |          6 |          3 |         40 |
+| /Users/rock/Documents/Projekti/project-manager/client/src/vite-env.d.ts                                                  | TypeScript         |          0 |          1 |          1 |          2 |
+| /Users/rock/Documents/Projekti/project-manager/client/tsconfig.json                                                      | JSON with Comments |         19 |          2 |          3 |         24 |
+| /Users/rock/Documents/Projekti/project-manager/client/vite.config.ts                                                     | TypeScript         |          9 |          0 |          2 |         11 |
+| Total                                                                                                                    |                    |      6,854 |        434 |        848 |      8,136 |
++--------------------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+

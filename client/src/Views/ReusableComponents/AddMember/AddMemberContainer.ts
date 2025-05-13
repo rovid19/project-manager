@@ -130,6 +130,7 @@ export class AddMemberContainer {
       new AddMemberProjectPopup(
         this.popupState,
         this.popupElement,
+        this.teamId,
         this.view,
         this.projectId,
         this.members,
@@ -163,10 +164,10 @@ export class AddMemberContainer {
 
   async getAllTeams() {
     let result = await new ProjectsService(
-      `http://localhost:3000/user/${userStore.getState().userId}/get/teams`
+      `http://localhost:3000/get-all-user-teams`
     ).getAllTeams();
-
-    result.allTeams.forEach((item: any) => this.allTeamsArray.push(item));
+    console.log(result);
+    result.forEach((item: any) => this.allTeamsArray.push(item));
     result = null;
   }
 }

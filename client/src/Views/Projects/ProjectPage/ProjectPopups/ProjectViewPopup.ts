@@ -19,6 +19,7 @@ export class ProjectViewPopup extends ProjectView {
     popupState: string = "",
     projectId: string = "",
     members: string[],
+    teamId: string,
     setProjectDataOnParentController: (newMembers: MembersData[]) => void,
     fetchUserProject: () => Promise<void>,
     membersData: MembersData[],
@@ -29,6 +30,7 @@ export class ProjectViewPopup extends ProjectView {
     this.popupState = popupState;
     this.projectId = projectId;
     this.members = members;
+    this.teamId = teamId;
     this.setProjectDataOnParentController = setProjectDataOnParentController;
     this.fetchUserProject = fetchUserProject;
     this.membersData = membersData;
@@ -57,7 +59,7 @@ export class ProjectViewPopup extends ProjectView {
     new AddMemberContainer(
       this.popupState,
       popup,
-      "",
+      this.teamId,
       "project",
       this.projectId,
       this.members,
