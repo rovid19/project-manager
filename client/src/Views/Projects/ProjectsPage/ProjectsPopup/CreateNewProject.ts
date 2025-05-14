@@ -3,6 +3,7 @@ import { ProjectsService } from "../../../../Services/ProjectsService";
 import { Project, userStore } from "../../../../Store/UserStore";
 import { Team } from "../../../../Types/TeamsTypes";
 import { createElement, formValidation } from "../../../../Utils/Helpers";
+import "../../../../Styles/SharedStylings/Popup.css";
 
 export class CreateNewProjectPopup {
   popupElement: HTMLElement | null = null;

@@ -16,6 +16,7 @@ export class ProjectsService extends BaseApi {
         description: project.description,
         icon: project.icon,
         projectId: project.projectId,
+        teamId: project.teamId,
       });
     });
 

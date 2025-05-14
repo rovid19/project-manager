@@ -1,6 +1,6 @@
 import "../../../Styles/Views/Projects/Projects.css";
 import { store } from "../../../Store/Store";
-import { createElement } from "../../../Utils/Helpers";
+import { changeTeam, createElement, teamId } from "../../../Utils/Helpers";
 import { ProjectsService } from "../../../Services/ProjectsService";
 import { Project, userStore } from "../../../Store/UserStore";
 import { CreateNewProjectPopup } from "./ProjectsPopup/CreateNewProject";
@@ -297,7 +297,7 @@ export class ProjectsView {
               tag: "button",
               className: "card-action-btn",
               text: "View Project",
-              onClick: () => this.navigateToProject(project.projectId),
+              onClick: () => this.navigateToProject(project.projectId, project),
             }),
           ],
         }),
@@ -307,15 +307,13 @@ export class ProjectsView {
     return card;
   }
 
-  private navigateToProject(projectId: string) {
-    window.location.href = `/projects/${projectId}`;
+  private navigateToProject(projectId: string, project: any) {
+    window.location.href = `/projects/${projectId}/${project.teamId}`;
   }
 
   private handleSearchInput(e: Event) {
     const searchTerm = (e.target as HTMLInputElement).value.toLowerCase();
     const dashboard = document.getElementById("projects-dashboard");
-
-    console.log(searchTerm);
     if (!dashboard) return;
 
     // Clear dashboard
@@ -408,6 +406,7 @@ export class ProjectsView {
       "http://localhost:3000/get-all-user-projects"
     ).fetchAllUserProjects()) as Project[];
 
+    console.log(result);
     this.projects = result;
   };
 }

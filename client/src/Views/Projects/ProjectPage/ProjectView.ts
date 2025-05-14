@@ -1,9 +1,9 @@
 import { ProjectsService } from "../../../Services/ProjectsService";
-import { createElement } from "../../../Utils/Helpers";
+import { createElement, teamId } from "../../../Utils/Helpers";
 import "../../../Styles/Views/Projects/Project/Project.css";
 import "../../../Styles/SharedStylings/SectionHeader.css";
 import "../../../Styles/SharedStylings/UpperInnerSection.css";
-import { ProjectData } from "../../../Store/UserStore";
+import { ProjectData, userStore } from "../../../Store/UserStore";
 import { router } from "../../../main";
 import { ProjectViewPopup } from "./ProjectPopups/ProjectViewPopup";
 import { store } from "../../../Store/Store";
@@ -199,9 +199,10 @@ export class ProjectView {
 
   fetchUserProject = async () => {
     const projectId = window.location.pathname.split("/")[2];
+    const teamId = window.location.pathname.split("/")[3];
 
     let apiCall = new ProjectsService(
-      `http://localhost:3000/get-project/${projectId}`
+      `http://localhost:3000/projects/get/${projectId}/team/${teamId}`
     ) as ProjectsService | null;
     const projectData = await (apiCall as ProjectsService).fetchUserProject();
     this.setProjectData(projectData);

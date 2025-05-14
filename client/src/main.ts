@@ -18,7 +18,7 @@ export const router = new Router([
   "/dashboard/DashboardView/createDashboard/@Dashboard",
   // projects
   "/projects/ProjectsView/renderProjectsPage/@Projects/@ProjectsPage",
-  "/projects/:projectId/ProjectView/renderProjectPage/@Projects/@ProjectPage",
+  "/projects/:projectId/:teamId/ProjectView/renderProjectPage/@Projects/@ProjectPage",
   "/projects/:projectId/tasks/:taskId/ProjectsView/createSingleProjectPage",
   // tasks
   "/tasks/TasksView/createTasks/@Tasks",
@@ -30,7 +30,9 @@ export const router = new Router([
 ]);
 
 getUser().then(async () => {
-  await getUserData();
+  if (userStore.getState().userId) {
+    await getUserData();
+  }
   createSidebar();
   createMainContent();
   store.subscribe(activeLink, "activeLink");

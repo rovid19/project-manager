@@ -5,13 +5,15 @@ import { BaseApi } from "./BaseService";
 export class AuthService extends BaseApi {
   async getUser() {
     const result = await this.get();
-
-    if (result.username.length > 1) {
+    console.log(result);
+    if (!result.error) {
       userStore.setState({
         username: result.username,
         email: result.email,
         userId: result.userId,
       });
+    } else {
+      console.log("yes");
     }
   }
   async loginUser() {

@@ -6,6 +6,8 @@ import { ProjectsService } from "../Services/ProjectsService";
 import { userStore } from "../Store/UserStore";
 import { Team } from "../Types/TeamsTypes";
 
+export let teamId = "";
+
 export function createElement({
   tag,
   children,
@@ -130,4 +132,8 @@ export async function getUserData() {
   result.allTeams.forEach((item: any) => newTeamState.push(item));
   userStore.setState({ teams: newTeamState });
   result = null;
+}
+
+export function changeTeam(newTeam: string) {
+  teamId = newTeam;
 }

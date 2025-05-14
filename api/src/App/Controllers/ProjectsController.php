@@ -32,19 +32,26 @@ class ProjectsController
     }
     public function createNewProject()
     {
+
         session_start();
 
         $data = json_decode(file_get_contents("php://input"), true);
         $userId = $_SESSION['user-id'];
         $projectId = uniqid('', true); // true je more secure, a false je less secure id
+        $teamId = "";
+        if (array_key_exists("teamId", $data)) {
+            $teamId = $this->validation->sanitizeString($data["teamId"]);
+        }
 
-        $this->db->query("INSERT INTO project (projectId, title, description, icon, userId, members) VALUES (:projectId,:title, :description, :icon, :userId, :members)", [
+
+        $this->db->query("INSERT INTO project (projectId, title, description, icon, userId, members, teamId) VALUES (:projectId,:title, :description, :icon, :userId, :members, :teamId)", [
             "projectId" => $projectId,
             "title" => $data['title'],
             "description" => $data['description'],
             "icon" => $data['icon'],
             "userId" => $userId,
-            "members" => "[]"
+            "members" => "[]",
+            "teamId" =>  $teamId ? $teamId : "noTeam"
         ]);
 
         $this->insertUserWhoCreatedProjectAsProjectMember($userId, $projectId);
@@ -71,7 +78,7 @@ class ProjectsController
             $project = $this->db->query("SELECT * FROM project WHERE projectId = :projectId ", ["projectId" => $projectId], "return");
 
             $projectMemberData = [];
-            if (!empty($this->projectId["teamId"])) {
+            if ($this->projectId["teamId"] !== "noTeam") {
                 $projectMemberData = $this->db->query("
             SELECT
             u.userId,
