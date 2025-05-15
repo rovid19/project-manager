@@ -413,137 +413,168 @@
   animation: cardPulse 0.8s ease-out;
 }
 
+/* Create New Project Popup Styling */
 .create-project-div {
-  height: 100%;
   width: 100%;
-
+  height: 100%;
   display: flex;
   flex-direction: column;
-  display: flex;
   align-items: center;
   justify-content: center;
-  padding-top: 16px;
-  padding-bottom: 16px;
   background-color: white;
-  /*background-color: #f6f7f9;*/
-  border-left: 1px solid #d1d8dc;
+  border-radius: 12px;
 }
 
 .inner-create-project-div {
   width: 100%;
   padding: 32px;
   height: 100%;
-  /*background-color: #f6f7f9;*/
 }
 
-.card-icon {
-  background-color: #353535;
-  border-radius: 6px;
-  color: white;
-  padding: 24px;
-}
-
-.create-project-btn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 12px 24px;
-  border-radius: 10px;
-  border: none;
-  font-size: 15px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.create-project-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+.cr-pr-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 24px;
+  text-align: center;
 }
 
 .cr-pr-form {
-  padding: 16px;
-  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.cr-pr-input-group {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
-.cr-pr-title {
-  font-size: 16px;
+
+.cr-pr-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
 }
 
-.cr-pr-form > input {
-  height: 50px;
-  padding: 8px;
-  border: none;
-  background-color: #f6f7f9;
-  border-radius: 6px;
+.cr-pr-title-input,
+.cr-pr-descr-input,
+.cr-pr-members-select {
+  padding: 12px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: #f9fafb;
+  transition: all 0.2s ease;
+}
+
+.cr-pr-title-input:focus,
+.cr-pr-descr-input:focus,
+.cr-pr-members-select:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  background-color: white;
 }
 
 .cr-pr-descr-input {
-  height: 100px;
+  min-height: 80px;
+  resize: vertical;
 }
 
-.cr-pr-button {
-  margin-top: auto;
-  height: 50px;
-  border: none;
-  background-color: #353535;
-  border-radius: 6px;
-  color: white;
-  cursor: pointer;
-}
-
-.cr-pr-button:hover {
-  scale: 0.99;
-}
-
-.cr-pr-members-select {
-  height: 50px;
-  padding: 8px;
-  border: none;
-  border-radius: 6px;
-  padding: 8px;
-  background-color: #f6f7f9;
-}
-
-.cr-pr-back-container {
-  width: 100%;
-  display: flex;
-  cursor: pointer;
-
-  flex-direction: row-reverse;
-  justify-content: space-between;
-}
-
-.cr-pr-back-container > svg {
-  height: 24px;
-  width: 24px;
-}
-
-.cr-pr-back-container > svg:hover {
-  scale: 0.99;
+.icon-select-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 12px;
 }
 
 .icon-select {
-  background-color: #f6f7f9;
-  flex-grow: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+  gap: 12px;
   padding: 16px;
-  display: flex;
-  flex-wrap: wrap;
-  border-radius: 6px;
-  gap: 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background-color: #f9fafb;
+  max-height: 160px;
+  overflow-y: auto;
 }
 
-.icon-select > svg {
-  width: 30%;
-  height: 30%;
-  cursor: pointer;
-
-  border-radius: 6px;
-  color: black;
+.icon-select svg {
+  width: 32px;
+  height: 32px;
   padding: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #4b5563;
+  background-color: white;
+  border: 1px solid #e5e7eb;
 }
 
-.icon-select > svg:hover {
-  border: 2px solid black;
+.icon-select svg:hover {
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  color: #6366f1;
+  border-color: #6366f1;
+}
+
+.icon-select svg.selected {
+  border: 2px solid #6366f1;
+  color: #6366f1;
+  background-color: #eff6ff;
+}
+
+.create-project-btn {
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: none;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 8px;
+  text-align: center;
+}
+
+.create-project-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+}
+
+.create-project-btn:active {
+  transform: translateY(0);
+}
+
+/* Error styling */
+.input-error {
+  border-color: #ef4444 !important;
+}
+
+.error-message {
+  color: #ef4444;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* Scrollbar styling for icon select */
+.icon-select::-webkit-scrollbar {
+  width: 6px;
+}
+
+.icon-select::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 8px;
+}
+
+.icon-select::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 8px;
+}
+
+.icon-select::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
 }

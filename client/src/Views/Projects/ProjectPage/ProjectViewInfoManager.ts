@@ -1,6 +1,7 @@
 import { ProjectsService } from "../../../Services/ProjectsService";
 import { createElement } from "../../../Utils/Helpers";
 import { ProjectView } from "./ProjectView";
+import { iconArray } from "../../../Assets/Icons";
 
 export class ProjectViewInfoManager extends ProjectView {
   projectId: string;
@@ -8,6 +9,7 @@ export class ProjectViewInfoManager extends ProjectView {
   description: string = "";
   projectContainerElement: HTMLElement | null = null;
   handleManagerClassReset: () => Promise<void>;
+
   constructor(
     projectId: string,
     title: string,
@@ -20,12 +22,15 @@ export class ProjectViewInfoManager extends ProjectView {
     this.title = title;
     this.description = description;
     this.projectContainerElement = projectContainerElement;
-    this.renderProjectInfo();
     this.handleManagerClassReset = handleManagerClassReset;
+    this.renderProjectInfo();
   }
 
   //UI RENDER------------------------------------------------------
   renderProjectInfo() {
+    // Get a random icon from the iconArray for demonstration
+    const randomIcon = iconArray[Math.floor(Math.random() * iconArray.length)];
+
     const projectInfo = createElement({
       tag: "div",
       className: "project-info-section",
@@ -50,7 +55,8 @@ export class ProjectViewInfoManager extends ProjectView {
                     createElement({
                       tag: "input",
                       className: "project-input-title",
-                      placeholder: `${this.title}`,
+                      placeholder: "Enter project title",
+                      value: this.title,
                       name: "title",
                     }),
                   ],
@@ -67,12 +73,12 @@ export class ProjectViewInfoManager extends ProjectView {
                     createElement({
                       tag: "input",
                       className: "project-input-description",
-                      placeholder: `${this.description}`,
+                      placeholder: "Enter project description",
+                      value: this.description,
                       name: "description",
                     }),
                   ],
                 }),
-
                 createElement({
                   tag: "button",
                   className: "project-info-submit-button",
@@ -84,11 +90,10 @@ export class ProjectViewInfoManager extends ProjectView {
                 }),
               ],
             }),
-
             createElement({
               tag: "div",
               className: "project-icon-div",
-              innerHTML: `${this.icon}`,
+              innerHTML: randomIcon || this.icon,
             }),
           ],
         }),
@@ -97,31 +102,54 @@ export class ProjectViewInfoManager extends ProjectView {
 
     (this.projectContainerElement as HTMLElement).appendChild(projectInfo);
     this.setupProjectInfoFormEventDelegation(
-      projectInfo.children[0].children[0]
+      projectInfo.children[0].children[0] as HTMLElement
     );
   }
 
   //API CALLS------------------------------------------------------
   async handleEditProjectInfo() {
-    let apiCall = new ProjectsService(
-      `http://localhost:3000/handle-project-submissions/${this.projectId}`
-    );
+    try {
+      let apiCall = new ProjectsService(
+        `http://localhost:3000/handle-project-submissions/${this.projectId}`
+      );
 
-    const data = await apiCall.submitNewProjectDetails({
-      title: this.title,
-      description: this.description,
-    });
+      const data = await apiCall.submitNewProjectDetails({
+        title: this.title,
+        description: this.description,
+      });
 
-    this.title = data[0].title;
-    this.description = data[0].description;
+      this.title = data[0].title;
+      this.description = data[0].description;
 
-    //this.handleSetProjectData(data[0]);
-    //this.handleUpdateProjectInfoInputFields();
-    this.handleManagerClassReset();
+      // Show success message
+      const successMessage = document.createElement("div");
+      successMessage.className = "success-message";
+      successMessage.textContent = "Project updated successfully!";
+      document.body.appendChild(successMessage);
+
+      // Remove message after 3 seconds
+      setTimeout(() => {
+        successMessage.remove();
+      }, 3000);
+
+      await this.handleManagerClassReset();
+    } catch (error) {
+      console.error("Error updating project:", error);
+
+      // Show error message
+      const errorMessage = document.createElement("div");
+      errorMessage.className = "error-message";
+      errorMessage.textContent = "Failed to update project. Please try again.";
+      document.body.appendChild(errorMessage);
+
+      // Remove message after 3 seconds
+      setTimeout(() => {
+        errorMessage.remove();
+      }, 3000);
+    }
   }
 
   //LISTENERS------------------------------------------------------
-
   setupProjectInfoFormEventDelegation(form: HTMLElement) {
     form.addEventListener("change", (e: Event) => {
       const target = e.target as HTMLInputElement;

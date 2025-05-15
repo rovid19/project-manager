@@ -1,8 +1,8 @@
-import { removeMemberBtn } from "../../../Assets/Icons";
 import { ProjectsService } from "../../../Services/ProjectsService";
 import { MembersData } from "../../../Types/ProjectsTypes";
 import { createElement } from "../../../Utils/Helpers";
 import { ProjectView } from "./ProjectView";
+import "../../../Styles/Views/Projects/Project/Project.css";
 
 export class ProjectViewMemberManager extends ProjectView {
   projectId: string = "";
@@ -37,7 +37,6 @@ export class ProjectViewMemberManager extends ProjectView {
 
   //UI RENDER------------------------------------------------------
   renderProjectMemberDiv() {
-    console.log(this.teamId);
     const projectMemberDiv = createElement({
       tag: "div",
       className: "project-members-div",
@@ -49,10 +48,10 @@ export class ProjectViewMemberManager extends ProjectView {
             createElement({
               tag: "button",
               className: "add-team",
-              innerText: this.teamId ? "Remove team" : "Add Team",
+              innerText: this.teamId === "noTeam" ? "Add Team" : "Remove Team",
               onClick: (e: Event) => {
                 e.preventDefault();
-                if (!this.teamId) {
+                if (this.teamId === "noTeam") {
                   this.handleChangePopupValue("team");
                   this.handleOpenPopup();
                 } else {
@@ -60,16 +59,6 @@ export class ProjectViewMemberManager extends ProjectView {
                 }
               },
             }),
-            /*createElement({
-              tag: "button",
-              className: "add-member",
-              innerText: "Add Member",
-              onClick: (e: Event) => {
-                e.preventDefault();
-                this.handleChangePopupValue("member");
-                this.handleOpenPopup();
-              },
-            }),*/
           ],
         }),
       ],
@@ -77,122 +66,115 @@ export class ProjectViewMemberManager extends ProjectView {
 
     this.projectContainerElement?.appendChild(projectMemberDiv);
     this.projectMemberDiv = projectMemberDiv;
-    this.renderProjectMembers();
-  }
-  renderProjectMembers = () => {
-    // rerender members
-    if (document.querySelector(".project-member")) {
-      const allMembers = document.querySelectorAll(".project-member");
-      allMembers.forEach((member) => {
-        member.remove();
-      });
-      this.renderProjectMembers();
-    }
-    // render members
-    else {
-      this.membersData.forEach((member) => {
-        const element = createElement({
-          tag: "div",
-          className: "project-member",
-          data: member.userId,
-          children: [
-            createElement({
-              tag: "div",
-              className: "member-content",
-              children: [
-                createElement({
-                  tag: "div",
-                  className: "member-avatar",
-                  children: [
-                    createElement({
-                      tag: "span",
-                      className: "member-initials",
-                      text: member.username.charAt(0).toUpperCase(),
-                    }),
-                  ],
-                }),
-                createElement({
-                  tag: "div",
-                  className: "member-info",
-                  children: [
-                    createElement({
-                      tag: "h3",
-                      className: "member-name",
-                      text: member.username,
-                    }),
-                    createElement({
-                      tag: "span",
-                      className: "member-email",
-                      text: member.email,
-                    }),
-                    createElement({
-                      tag: "span",
-                      className: "member-role",
-                      text: "Team Member",
-                    }),
-                  ],
-                }),
-              ],
-            }),
-            createElement({
-              tag: "div",
-              className: "member-actions",
-              children: [
-                createElement({
-                  tag: "div",
-                  className: "remove-member-btn",
-                  innerHTML: removeMemberBtn,
-                  onClick: (e: Event) => {
-                    const target = e.target as HTMLElement;
-                    const memberElement = target.closest(
-                      ".project-member"
-                    ) as HTMLElement | null;
-                    if (memberElement) {
-                      this.removeProjectMemberId = memberElement.dataset
-                        .projectId as string;
-                    }
-                    this.removeMemberFromProject();
-                    this.cardDeleteAni(element);
-                  },
-                }),
-              ],
-            }),
-          ],
-        });
 
-        this.projectMemberDiv?.appendChild(element);
+    // Check if there are members to display
+    if (this.membersData.length > 0) {
+      this.renderProjectMembers();
+    } else {
+      // Display empty state
+      const emptyState = createElement({
+        tag: "div",
+        className: "empty-state",
+        children: [
+          createElement({
+            tag: "div",
+            className: "empty-icon",
+            innerHTML: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>`,
+          }),
+          createElement({
+            tag: "p",
+            className: "empty-text",
+            text: "No members in this project yet",
+          }),
+        ],
       });
+
+      (this.projectMemberDiv as HTMLElement).appendChild(emptyState);
     }
+  }
+
+  renderProjectMembers = () => {
+    // Clear existing members if any
+    if (this.projectMemberDiv) {
+      const existingMembers =
+        this.projectMemberDiv.querySelectorAll(".project-member");
+      existingMembers.forEach((member) => member.remove());
+
+      // Remove empty state if it exists
+      const emptyState = this.projectMemberDiv.querySelector(".empty-state");
+      if (emptyState) {
+        emptyState.remove();
+      }
+    }
+
+    // Render members
+    this.membersData.forEach((member) => {
+      const element = createElement({
+        tag: "div",
+        className: "project-member",
+        data: member.userId,
+        children: [
+          createElement({
+            tag: "div",
+            className: "member-content",
+            children: [
+              createElement({
+                tag: "div",
+                className: "member-avatar",
+                children: [
+                  createElement({
+                    tag: "span",
+                    className: "member-initials",
+                    text: member.username.charAt(0).toUpperCase(),
+                  }),
+                ],
+              }),
+              createElement({
+                tag: "div",
+                className: "member-info",
+                children: [
+                  createElement({
+                    tag: "h3",
+                    className: "member-name",
+                    text: member.username,
+                  }),
+                  createElement({
+                    tag: "span",
+                    className: "member-email",
+                    text: member.email,
+                  }),
+                  createElement({
+                    tag: "span",
+                    className: "member-role",
+                    text: member.isAdmin ? "Admin" : "Team Member",
+                  }),
+                ],
+              }),
+            ],
+          }),
+        ],
+      });
+
+      this.projectMemberDiv?.appendChild(element);
+    });
   };
 
   //CORE LOGIC------------------------------------------------------
 
   addDeleteAnimationToEachTeamMember() {
     document.querySelectorAll("member-item").forEach((member) => {
-      this.cardDeleteAni(member as HTMLElement);
+      //this.cardDeleteAni(member as HTMLElement);
     });
   }
 
   //API CALLS------------------------------------------------------
-  async removeMemberFromProject() {
-    await new ProjectsService(
-      "http://localhost:3000/handle-remove-member"
-    ).removeMemberFromProject(this.projectId, this.removeProjectMemberId);
-
-    // await this.fetchUserProject();
-    setTimeout(() => {
-      this.handleManagerClassReset();
-    }, 300);
-  }
 
   async removeTeamFromProject() {
     await new ProjectsService(
       `http://localhost:3000/projects/${this.projectId}/remove/${this.teamId}`
     ).removeTeam();
+    window.history.replaceState(null, "", `/projects/${this.projectId}/noTeam`);
 
-    this.addDeleteAnimationToEachTeamMember();
-    setTimeout(() => {
-      this.handleManagerClassReset();
-    }, 320);
+    this.handleManagerClassReset();
   }
 }

@@ -2,6 +2,7 @@ export type MembersData = {
   userId: string;
   username: string;
   email: string;
+  isAdmin: number;
 };
 
 export type Task = {
@@ -12,4 +13,11 @@ export type Task = {
   assignee: string;
   userId: string;
   username: string;
+};
+
+export type User = {
+  userId: string;
+  username: string;
+  email: string;
+  password: string;
 };

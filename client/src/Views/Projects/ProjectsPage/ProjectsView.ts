@@ -15,7 +15,6 @@ export class ProjectsView {
   //UI RENDER------------------------------------------------------
   delete() {
     document.querySelector(".projects-container")?.remove();
-    userStore.unsubscribe("projects");
   }
 
   async renderProjectsPage() {
@@ -34,9 +33,6 @@ export class ProjectsView {
 
     // Render projects dashboard
     this.renderProjectsDashboard(projectsContainer);
-
-    // Subscribe to project updates
-    userStore.subscribe(this.handleProjectsUpdate.bind(this), "projects");
   }
 
   private renderHeader(container: HTMLElement) {
@@ -281,7 +277,7 @@ export class ProjectsView {
                     createElement({
                       tag: "span",
                       className: "meta-text",
-                      text: project.teamId ? "Team Project" : "Personal",
+                      //text: project.teamId ? "Team Project" : "Personal",
                     }),
                   ],
                 }),
@@ -307,6 +303,7 @@ export class ProjectsView {
     return card;
   }
 
+  //CORE LOGIC-----------------------------------------------------
   private navigateToProject(projectId: string, project: any) {
     window.location.href = `/projects/${projectId}/${project.teamId}`;
   }
@@ -360,28 +357,12 @@ export class ProjectsView {
     }
   }
 
-  private handleProjectsUpdate() {
-    const dashboard = document.getElementById("projects-dashboard");
-    if (!dashboard) return;
+  handleComponentReRender = () => {
+    const currentScreen = document.querySelector(".projects-container");
+    if (currentScreen) currentScreen.remove();
+    this.renderProjectsPage();
+  };
 
-    dashboard.innerHTML = "";
-
-    if (this.projects.length === 0) {
-      this.renderEmptyState(dashboard);
-    } else {
-      this.renderProjectsGrid(dashboard);
-    }
-
-    // Update project count in subtitle
-    const subtitle = document.querySelector(".page-subtitle");
-    if (subtitle) {
-      subtitle.textContent = `${this.projects.length} ${
-        this.projects.length === 1 ? "project" : "projects"
-      } available`;
-    }
-  }
-
-  //CORE LOGIC-----------------------------------------------------
   handleCreateNewProjectPopup() {
     const popup = createPopupModal(this.handleClosePopup);
     this.createNewProjectPopup = popup;
@@ -391,7 +372,7 @@ export class ProjectsView {
     this.createNewProjectPopup = new CreateNewProjectPopup(
       popup,
       this.handleClosePopup,
-      this.fetchAllUserProjects
+      this.handleComponentReRender
     );
   }
 
@@ -406,7 +387,6 @@ export class ProjectsView {
       "http://localhost:3000/get-all-user-projects"
     ).fetchAllUserProjects()) as Project[];
 
-    console.log(result);
     this.projects = result;
   };
 }

@@ -1,29 +1,42 @@
 .task-popup-form {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 20px;
+  width: 100%;
+  padding: 2rem;
 }
 
 .task-popup-title {
-  font-size: 28px;
-  color: #2d3748;
-  margin-bottom: 20px;
+  font-size: 24px;
+  color: #111827;
   text-align: center;
   font-weight: 600;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.input-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
 }
 
 .task-title-input,
 .task-description-input,
 .task-deadline-input,
 .task-assignee-select {
-  padding: 14px 16px;
-  border: 1px solid #e2e8f0;
-  border-radius: 10px;
-  font-size: 15px;
+  padding: 12px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
   width: 100%;
   box-sizing: border-box;
   transition: all 0.2s ease;
-  background-color: #f8fafc;
+  background-color: #f9fafb;
 }
 
 .task-title-input:focus,
@@ -31,14 +44,14 @@
 .task-deadline-input:focus,
 .task-assignee-select:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #6366f1;
   background-color: white;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
 }
 
 .task-description-input {
   resize: vertical;
-  min-height: 120px;
+  min-height: 100px;
   line-height: 1.5;
 }
 
@@ -48,7 +61,7 @@
 }
 
 .task-assignee-select {
-  background-color: #f8fafc;
+  background-color: #f9fafb;
   cursor: pointer;
   appearance: none;
   background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234a5568' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
@@ -58,23 +71,42 @@
 }
 
 .create-task-btn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
   color: white;
-  padding: 14px;
+  padding: 12px 24px;
+  border-radius: 8px;
   border: none;
-  border-radius: 10px;
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
-  margin-top: 16px;
+  margin-top: 8px;
+  text-align: center;
 }
 
 .create-task-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
 }
 
 .create-task-btn:active {
-  transform: scale(0.98);
+  transform: translateY(0);
+}
+
+/* Error styling */
+.input-error {
+  border-color: #ef4444 !important;
+}
+
+.error-message {
+  color: #ef4444;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* Disabled button state */
+.create-task-btn:disabled {
+  background: #9ca3af;
+  transform: none;
+  cursor: not-allowed;
 }

@@ -23,7 +23,19 @@ export function createElement({
 }: any) {
   // Handle element creation
   const element = document.createElement(tag);
-  if (className) element.classList.add(className);
+
+  // Handle multiple classes
+  if (className) {
+    if (className.includes(" ")) {
+      // If className contains spaces, add each class separately
+      className.split(" ").forEach((cls) => {
+        if (cls.trim()) element.classList.add(cls.trim());
+      });
+    } else {
+      element.classList.add(className);
+    }
+  }
+
   if (text) element.innerText = text;
   if (name) element.name = name;
   if (data) element.dataset.projectId = data;

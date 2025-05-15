@@ -3,6 +3,7 @@ import { ProjectsService } from "../../../Services/ProjectsService";
 import { Task } from "../../../Types/ProjectsTypes";
 import { createElement } from "../../../Utils/Helpers";
 import { ProjectView } from "./ProjectView";
+import "../../../Styles/Views/Projects/Project/Project.css";
 
 export class ProjectViewTaskManager extends ProjectView {
   projectTasks: Task[] = [];
@@ -64,6 +65,7 @@ export class ProjectViewTaskManager extends ProjectView {
                   className: "remove-task-btn",
                   innerHTML: removeMemberBtn,
                   onClick: () => {
+                    console.log(element);
                     this.removeTaskFromProject(task.taskId);
                     this.cardDeleteAni(element);
                   },

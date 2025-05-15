@@ -1,8 +1,6 @@
 import { ProjectsService } from "../../../Services/ProjectsService";
-import { createElement, teamId } from "../../../Utils/Helpers";
+import { createElement } from "../../../Utils/Helpers";
 import "../../../Styles/Views/Projects/Project/Project.css";
-import "../../../Styles/SharedStylings/SectionHeader.css";
-import "../../../Styles/SharedStylings/UpperInnerSection.css";
 import { ProjectData, userStore } from "../../../Store/UserStore";
 import { router } from "../../../main";
 import { ProjectViewPopup } from "./ProjectPopups/ProjectViewPopup";
@@ -11,6 +9,7 @@ import type { ProjectViewTaskManager } from "./ProjectViewTaskManager";
 import type { ProjectViewMemberManager } from "./ProjectViewMemberManager";
 import type { ProjectViewInfoManager } from "./ProjectViewInfoManager";
 import { MembersData, Task } from "../../../Types/ProjectsTypes";
+import { iconArray } from "../../../Assets/Icons";
 
 export class ProjectView {
   title: string = "";
@@ -36,112 +35,189 @@ export class ProjectView {
 
   //UI RENDER------------------------------------------------------
   delete() {
-    const upperSection = document.querySelector(
-      ".upper-section"
-    ) as HTMLElement;
+    const upperSection = document.querySelector(".upperSection") as HTMLElement;
 
-    upperSection.remove();
+    upperSection?.remove();
   }
 
-  async renderProjectPage() {
+  renderProjectPage = async () => {
+    const currentScreen = document.querySelector(".upperSection");
+    if (currentScreen) currentScreen.remove();
+
+    await this.fetchUserProject();
+
     const currentState = store.getState();
     const project = createElement({
       tag: "div",
-      className: "upper-section",
+      className: "upperSection",
     }) as HTMLElement;
+
     const innerProject = createElement({
       tag: "div",
-      className: "inner-section",
+      className: "innerSection",
     }) as HTMLElement;
+
+    // Create header with breadcrumb and actions
     const pageHeader = createElement({
       tag: "div",
-      className: "section-header",
+      className: "projectHeader",
       children: [
         createElement({
-          tag: "h3",
-          text: `Projects / ${this.title}`,
-          className: "section-title",
+          tag: "div",
+          className: "headerLeft",
+          children: [
+            createElement({
+              tag: "div",
+              className: "breadcrumb",
+              children: [
+                createElement({
+                  tag: "a",
+                  className: "breadcrumbLink",
+                  text: "Projects",
+                  onClick: (e: Event) => {
+                    e.preventDefault();
+                    this.redirectBackToProjects();
+                  },
+                }),
+                createElement({
+                  tag: "span",
+                  className: "breadcrumbSeparator",
+                  text: "/",
+                }),
+                createElement({
+                  tag: "span",
+                  className: "breadcrumbCurrent",
+                  text: this.title,
+                }),
+              ],
+            }),
+            createElement({
+              tag: "h1",
+              className: "projectTitle",
+              text: this.title,
+            }),
+            createElement({
+              tag: "p",
+              className: "projectDescription",
+              text: this.description || "No description provided",
+            }),
+          ],
         }),
         createElement({
-          tag: "button",
-          className: "project-delete-btn",
-          innerText: "Delete Project",
-          onClick: async (e: Event) => {
-            e.preventDefault();
-            await this.handleDeleteProject();
-          },
+          tag: "div",
+          className: "headerActions",
+          children: [
+            createElement({
+              tag: "button",
+              className: "deleteProjectBtn",
+              children: [
+                createElement({
+                  tag: "span",
+                  className: "btnIcon",
+                  html: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>`,
+                }),
+                createElement({
+                  tag: "span",
+                  className: "btnText",
+                  text: "Delete Project",
+                }),
+              ],
+              onClick: async (e: Event) => {
+                e.preventDefault();
+                if (confirm("Are you sure you want to delete this project?")) {
+                  await this.handleDeleteProject();
+                }
+              },
+            }),
+          ],
         }),
       ],
     });
 
-    this.setCustomCSS(project, innerProject, pageHeader.children[0]);
     currentState.mainSection?.appendChild(project);
     project.appendChild(innerProject);
     innerProject.appendChild(pageHeader);
-    this.projectContainerElement = innerProject;
-    this.handleManagerClassSetup();
-  }
+
+    // Create content container
+    const contentContainer = createElement({
+      tag: "div",
+      className: "projectContent",
+    });
+    innerProject.appendChild(contentContainer);
+
+    this.projectContainerElement = contentContainer;
+    await this.handleManagerClassSetup();
+  };
 
   //CORE LOGIC-----------------------------------------------------
   async handleManagerClassSetup() {
+    console.log(this.teamId);
     const { ProjectViewInfoManager } = await import("./ProjectViewInfoManager");
     const { ProjectViewMemberManager } = await import(
       "./ProjectViewMemberManager"
     );
     const { ProjectViewTaskManager } = await import("./ProjectViewTaskManager");
 
-    await this.fetchUserProject();
+    // Create sections with cards
+    const infoSection = createElement({
+      tag: "div",
+      className: "projectSection",
+    });
+
+    const membersSection = createElement({
+      tag: "div",
+      className: "projectSection",
+    });
+
+    const tasksSection = createElement({
+      tag: "div",
+      className: "projectSection",
+    });
+
+    this.projectContainerElement?.appendChild(infoSection);
+    this.projectContainerElement?.appendChild(membersSection);
+    this.projectContainerElement?.appendChild(tasksSection);
 
     this.infoManagerController = new ProjectViewInfoManager(
       this.projectId,
       this.title,
       this.description,
-      this.projectContainerElement as HTMLElement,
-      this.handleManagerClassReset
+      infoSection,
+      this.renderProjectPage
     );
-    console.log(this.teamId);
+
     this.memberManagerController = new ProjectViewMemberManager(
       this.membersData,
       this.projectId,
-      this.projectContainerElement as HTMLElement,
+      membersSection,
       this.teamId,
       this.openPopup,
       this.handleChangePopupValue,
-      this.handleManagerClassReset
+      this.renderProjectPage
     );
+
     this.taskManagerController = new ProjectViewTaskManager(
       this.projectTasks as Task[],
-      this.projectContainerElement as HTMLElement,
+      tasksSection,
       this.fetchUserProject,
       this.openPopup,
       this.handleChangePopupValue,
-      this.handleManagerClassReset
+      this.renderProjectPage
     );
   }
 
   handleManagerClassReset = async () => {
-    document.querySelector(".project-info-section")?.remove();
-    document.querySelector(".project-task-section")?.remove();
-    document.querySelector(".project-members-div")?.remove();
+    if (this.projectContainerElement) {
+      this.projectContainerElement.innerHTML = "";
+    }
+
     this.infoManagerController = null;
     this.memberManagerController = null;
     this.taskManagerController = null;
     await this.handleManagerClassSetup();
   };
 
-  setCustomCSS(
-    upperSection: HTMLElement,
-    innerSection: HTMLElement,
-    sectionHeader: HTMLElement
-  ) {
-    upperSection.style.backgroundColor = "#f5f7f9";
-    innerSection.style.width = "40%";
-    innerSection.style.margin = "0 auto";
-    sectionHeader.style.fontWeight = "400";
-  }
-
   setProjectData = (projectData: ProjectData) => {
-    console.log(projectData);
     this.teamId = projectData.project.teamId as string;
     this.title = projectData.project.title;
     this.description = projectData.project.description;
@@ -170,11 +246,12 @@ export class ProjectView {
       this.fetchUserProject,
       this.membersData,
       this.closePopup,
-      this.handleManagerClassReset
+      this.renderProjectPage
     );
   };
 
   closePopup = () => {
+    console.log("ddd");
     this.popupController = null;
     document.querySelector(".popup-overlay")?.remove();
   };
@@ -200,6 +277,9 @@ export class ProjectView {
   fetchUserProject = async () => {
     const projectId = window.location.pathname.split("/")[2];
     const teamId = window.location.pathname.split("/")[3];
+    this.teamId = teamId;
+
+    console.log(this.teamId);
 
     let apiCall = new ProjectsService(
       `http://localhost:3000/projects/get/${projectId}/team/${teamId}`

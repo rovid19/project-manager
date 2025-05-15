@@ -10,7 +10,7 @@ class TasksController
     private $validation;
     private $params;
 
-    public function __construct($db, $params)
+    public function __construct($db, $params = "")
     {
         $this->db = $db;
         $this->validation = new Validation();
@@ -28,18 +28,17 @@ class TasksController
             && isset($taskData['deadline'])
             && isset($taskData['projectId'])
         ) {
-            // sanitize data
             $title = $this->validation->sanitizeString($taskData['title']);
             $description = $this->validation->sanitizeString($taskData['description']);
-            //$assignee = $this->validation->validateEmail($this->validation->sanitizeString($taskData['assignee']));
             $assignee = $this->validation->sanitizeString($taskData['assignee']);
             $deadline = htmlspecialchars(trim($taskData['deadline']), ENT_QUOTES, 'UTF-8');
             $projectId = $this->validation->sanitizeString($taskData['projectId']);
-
-            $project = $this->db->query("SELECT * FROM project WHERE projectId = :projectId", ["projectId" => $projectId], "return");
-
             $taskId = uniqid(true);
-            $sql = "INSERT INTO task (taskId, title, description,deadline, assignee, projectId) VALUES(:taskId, :title, :description, :deadline, :assignee, :projectId)";
+
+            // find a team assigned to this project and get its teamId 
+            $project = $this->db->query("SELECT teamId FROM project WHERE projectId = :projectId", ["projectId" => $projectId], "return");
+
+            $sql = "INSERT INTO task (taskId, title, description,deadline, assignee, projectId, teamId) VALUES(:taskId, :title, :description, :deadline, :assignee, :projectId, :teamId)";
             $this->db->query($sql, [
                 "taskId" => $taskId,
                 "title" => $title,
@@ -47,7 +46,7 @@ class TasksController
                 "deadline" => $deadline,
                 "assignee" => $assignee,
                 "projectId" => $projectId,
-                "teamId" => $project["teamId"]
+                "teamId" => $project[0]["teamId"]
             ]);
 
             http_response_code(201);

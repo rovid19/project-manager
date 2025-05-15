@@ -32,7 +32,7 @@ export class AddMemberEditTeam {
         const addButton = createElement({
           tag: "button",
           className: "add-member-button",
-          text: "Add Member",
+          text: "Add",
           onclick: (e: Event) => {
             e.preventDefault();
             this.selectMember(e);
@@ -47,22 +47,40 @@ export class AddMemberEditTeam {
 
   setCustomCssForMemberItemDiv(memberItemDiv: HTMLElement) {
     memberItemDiv.style.cursor = "default";
+    memberItemDiv.style.justifyContent = "space-between";
   }
 
   selectMember(e: Event) {
     const target = e.target as HTMLElement;
     const targetElement = target.closest(".member-item") as HTMLElement;
 
-    this.selectedMember = targetElement.dataset.projectId as string;
+    // Add loading state to button
+    target.textContent = "Adding...";
+    target.classList.add("adding");
+    target.setAttribute("disabled", "true");
 
+    this.selectedMember = targetElement.dataset.projectId as string;
     this.submitSelectedMember();
   }
 
   async submitSelectedMember() {
-    await new TeamsService(
-      `http://localhost:3000/team/${this.teamId}/add/member`
-    ).addMemberToTeam({ selectedMember: this.selectedMember });
+    try {
+      await new TeamsService(
+        `http://localhost:3000/team/${this.teamId}/add/member`
+      ).addMemberToTeam({ selectedMember: this.selectedMember });
 
-    this.handleManagerClassReset();
+      this.handleManagerClassReset();
+    } catch (error) {
+      console.error("Error adding member:", error);
+
+      // Reset buttons if there's an error
+      document.querySelectorAll(".add-member-button.adding").forEach((btn) => {
+        btn.textContent = "Add";
+        btn.classList.remove("adding");
+        btn.removeAttribute("disabled");
+      });
+
+      alert("Failed to add member. Please try again.");
+    }
   }
 }

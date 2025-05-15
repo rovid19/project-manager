@@ -8,9 +8,11 @@ import { userStore } from "../../Store/UserStore";
 import { TaskDetailsPopup } from "./TaskDetails/TaskDetailsPopup";
 import { TaskService } from "../../Services/TaskService";
 import { TeamsService } from "../../Services/TeamsService";
+import { Team } from "../../Types/TeamsTypes";
 
 export class TasksView {
-  private taskData: any = [];
+  private tasks: any = [];
+  private userTeams: any = [];
 
   constructor() {}
 
@@ -53,8 +55,8 @@ export class TasksView {
     // Fetch tasks data
     await this.fetchUserTasks();
 
-    // Render tasks by team
-    this.renderTasksByTeam();
+    // Render tasks
+    this.renderTasks();
   }
   async fetchUserTasks() {
     const allTasks = await new TaskService(
@@ -64,18 +66,29 @@ export class TasksView {
     const userTeams = await new TeamsService(
       `http://localhost:3000/get-all-user-teams`
     ).getAllTeams();
+    this.userTeams = userTeams;
 
-    //this.tasksByTeam = allTasks;
-    userTeams.forEach((team) => {
-      /* allTasks.forEach(task => {
-      if(task.)
-     })*/
+    // create an array of objects, each object representing a team
+    const teamsObjectArray = userTeams.map((team: Team) => ({
+      [team.teamName as string]: {},
+    }));
+
+    // loop through each team and add tasks to the corresponding team object
+    userTeams.forEach((team: Team, i) => {
+      allTasks.forEach((task: any) => {
+        if (task.teamId === team.teamId) {
+          teamsObjectArray[i][team.teamName as string] = {
+            ...teamsObjectArray[i][team.teamName as string],
+            [task.title]: { ...task },
+          };
+        }
+      });
     });
 
-    console.log(userTeams, allTasks);
+    this.tasks = teamsObjectArray;
   }
 
-  renderTasksByTeam() {
+  renderTasks() {
     const tasksContainer = document.querySelector(
       ".tasks-container"
     ) as HTMLElement;
@@ -86,7 +99,7 @@ export class TasksView {
     tasksContainer.innerHTML = "";
 
     // If no tasks
-    if (Object.keys(this.tasksByTeam).length === 0) {
+    if (this.tasks.length === 0) {
       tasksContainer.appendChild(
         createElement({
           tag: "div",
@@ -103,8 +116,10 @@ export class TasksView {
     }
 
     // Create team sections
-    this.userTeams.forEach((item: any) => {
-      console.log(item);
+    this.tasks.forEach((item: any) => {
+      const objKey = Object.keys(item)[0];
+      const objValueArray = Object.values(item[objKey]);
+
       const teamSection = createElement({
         tag: "div",
         className: "team-tasks-section",
@@ -116,13 +131,13 @@ export class TasksView {
               createElement({
                 tag: "h4",
                 className: "team-name",
-                text: item.teamName,
+                text: objKey,
               }),
               createElement({
                 tag: "span",
                 className: "task-count",
-                text: `${item.tasks.length} task${
-                  tasks.length !== 1 ? "s" : ""
+                text: `${objValueArray.length} task${
+                  objValueArray.length !== 1 ? "s" : ""
                 }`,
               }),
             ],
@@ -137,10 +152,11 @@ export class TasksView {
       const tasksGrid = teamSection.querySelector(".tasks-grid") as HTMLElement;
 
       // Add task cards
-      /* tasks.forEach((task) => {
-        const statusClass = `status-${task.status
+      objValueArray.forEach((task) => {
+        console.log(task);
+        /* const statusClass = `status-${task.isCompleted
           .toLowerCase()
-          .replace(/\s+/g, "-")}`;
+          .replace(/\s+/g, "-")}`;*/
 
         const taskCard = createElement({
           tag: "div",
@@ -158,7 +174,7 @@ export class TasksView {
                 createElement({
                   tag: "span",
                   className: `task-status`,
-                  text: task.status,
+                  text: task.isCompleted,
                 }),
               ],
             }),
@@ -178,7 +194,8 @@ export class TasksView {
                     createElement({
                       tag: "span",
                       className: "project-name",
-                      text: task.projectName,
+                      // text: task.projectName,
+                      text: task.projectId,
                     }),
                   ],
                 }),
@@ -208,16 +225,13 @@ export class TasksView {
                   tag: "button",
                   className: "view-task-btn",
                   text: "View Details",
-                  onClick: () => this.viewTaskDetails(task.id),
+                  onClick: () => this.viewTaskDetails(task.taskId),
                 }),
                 createElement({
                   tag: "button",
                   className: "mark-complete-btn",
-                  text:
-                    task.status === "Completed"
-                      ? "Mark Incomplete"
-                      : "Mark Complete",
-                  onClick: () => this.toggleTaskStatus(task.id),
+                  text: task.isCompleted ? "Mark Incomplete" : "Mark Complete",
+                  onClick: () => this.toggleTaskStatus(task.taskId),
                 }),
               ],
             }),
@@ -225,7 +239,7 @@ export class TasksView {
         });
 
         tasksGrid.appendChild(taskCard);
-      });*/
+      });
 
       tasksContainer.appendChild(teamSection);
     });
@@ -233,7 +247,7 @@ export class TasksView {
 
   viewTaskDetails(taskId: string) {
     // Open task details popup
-    new TaskDetailsPopup(taskId, () => this.renderTasksByTeam());
+    new TaskDetailsPopup(taskId, () => this.renderTasks());
   }
 
   toggleTaskStatus(taskId: string) {

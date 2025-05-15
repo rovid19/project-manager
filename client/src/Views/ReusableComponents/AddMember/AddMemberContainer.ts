@@ -51,6 +51,15 @@ export class AddMemberContainer {
     await this.getAllUsers();
     if (this.popupState === "team") await this.getAllTeams();
 
+    const searchInput = createElement({
+      tag: "input",
+      className: "member-search-input",
+      type: "text",
+      placeholder:
+        this.popupState === "team" ? "Search teams..." : "Search members...",
+      oninput: (e: Event) => this.handleSearch(e),
+    });
+
     const memberContainer = createElement({
       tag: "div",
       className: "member-container",
@@ -58,20 +67,44 @@ export class AddMemberContainer {
         createElement({
           tag: "h3",
           className: "member-popup-title",
-          text: this.popupState === "team" ? "Add Team:" : "Add Members:",
+          text: this.popupState === "team" ? "Add Team" : "Add Members",
         }),
         createElement({
           tag: "div",
-          className: "member-list",
-          children: this.handleTeamOrMembersRender(),
+          className: "member-search-container",
+          children: [searchInput],
+        }),
+        createElement({
+          tag: "div",
+          className: "member-list-container",
+          children: [
+            createElement({
+              tag: "div",
+              className: "member-list",
+              children: this.handleTeamOrMembersRender(),
+            }),
+          ],
         }),
       ],
     });
-
+    console.log(this.popupElement);
     this.popupElement.appendChild(memberContainer);
   }
 
   renderItems(itemArray: any) {
+    if (itemArray.length === 0) {
+      return [
+        createElement({
+          tag: "div",
+          className: "no-members-message",
+          text:
+            this.popupState === "team"
+              ? "No teams available"
+              : "No members available",
+        }),
+      ];
+    }
+
     return itemArray.map((item: any) => {
       return createElement({
         tag: "div",
@@ -153,10 +186,40 @@ export class AddMemberContainer {
     else return this.renderItems(this.allUsersArray);
   }
 
+  handleSearch(e: Event) {
+    const searchTerm = (e.target as HTMLInputElement).value.toLowerCase();
+    const memberList = this.popupElement.querySelector(
+      ".member-list"
+    ) as HTMLElement;
+
+    // Clear current list
+    while (memberList.firstChild) {
+      memberList.removeChild(memberList.firstChild);
+    }
+
+    // Filter and render items based on search term
+    if (this.popupState === "team") {
+      const filteredTeams = this.allTeamsArray.filter((team: any) =>
+        team.teamName.toLowerCase().includes(searchTerm)
+      );
+      this.renderItems(filteredTeams).forEach((item) =>
+        memberList.appendChild(item)
+      );
+    } else {
+      const filteredUsers = this.allUsersArray.filter(
+        (user: User) =>
+          user.username.toLowerCase().includes(searchTerm) ||
+          user.email.toLowerCase().includes(searchTerm)
+      );
+      this.renderItems(filteredUsers).forEach((item) =>
+        memberList.appendChild(item)
+      );
+    }
+  }
+
   //API CALLS--------------------------------------------------------
   async getAllUsers() {
     let apiCall = new ProjectsService("http://localhost:3000/get-all-users");
-    console.log(this.members);
     const result = await apiCall.getAllUsers(this.members);
 
     (result as User[]).forEach((item) => this.allUsersArray.push(item));
@@ -166,7 +229,6 @@ export class AddMemberContainer {
     let result = await new ProjectsService(
       `http://localhost:3000/get-all-user-teams`
     ).getAllTeams();
-    console.log(result);
     result.forEach((item: any) => this.allTeamsArray.push(item));
     result = null;
   }

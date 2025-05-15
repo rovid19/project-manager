@@ -4,6 +4,7 @@ import { Project, userStore } from "../../../../Store/UserStore";
 import { Team } from "../../../../Types/TeamsTypes";
 import { createElement, formValidation } from "../../../../Utils/Helpers";
 import "../../../../Styles/SharedStylings/Popup.css";
+import "../../../../Styles/Views/Projects/Projects.css";
 
 export class CreateNewProjectPopup {
   popupElement: HTMLElement | null = null;
@@ -13,15 +14,18 @@ export class CreateNewProjectPopup {
     description: "",
     icon: "",
     projectId: "",
+    teamId: "",
   };
   iconArry: SVGSVGElement[] = [];
+  formErrors: { [key: string]: string } = {};
 
   handleClosePopup: () => void = () => {};
-  fetchAllUserProjects: () => Promise<void> = async () => {};
+  fetchAllUserProjects: () => void = () => {};
+
   constructor(
     popupElement: HTMLElement,
     handleClosePopup: () => void,
-    fetchAllUserProjects: () => Promise<void>
+    fetchAllUserProjects: () => void
   ) {
     this.popupElement = popupElement.children[0].children[1] as HTMLElement;
     this.handleClosePopup = handleClosePopup;
@@ -30,7 +34,6 @@ export class CreateNewProjectPopup {
   }
 
   //UI RENDER------------------------------------------------------
-
   renderPopup() {
     if (!document.querySelector(".create-project-div")) {
       const createProjectPopup = createElement({
@@ -46,59 +49,139 @@ export class CreateNewProjectPopup {
                 className: "cr-pr-title",
                 innerText: "Create New Project",
               }),
-
               createElement({
                 tag: "form",
                 className: "cr-pr-form",
                 children: [
+                  // Project Title
                   createElement({
-                    tag: "input",
-                    name: "title",
-                    className: "cr-pr-title-input",
-                    placeholder: "Project Title",
-                  }),
-                  createElement({
-                    tag: "input",
-                    name: "description",
-                    className: "cr-pr-descr-input",
-                    placeholder: "Project Description",
-                  }),
-                  createElement({
-                    tag: "select",
-                    name: "teams",
-                    className: "cr-pr-members-select",
-                    placeholder: "Add team",
+                    tag: "div",
+                    className: "cr-pr-input-group",
                     children: [
                       createElement({
-                        tag: "option",
-                        innerText: "Add Team",
-                        disabled: "true",
-                        selected: "true",
+                        tag: "label",
+                        className: "cr-pr-label",
+                        innerText: "Project Title",
+                      }),
+                      createElement({
+                        tag: "input",
+                        name: "title",
+                        className: "cr-pr-title-input",
+                        placeholder: "Enter project title",
+                      }),
+                      createElement({
+                        tag: "span",
+                        className: "error-message title-error",
+                        style: "display: none;",
+                        innerText: "Project title is required",
                       }),
                     ],
                   }),
+
+                  // Project Description
                   createElement({
                     tag: "div",
-                    className: "icon-select",
-                    onClick: (e: Event) => {
-                      e.preventDefault();
-
-                      const target = e.target;
-                      const closestSvg = (target as SVGSVGElement).closest(
-                        "svg"
-                      );
-                      this.iconSelected = closestSvg?.outerHTML as string;
-                      this.apiProjectData.icon = this.iconSelected;
-
-                      this.handleSetSelectedIconBorder(
-                        closestSvg as SVGSVGElement
-                      );
-                    },
+                    className: "cr-pr-input-group",
+                    children: [
+                      createElement({
+                        tag: "label",
+                        className: "cr-pr-label",
+                        innerText: "Project Description",
+                      }),
+                      createElement({
+                        tag: "textarea",
+                        name: "description",
+                        className: "cr-pr-descr-input",
+                        placeholder: "Enter project description",
+                      }),
+                      createElement({
+                        tag: "span",
+                        className: "error-message description-error",
+                        style: "display: none;",
+                        innerText: "Project description is required",
+                      }),
+                    ],
                   }),
+
+                  // Team Selection
+                  createElement({
+                    tag: "div",
+                    className: "cr-pr-input-group",
+                    children: [
+                      createElement({
+                        tag: "label",
+                        className: "cr-pr-label",
+                        innerText: "Team (Required)",
+                      }),
+                      createElement({
+                        tag: "select",
+                        name: "teams",
+                        className: "cr-pr-members-select",
+                        children: [
+                          createElement({
+                            tag: "option",
+                            innerText: "Select a team",
+                            value: "",
+                            disabled: true,
+                            selected: true,
+                          }),
+                        ],
+                      }),
+                    ],
+                  }),
+
+                  // Project Icon
+                  createElement({
+                    tag: "div",
+                    className: "cr-pr-input-group",
+                    children: [
+                      createElement({
+                        tag: "label",
+                        className: "icon-select-label",
+                        innerText: "Choose Project Icon",
+                      }),
+                      createElement({
+                        tag: "div",
+                        className: "icon-select",
+                        onClick: (e: Event) => {
+                          e.preventDefault();
+                          const target = e.target;
+                          const closestSvg = (target as SVGSVGElement).closest(
+                            "svg"
+                          );
+
+                          if (closestSvg) {
+                            this.iconSelected = closestSvg.outerHTML;
+                            this.apiProjectData.icon = this.iconSelected;
+                            this.handleSetSelectedIconBorder(closestSvg);
+
+                            // Clear icon error if it exists
+                            const iconError = document.querySelector(
+                              ".icon-error"
+                            ) as HTMLElement;
+                            if (iconError) {
+                              iconError.style.display = "none";
+                            }
+                            document
+                              .querySelector(".icon-select")
+                              ?.classList.remove("input-error");
+                          }
+                        },
+                      }),
+                      createElement({
+                        tag: "span",
+                        className: "error-message icon-error",
+                        style: "display: none;",
+                        innerText: "Please select an icon",
+                      }),
+                    ],
+                  }),
+
+                  // Submit Button
                   createElement({
                     tag: "button",
                     className: "create-project-btn",
-                    innerText: "Add Project",
+                    innerText: "Create Project",
                     type: "submit",
                   }),
                 ],
@@ -108,19 +191,29 @@ export class CreateNewProjectPopup {
         ],
       });
 
-      const formElement = createProjectPopup.children[0].children[1];
-      const buttonFormElement = formElement.children[4];
-      const iconSelectFormElement = formElement.children[3];
+      const formElement = createProjectPopup.querySelector(
+        ".cr-pr-form"
+      ) as HTMLElement;
+      const buttonFormElement = formElement.querySelector(
+        ".create-project-btn"
+      ) as HTMLElement;
+      const iconSelectElement = formElement.querySelector(
+        ".icon-select"
+      ) as HTMLElement;
+      const teamSelectElement = formElement.querySelector(
+        ".cr-pr-members-select"
+      ) as HTMLSelectElement;
 
-      console.log(createProjectPopup.children[0].children[1].children[2]);
-      // this.renderTeamsInSelect(createProjectPopup.children[1].children[2]);
+      // Render teams in select dropdown
+      this.renderTeamsInSelect(teamSelectElement);
 
+      // Setup form handlers
       this.setupFormSubmitHandler(
         buttonFormElement,
         formElement,
-        iconSelectFormElement
+        iconSelectElement
       );
-      this.renderProjectIcons(iconSelectFormElement);
+      this.renderProjectIcons(iconSelectElement);
       this.setupFormEventDelegation(formElement);
 
       this.popupElement?.appendChild(createProjectPopup);
@@ -128,46 +221,111 @@ export class CreateNewProjectPopup {
   }
 
   renderProjectIcons(iconDiv: HTMLElement) {
-    icons.forEach((icon, i) => {
-      iconDiv.innerHTML += icon;
+    icons.forEach((icon) => {
+      const iconWrapper = document.createElement("div");
+      iconWrapper.className = "icon-wrapper";
+      iconWrapper.innerHTML = icon;
+      iconDiv.appendChild(iconWrapper);
 
+      // Store the SVG element for later reference
       setTimeout(() => {
-        this.iconArry.push(iconDiv.children[i] as SVGSVGElement);
-      }, 100);
+        const svg = iconWrapper.querySelector("svg");
+        if (svg) {
+          this.iconArry.push(svg as SVGSVGElement);
+        }
+      }, 0);
     });
   }
 
-  renderTeamsInSelect(parentElement: HTMLElement) {
-    userStore.getState().teams.forEach((team: Team) => {
-      const option = createElement({
+  renderTeamsInSelect(selectElement: HTMLSelectElement) {
+    const teams = userStore.getState().teams;
+
+    if (teams && teams.length > 0) {
+      teams.forEach((team: Team) => {
+        const option = createElement({
+          tag: "option",
+          innerText: team.teamName,
+          value: team.teamId,
+        });
+
+        selectElement.appendChild(option);
+      });
+    } else {
+      // If no teams, add a disabled option
+      const noTeamsOption = createElement({
         tag: "option",
-        innerText: team.teamName,
-        disabled: "false",
-        selected: "false",
+        innerText: "No teams available",
+        disabled: true,
       });
 
-      parentElement.appendChild(option);
-    });
+      selectElement.appendChild(noTeamsOption);
+    }
   }
 
   //CORE LOGIC-----------------------------------------------------
-
-  handleSetSelectedIconBorder(svg: SVGSVGElement) {
-    this.iconArry.forEach((icon) => {
-      icon.style.border = "none";
+  handleSetSelectedIconBorder(selectedSvg: SVGSVGElement) {
+    // Remove selected class from all icons
+    this.iconArry.forEach((svg) => {
+      svg.classList.remove("selected");
     });
-    svg.style.border = "2px solid #353535";
+
+    // Add selected class to the clicked icon
+    selectedSvg.classList.add("selected");
   }
 
-  handleFormValidationError(
-    iconValid: boolean,
-    iconSelectEl: HTMLElement,
-    ...inputs: HTMLInputElement[][]
-  ) {
-    inputs[0].forEach((input) => (input.style.border = "1px solid red"));
-    if (!iconValid) {
-      iconSelectEl.style.border = "1px solid red";
+  validateForm(): boolean {
+    let isValid = true;
+    this.formErrors = {};
+
+    // Validate title
+    const titleInput = document.querySelector(
+      ".cr-pr-title-input"
+    ) as HTMLInputElement;
+    const titleError = document.querySelector(".title-error") as HTMLElement;
+
+    if (!titleInput.value.trim()) {
+      titleInput.classList.add("input-error");
+      titleError.style.display = "block";
+      this.formErrors.title = "Project title is required";
+      isValid = false;
+    } else {
+      titleInput.classList.remove("input-error");
+      titleError.style.display = "none";
     }
+
+    // Validate description
+    const descriptionInput = document.querySelector(
+      ".cr-pr-descr-input"
+    ) as HTMLTextAreaElement;
+    const descriptionError = document.querySelector(
+      ".description-error"
+    ) as HTMLElement;
+
+    if (!descriptionInput.value.trim()) {
+      descriptionInput.classList.add("input-error");
+      descriptionError.style.display = "block";
+      this.formErrors.description = "Project description is required";
+      isValid = false;
+    } else {
+      descriptionInput.classList.remove("input-error");
+      descriptionError.style.display = "none";
+    }
+
+    // Validate icon selection
+    const iconError = document.querySelector(".icon-error") as HTMLElement;
+    const iconSelect = document.querySelector(".icon-select") as HTMLElement;
+
+    if (!this.iconSelected) {
+      iconSelect.classList.add("input-error");
+      iconError.style.display = "block";
+      this.formErrors.icon = "Please select an icon";
+      isValid = false;
+    } else {
+      iconSelect.classList.remove("input-error");
+      iconError.style.display = "none";
+    }
+
+    return isValid;
   }
 
   async setupFormSubmitHandler(
@@ -177,43 +335,64 @@ export class CreateNewProjectPopup {
   ) {
     button.onclick = async (e: Event) => {
       e.preventDefault();
-      const isFormValid = formValidation(
-        form.children[0] as HTMLInputElement,
-        form.children[1] as HTMLInputElement
-      );
 
-      const iconValid = this.iconSelected?.length > 1 ? true : false;
+      if (this.validateForm()) {
+        // Show loading state
+        button.innerText = "Creating...";
+        button.classList.add("loading");
+        //button.disabled = true;
 
-      if (isFormValid[0] && iconValid) {
-        this.handleCreateNewProject();
-      } else {
-        this.handleFormValidationError(
-          iconValid,
-          iconSelectEl,
-          isFormValid[1] as HTMLInputElement[]
-        );
+        try {
+          await this.handleCreateNewProject();
+        } catch (error) {
+          console.error("Error creating project:", error);
+
+          // Reset button state
+          button.innerText = "Create Project";
+          button.classList.remove("loading");
+          //button.disabled = false;
+
+          // Show error message
+          alert("Failed to create project. Please try again.");
+        }
       }
     };
   }
 
   //API CALLS------------------------------------------------------
-
   async handleCreateNewProject() {
-    let apiCall = new ProjectsService(
+    const apiCall = new ProjectsService(
       "http://localhost:3000/create-new-project"
     );
-    this.handleClosePopup();
-    await apiCall.createNewProject(this.apiProjectData);
 
-    await this.fetchAllUserProjects();
+    try {
+      await apiCall.createNewProject(this.apiProjectData);
+      this.handleClosePopup();
+      await this.fetchAllUserProjects();
+    } catch (error) {
+      console.error("Error creating project:", error);
+      throw error;
+    }
   }
 
   //LISTENERS------------------------------------------------------
-
   setupFormEventDelegation(form: HTMLElement) {
-    form.addEventListener("change", (e: Event) => {
-      const target = e.target as HTMLInputElement;
-      if (target.matches("input, select")) {
+    form.addEventListener("input", (e: Event) => {
+      const target = e.target as
+        | HTMLInputElement
+        | HTMLTextAreaElement
+        | HTMLSelectElement;
+
+      if (target.matches("input, textarea, select")) {
+        // Clear error styling when user starts typing
+        target.classList.remove("input-error");
+        const errorElement =
+          target.parentElement?.querySelector(".error-message");
+        if (errorElement) {
+          (errorElement as HTMLElement).style.display = "none";
+        }
+
+        // Update data model
         switch (target.name) {
           case "title":
             this.apiProjectData.title = target.value;
@@ -221,9 +400,9 @@ export class CreateNewProjectPopup {
           case "description":
             this.apiProjectData.description = target.value;
             break;
-          /*case "teams":
-                this.apiProjectData.teams = target.value;
-                break;*/
+          case "teams":
+            this.apiProjectData.teamId = target.value;
+            break;
         }
       }
     });

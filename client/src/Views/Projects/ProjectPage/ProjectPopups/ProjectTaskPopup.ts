@@ -13,6 +13,7 @@ export class ProjectTaskPopup {
   membersData: MembersData[] | null = null;
   handleManagerClassReset: () => void = () => {};
   fetchUserProject: () => Promise<void> = async () => {};
+  formErrors: { [key: string]: string } = {};
 
   constructor(
     popup: HTMLElement,
@@ -39,33 +40,7 @@ export class ProjectTaskPopup {
           className: "task-popup-title",
           text: "Create New Task",
         }),
-        createElement({
-          tag: "div",
-          className: "input-group",
-          children: [
-            createElement({
-              tag: "input",
-              className: "task-title-input",
-              name: "title",
-              placeholder: "Enter task title",
-              type: "text",
-            }),
-          ],
-        }),
-        createElement({
-          tag: "div",
-          className: "input-group",
-          children: [
-            createElement({
-              tag: "textarea",
-              className: "task-description-input",
-              name: "description",
-              placeholder: "Enter task description",
-              rows: "4",
-            }),
-          ],
-        }),
-
+        // Title input group
         createElement({
           tag: "div",
           className: "input-group",
@@ -73,7 +48,57 @@ export class ProjectTaskPopup {
             createElement({
               tag: "label",
               className: "input-label",
-              text: "Task deadline",
+              text: "Task Title",
+            }),
+            createElement({
+              tag: "input",
+              className: "task-title-input",
+              name: "title",
+              placeholder: "Enter task title",
+              type: "text",
+            }),
+            createElement({
+              tag: "span",
+              className: "error-message",
+              style: "display: none;",
+              text: "Task title is required",
+            }),
+          ],
+        }),
+        // Description input group
+        createElement({
+          tag: "div",
+          className: "input-group",
+          children: [
+            createElement({
+              tag: "label",
+              className: "input-label",
+              text: "Task Description",
+            }),
+            createElement({
+              tag: "textarea",
+              className: "task-description-input",
+              name: "description",
+              placeholder: "Enter task description",
+              rows: "4",
+            }),
+            createElement({
+              tag: "span",
+              className: "error-message",
+              style: "display: none;",
+              text: "Task description is required",
+            }),
+          ],
+        }),
+        // Deadline input group
+        createElement({
+          tag: "div",
+          className: "input-group",
+          children: [
+            createElement({
+              tag: "label",
+              className: "input-label",
+              text: "Task Deadline",
             }),
             createElement({
               tag: "input",
@@ -82,8 +107,15 @@ export class ProjectTaskPopup {
               type: "date",
               placeholder: "Task Deadline",
             }),
+            createElement({
+              tag: "span",
+              className: "error-message",
+              style: "display: none;",
+              text: "Task deadline is required",
+            }),
           ],
         }),
+        // Assignee input group
         createElement({
           tag: "div",
           className: "input-group",
@@ -91,7 +123,7 @@ export class ProjectTaskPopup {
             createElement({
               tag: "label",
               className: "input-label",
-              text: "Assign task to:",
+              text: "Assign Task To",
             }),
             createElement({
               tag: "select",
@@ -104,15 +136,18 @@ export class ProjectTaskPopup {
                   text: "Select Team Member",
                   disabled: true,
                   selected: true,
-                  onChange: () => {
-                    console.log("changed");
-                  },
                 }),
               ],
             }),
+            createElement({
+              tag: "span",
+              className: "error-message",
+              style: "display: none;",
+              text: "Please select a team member",
+            }),
           ],
         }),
-
+        // Submit button
         createElement({
           tag: "button",
           className: "create-task-btn",
@@ -120,15 +155,98 @@ export class ProjectTaskPopup {
           text: "Create Task",
           onClick: (e: Event) => {
             e.preventDefault();
-            this.handleCreateNewTask(e);
+            if (this.validateForm()) {
+              this.handleCreateNewTask(e);
+            }
           },
         }),
       ],
     });
 
-    this.renderMemberInSelectDropdown(taskForm.children[4].children[1]);
+    this.renderMemberInSelectDropdown(
+      taskForm.children[4].children[1] as HTMLSelectElement
+    );
     mainDiv.appendChild(taskForm);
     this.setupTaskFormEventDelegation(taskForm);
+  }
+
+  private validateForm(): boolean {
+    let isValid = true;
+    this.formErrors = {};
+
+    // Validate title
+    const titleInput = document.querySelector(
+      ".task-title-input"
+    ) as HTMLInputElement;
+    const titleError = titleInput.parentElement?.querySelector(
+      ".error-message"
+    ) as HTMLElement;
+
+    if (!titleInput.value.trim()) {
+      titleInput.classList.add("input-error");
+      titleError.style.display = "block";
+      this.formErrors.title = "Task title is required";
+      isValid = false;
+    } else {
+      titleInput.classList.remove("input-error");
+      titleError.style.display = "none";
+    }
+
+    // Validate description
+    const descriptionInput = document.querySelector(
+      ".task-description-input"
+    ) as HTMLTextAreaElement;
+    const descriptionError = descriptionInput.parentElement?.querySelector(
+      ".error-message"
+    ) as HTMLElement;
+
+    if (!descriptionInput.value.trim()) {
+      descriptionInput.classList.add("input-error");
+      descriptionError.style.display = "block";
+      this.formErrors.description = "Task description is required";
+      isValid = false;
+    } else {
+      descriptionInput.classList.remove("input-error");
+      descriptionError.style.display = "none";
+    }
+
+    // Validate deadline
+    const deadlineInput = document.querySelector(
+      ".task-deadline-input"
+    ) as HTMLInputElement;
+    const deadlineError = deadlineInput.parentElement?.querySelector(
+      ".error-message"
+    ) as HTMLElement;
+
+    if (!deadlineInput.value) {
+      deadlineInput.classList.add("input-error");
+      deadlineError.style.display = "block";
+      this.formErrors.deadline = "Task deadline is required";
+      isValid = false;
+    } else {
+      deadlineInput.classList.remove("input-error");
+      deadlineError.style.display = "none";
+    }
+
+    // Validate assignee
+    const assigneeSelect = document.querySelector(
+      ".task-assignee-select"
+    ) as HTMLSelectElement;
+    const assigneeError = assigneeSelect.parentElement?.querySelector(
+      ".error-message"
+    ) as HTMLElement;
+
+    if (!this.assignee) {
+      assigneeSelect.classList.add("input-error");
+      assigneeError.style.display = "block";
+      this.formErrors.assignee = "Please select a team member";
+      isValid = false;
+    } else {
+      assigneeSelect.classList.remove("input-error");
+      assigneeError.style.display = "none";
+    }
+
+    return isValid;
   }
 
   private handleIdSort(assigneeUsername: string) {
@@ -160,27 +278,53 @@ export class ProjectTaskPopup {
 
   private async handleCreateNewTask(e: Event) {
     e.preventDefault();
-    let apiCall: TaskService | null = new TaskService(
-      `http://localhost:3000/create-new-task`
-    );
-    await apiCall.handleTaskCreation({
-      title: this.title,
-      description: this.description,
-      deadline: this.deadline,
-      assignee: this.assignee,
-      projectId: this.projectId,
-    });
 
-    apiCall = null;
+    // Show loading state on button
+    const button = e.target as HTMLButtonElement;
+    const originalText = button.textContent || "Create Task";
+    button.textContent = "Creating...";
+    button.disabled = true;
 
-    this.handleDeleteTaskPopup();
-    this.handleManagerClassReset();
+    try {
+      let apiCall: TaskService | null = new TaskService(
+        `http://localhost:3000/create-new-task`
+      );
+      await apiCall.handleTaskCreation({
+        title: this.title,
+        description: this.description,
+        deadline: this.deadline,
+        assignee: this.assignee,
+        projectId: this.projectId,
+      });
+
+      apiCall = null;
+
+      this.handleDeleteTaskPopup();
+      this.handleManagerClassReset();
+    } catch (error) {
+      console.error("Error creating task:", error);
+
+      // Reset button state
+      button.textContent = originalText;
+      button.disabled = false;
+
+      // Show error message
+      alert("Failed to create task. Please try again.");
+    }
   }
 
   private setupTaskFormEventDelegation(form: HTMLElement) {
-    form.addEventListener("change", (e: Event) => {
+    form.addEventListener("input", (e: Event) => {
       const target = e.target as HTMLInputElement;
       if (target.matches("input, textarea, select")) {
+        // Clear error styling when user starts typing
+        target.classList.remove("input-error");
+        const errorElement =
+          target.parentElement?.querySelector(".error-message");
+        if (errorElement) {
+          (errorElement as HTMLElement).style.display = "none";
+        }
+
         switch (target.name) {
           case "title":
             this.title = target.value;

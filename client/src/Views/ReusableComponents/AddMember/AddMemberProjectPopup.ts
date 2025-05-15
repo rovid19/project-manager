@@ -34,29 +34,17 @@ export class AddMemberProjectPopup {
       (this.closePopup = closePopup);
 
     this.addCallbackToEveryMemberItem();
-    console.log(this.members);
   }
 
   //API CALLS--------------------------------------------------------
-  submitAddMember = async (e: Event) => {
-    e.preventDefault();
-    this.selectMemberOrTeamId(e);
-
-    if (this.selectedId && this.projectId) {
-      await new ProjectsService(
-        "http://localhost:3000/handle-add-member-to-project"
-      ).handleAddMember(this.selectedId, this.projectId);
-
-      this.closePopup();
-      this.handleManagerClassReset();
-    } else {
-      console.log("something is missing", this.selectedId, this.projectId);
-    }
-  };
 
   submitAddTeam = async (e: Event) => {
-    console.log(this.teamId);
-    if (!this.teamId) {
+    const element = (e.target as HTMLElement).closest(
+      ".member-item"
+    ) as HTMLElement | null;
+    const teamId = element?.dataset.projectId ?? "";
+
+    if (this.teamId === "noTeam") {
       e.preventDefault();
       this.selectMemberOrTeamId(e);
 
@@ -69,6 +57,7 @@ export class AddMemberProjectPopup {
       }
 
       this.closePopup();
+      history.pushState("", "", `/projects/${this.projectId}/${teamId}`);
       this.handleManagerClassReset();
     } else {
       alert("your project must no have any members in order to add a team");
@@ -87,7 +76,7 @@ export class AddMemberProjectPopup {
       document.querySelectorAll(".member-item").forEach((memberItem) => {
         if (this.popupState === "team") {
           (memberItem as HTMLElement).onclick = this.submitAddTeam;
-        } else (memberItem as HTMLElement).onclick = this.submitAddMember;
+        }
       });
     }, 100);
   }
