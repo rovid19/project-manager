@@ -159,6 +159,11 @@ export class ProjectView {
     const { ProjectViewTaskManager } = await import("./ProjectViewTaskManager");
 
     // Create sections with cards
+    const tasksSection = createElement({
+      tag: "div",
+      className: "projectSection",
+    });
+
     const infoSection = createElement({
       tag: "div",
       className: "projectSection",
@@ -168,15 +173,9 @@ export class ProjectView {
       tag: "div",
       className: "projectSection",
     });
-
-    const tasksSection = createElement({
-      tag: "div",
-      className: "projectSection",
-    });
-
     this.projectContainerElement?.appendChild(infoSection);
-    this.projectContainerElement?.appendChild(membersSection);
     this.projectContainerElement?.appendChild(tasksSection);
+    this.projectContainerElement?.appendChild(membersSection);
 
     this.infoManagerController = new ProjectViewInfoManager(
       this.projectId,

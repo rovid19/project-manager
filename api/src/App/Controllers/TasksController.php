@@ -80,9 +80,18 @@ class TasksController
         if (!empty($this->params["userId"])) {
             $userId = $this->validation->sanitizeString($this->params["userId"]);
 
+            $taskArrayWithProjectName = [];
+
             $allTasks = $this->db->query("SELECT * FROM task WHERE assignee = :assignee", ["assignee" => $userId], "return");
 
-            echo json_encode($allTasks);
+            foreach ($allTasks as $task) {
+                $project = $this->db->query("SELECT * FROM project WHERE projectId = :projectId", ["projectId" => $task["projectId"]], "return");
+                $task['projectName'] = $project[0]["title"];
+                $taskArrayWithProjectName[] = $task;
+            }
+
+
+            echo json_encode($taskArrayWithProjectName);
         }
     }
 }
