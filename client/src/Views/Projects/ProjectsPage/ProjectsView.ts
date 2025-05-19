@@ -1,6 +1,12 @@
 import "../../../Styles/Views/Projects/Projects.css";
 import { store } from "../../../Store/Store";
-import { changeTeam, createElement, teamId } from "../../../Utils/Helpers";
+import {
+  changeTeam,
+  createElement,
+  generateTitleHash,
+  iconGradients,
+  teamId,
+} from "../../../Utils/Helpers";
 import { ProjectsService } from "../../../Services/ProjectsService";
 import { Project, userStore } from "../../../Store/UserStore";
 import { CreateNewProjectPopup } from "./ProjectsPopup/CreateNewProject";
@@ -169,45 +175,8 @@ export class ProjectsView {
 
   private createProjectCard(project: Project) {
     // Generate a hash from the project title for consistent colors
-    const hash = project.title
-      .split("")
-      .reduce((acc, char) => acc + char.charCodeAt(0), 0);
 
-    // Define a set of subtle, professional gradients for the icons
-    const iconGradients = [
-      {
-        gradient: "linear-gradient(135deg, #f0f9ff, #e0f2fe)",
-        text: "#0369a1",
-      }, // Blue
-      {
-        gradient: "linear-gradient(135deg, #f0fdf4, #dcfce7)",
-        text: "#166534",
-      }, // Green
-      {
-        gradient: "linear-gradient(135deg, #fef2f2, #fee2e2)",
-        text: "#991b1b",
-      }, // Red
-      {
-        gradient: "linear-gradient(135deg, #faf5ff, #f3e8ff)",
-        text: "#6b21a8",
-      }, // Purple
-      {
-        gradient: "linear-gradient(135deg, #f8fafc, #e2e8f0)",
-        text: "#334155",
-      }, // Slate
-      {
-        gradient: "linear-gradient(135deg, #f5f5f4, #e7e5e4)",
-        text: "#44403c",
-      }, // Stone
-      {
-        gradient: "linear-gradient(135deg, #f7fee7, #ecfccb)",
-        text: "#3f6212",
-      }, // Lime
-      {
-        gradient: "linear-gradient(135deg, #f0fdfa, #ccfbf1)",
-        text: "#115e59",
-      }, // Teal
-    ];
+    const hash = generateTitleHash(project.title);
 
     // Select a gradient based on the hash
     const iconStyle = iconGradients[hash % iconGradients.length];

@@ -1,5 +1,5 @@
 import { createMainContent } from "../Components/MainContent";
-import { createSidebar } from "../Components/Sidebar";
+//import { createSidebar } from "../Components/Sidebar";
 import { router } from "../main";
 import { AuthService } from "../Services/AuthService";
 import { ProjectsService } from "../Services/ProjectsService";
@@ -28,7 +28,7 @@ export function createElement({
   if (className) {
     if (className.includes(" ")) {
       // If className contains spaces, add each class separately
-      className.split(" ").forEach((cls) => {
+      className.split(" ").forEach((cls: any) => {
         if (cls.trim()) element.classList.add(cls.trim());
       });
     } else {
@@ -64,8 +64,13 @@ export function createElement({
   return element;
 }
 
+export function createSidebar() {
+  const sidebar = new Sidebar();
+  document.body.appendChild(sidebar.getElement());
+}
+
 export function redirectToHome() {
-  createSidebar();
+  //createSidebar();
   createMainContent();
 
   history.pushState({}, "", "/dashboard");
@@ -148,4 +153,47 @@ export async function getUserData() {
 
 export function changeTeam(newTeam: string) {
   teamId = newTeam;
+}
+
+export const iconGradients = [
+  {
+    gradient: "linear-gradient(135deg, #f0f9ff, #e0f2fe)",
+    text: "#0369a1",
+  }, // Blue
+  {
+    gradient: "linear-gradient(135deg, #f0fdf4, #dcfce7)",
+    text: "#166534",
+  }, // Green
+  {
+    gradient: "linear-gradient(135deg, #fef2f2, #fee2e2)",
+    text: "#991b1b",
+  }, // Red
+  {
+    gradient: "linear-gradient(135deg, #faf5ff, #f3e8ff)",
+    text: "#6b21a8",
+  }, // Purple
+  {
+    gradient: "linear-gradient(135deg, #f8fafc, #e2e8f0)",
+    text: "#334155",
+  }, // Slate
+  {
+    gradient: "linear-gradient(135deg, #f5f5f4, #e7e5e4)",
+    text: "#44403c",
+  }, // Stone
+  {
+    gradient: "linear-gradient(135deg, #f7fee7, #ecfccb)",
+    text: "#3f6212",
+  }, // Lime
+  {
+    gradient: "linear-gradient(135deg, #f0fdfa, #ccfbf1)",
+    text: "#115e59",
+  }, // Teal
+];
+
+export function generateTitleHash(title: string) {
+  const hash = title
+    .split("")
+    .reduce((acc: number, char: string) => acc + char.charCodeAt(0), 0);
+
+  return hash;
 }

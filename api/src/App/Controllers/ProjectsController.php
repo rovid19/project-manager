@@ -48,11 +48,11 @@ class ProjectsController
         $this->db->query("INSERT INTO project (projectId, title, description, icon, userId, members, teamId) VALUES (:projectId,:title, :description, :icon, :userId, :members, :teamId)", [
             "projectId" => $projectId,
             "title" => $data['title'],
-            "description" => $data['description'],
+            "description" => "",
             "icon" => $data['icon'],
             "userId" => $userId,
             "members" => "[]",
-            "teamId" =>  $teamId ? $teamId : "noTeam"
+            "teamId" => /* $teamId ? $teamId :*/ "noTeam"
         ]);
 
         // $this->insertUserWhoCreatedProjectAsProjectMember($userId, $projectId);

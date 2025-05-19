@@ -78,7 +78,7 @@ export class CreateNewProjectPopup {
                     ],
                   }),
 
-                  // Project Description
+                  /* // Project Description
                   createElement({
                     tag: "div",
                     className: "cr-pr-input-group",
@@ -128,7 +128,7 @@ export class CreateNewProjectPopup {
                         ],
                       }),
                     ],
-                  }),
+                  }),*/
 
                   // Project Icon
                   createElement({
@@ -205,7 +205,7 @@ export class CreateNewProjectPopup {
       ) as HTMLSelectElement;
 
       // Render teams in select dropdown
-      this.renderTeamsInSelect(teamSelectElement);
+      // this.renderTeamsInSelect(teamSelectElement);
 
       // Setup form handlers
       this.setupFormSubmitHandler(
@@ -292,7 +292,7 @@ export class CreateNewProjectPopup {
       titleInput.classList.remove("input-error");
       titleError.style.display = "none";
     }
-
+    /*
     // Validate description
     const descriptionInput = document.querySelector(
       ".cr-pr-descr-input"
@@ -309,7 +309,7 @@ export class CreateNewProjectPopup {
     } else {
       descriptionInput.classList.remove("input-error");
       descriptionError.style.display = "none";
-    }
+    }*/
 
     // Validate icon selection
     const iconError = document.querySelector(".icon-error") as HTMLElement;

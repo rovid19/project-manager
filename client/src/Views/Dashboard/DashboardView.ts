@@ -15,6 +15,7 @@ export class DashboardView {
   }
 
   async createDashboard() {
+    console.log(userStore.getState());
     await this.fetchAllUserProjects();
     const projects = userStore.getState().projects;
 
@@ -82,7 +83,8 @@ export class DashboardView {
               className: "new-project-btn",
               text: "New Project",
               onClick: () => {
-                router.route("/projects");
+                history.pushState({}, "", "/projects");
+                router.route("projects");
               },
             }),
           ],
@@ -113,7 +115,8 @@ export class DashboardView {
               className: "view-all-link",
               text: "View All Projects",
               onClick: () => {
-                router.route("/projects");
+                history.pushState("", "", "/projects");
+                router.route("projects");
               },
             }),
           ],
@@ -135,7 +138,7 @@ export class DashboardView {
     const projectsToShow = projects.slice(0, 3);
 
     if (projectsToShow.length === 0) {
-      projectCards.appendChild(
+      projectSection.appendChild(
         createElement({
           tag: "div",
           className: "empty-projects",
@@ -149,7 +152,8 @@ export class DashboardView {
               className: "create-project-btn",
               text: "Create Your First Project",
               onClick: () => {
-                router.route("/projects");
+                history.pushState({}, "", "/projects");
+                router.route("projects");
               },
             }),
           ],
@@ -161,6 +165,8 @@ export class DashboardView {
         const hash = project.title
           .split("")
           .reduce((acc, char) => acc + char.charCodeAt(0), 0);
+
+        console.log(project.icon);
 
         // Define some gradient options
         const iconGradients = [
@@ -205,7 +211,7 @@ export class DashboardView {
           tag: "div",
           className: "dashboard-project-card",
           onClick: () => {
-            router.route(`/projects/${project.projectId}/${project.teamId}`);
+            router.route(`projects/${project.projectId}/${project.teamId}`);
           },
           children: [
             createElement({
@@ -219,12 +225,7 @@ export class DashboardView {
                     background: iconStyle.gradient,
                     color: iconStyle.text,
                   },
-                  children: [
-                    createElement({
-                      tag: "span",
-                      text: project.title.charAt(0).toUpperCase(),
-                    }),
-                  ],
+                  innerHTML: project.icon,
                 }),
                 createElement({
                   tag: "h3",

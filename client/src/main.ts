@@ -35,7 +35,7 @@ getUser().then(async () => {
   }
   createSidebar();
   createMainContent();
-  //store.subscribe(activeLink, "activeLink");
+  store.subscribe(activeLink, "activeLink");
   userStore.subscribe(updateUserInfo, "username");
   router.route();
 });

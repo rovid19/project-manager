@@ -271,4 +271,7 @@
     align-items: flex-start;
     gap: 8px;
   }
+  .empty-projects {
+    width: 100% !important;
+  }
 }

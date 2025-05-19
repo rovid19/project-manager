@@ -4,7 +4,7 @@ import { router } from "../main";
 import { userStore } from "../Store/UserStore";
 import { AuthService } from "../Services/AuthService";
 import { store } from "../Store/Store";
-import { iconArray } from "../Assets/Icons";
+import { iconArray, logoutIcon } from "../Assets/Icons";
 
 export function createSidebar() {
   const currentState = store.getState();
@@ -15,169 +15,224 @@ export function createSidebar() {
     tag: "div",
     className: "innerSidebar",
   });
+  const menuSection = createElement({
+    tag: "div",
+    className: "menuSection",
+  });
+  const logoutSection = createElement({
+    tag: "div",
+    className: "logoutSection",
+  });
+
   currentState.mainDivApp?.appendChild(sidebar);
   sidebar.appendChild(innerSidebar);
 
-  // Create app logo/branding
-  createBranding(innerSidebar);
+  // Create profile section
+  createProfileSection(innerSidebar);
 
-  // Create navigation
-  createNavigation(innerSidebar);
+  innerSidebar.appendChild(menuSection);
 
+  // Create workspace section
+  createWorkspaceSection(menuSection);
+
+  // Create favorites section
+  createFavoritesSection(menuSection);
+
+  innerSidebar.appendChild(logoutSection);
   // Create user section
-  createUserSection(innerSidebar);
+  createLogoutSection(logoutSection);
 }
 
-function createBranding(sidebar: HTMLElement) {
-  const branding = createElement({
+function createProfileSection(sidebar: HTMLElement) {
+  const profile = createElement({
     tag: "div",
-    className: "sidebarBranding",
+    className: "profileSection",
     children: [
       createElement({
         tag: "div",
-        className: "appLogo",
-        html: `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>`,
-      }),
-    ],
-  });
-
-  sidebar.appendChild(branding);
-}
-
-function createNavigation(sidebar: HTMLElement) {
-  const navItemArray = [
-    {
-      name: "dashboard",
-      icon: iconArray[0],
-    },
-    {
-      name: "projects",
-      icon: iconArray[1],
-    },
-    {
-      name: "tasks",
-      icon: iconArray[2],
-    },
-    {
-      name: "teams",
-      icon: iconArray[3],
-    },
-    {
-      name: "reports",
-      icon: iconArray[4],
-    },
-  ];
-
-  // Create nav section
-  const navSection = createElement({
-    tag: "div",
-    className: "sidebarSection",
-  });
-
-  // Create nav heading
-  const navHeading = createElement({
-    tag: "h2",
-    className: "sidebarHeading",
-    text: "Menu",
-  });
-  navSection.appendChild(navHeading);
-
-  // Create nav
-  const nav = createElement({
-    tag: "nav",
-    className: "sidebarNav",
-  });
-  navSection.appendChild(nav);
-
-  // Create nav items
-  navItemArray.forEach((item) => {
-    console.log(item);
-    const navItem = createElement({
-      tag: "div",
-      className: "navItem",
-      data: item.name,
-      children: [
-        createElement({
-          tag: "a",
-          className: "navLink",
-          onClick: (e: Event) => {
-            e.preventDefault();
-            history.pushState({}, "", `/${item.name.toLowerCase()}`);
-            router.route(`${item.name}`);
-          },
-          children: [
-            createElement({
-              tag: "div",
-              className: "navIcon",
-              innerHTML: item.icon,
-            }),
-            createElement({
-              tag: "span",
-              className: "navText",
-              text: item.name.charAt(0).toUpperCase() + item.name.slice(1),
-            }),
-          ],
-        }),
-      ],
-    });
-    nav.appendChild(navItem);
-  });
-
-  sidebar.appendChild(navSection);
-}
-
-function createUserSection(sidebar: HTMLElement) {
-  const currentState = userStore.getState();
-  const username = currentState.username;
-  const initial = username ? username.charAt(0).toUpperCase() : "U";
-
-  const userSection = createElement({
-    tag: "div",
-    className: "userSection",
-    children: [
-      createElement({
-        tag: "div",
-        className: "userAvatar",
-        text: initial,
-      }),
-      createElement({
-        tag: "div",
-        className: "userInfo",
+        className: "profileAvatar",
         children: [
           createElement({
-            tag: "h3",
-            className: "userName",
-            text: username || "User",
-          }),
-          createElement({
-            tag: "a",
-            className: "userProfileLink",
-            text: "View profile",
-            href: "/profile",
+            tag: "span",
+            text: "M",
           }),
         ],
       }),
       createElement({
-        tag: "button",
-        className: "logoutButton",
-        innerHtml: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>`,
-        onClick: (e: Event) => {
-          e.preventDefault();
-          logoutUser();
-        },
+        tag: "div",
+        className: "profileInfo",
+        children: [
+          createElement({
+            tag: "h3",
+            className: "profileName",
+            text: "mirko",
+          }),
+          createElement({
+            tag: "span",
+            className: "profileTitle",
+            text: "Senior Developer",
+          }),
+        ],
       }),
     ],
   });
 
-  sidebar.appendChild(userSection);
+  sidebar.appendChild(profile);
+}
+
+function createWorkspaceSection(sidebar: HTMLElement) {
+  const workspaceSection = createElement({
+    tag: "div",
+    className: "workspaceSection",
+    children: [
+      createElement({
+        tag: "div",
+        className: "sectionHeader",
+        children: [
+          createElement({
+            tag: "span",
+            className: "sectionTitle",
+            text: "WORKSPACE",
+          }),
+          createElement({
+            tag: "span",
+            className: "sectionArrow",
+            innerHTML:
+              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>',
+          }),
+        ],
+      }),
+      createElement({
+        tag: "nav",
+        className: "sectionNav",
+        children: [
+          createNavItem("Dashboard", iconArray[0], true, "3"),
+          createNavItem("Projects", iconArray[1]),
+          createNavItem("Tasks", iconArray[2]),
+          createNavItem("Teams", iconArray[3]),
+          createNavItem("Reports", iconArray[4]),
+        ],
+      }),
+    ],
+  });
+
+  sidebar.appendChild(workspaceSection);
+}
+
+function createFavoritesSection(sidebar: HTMLElement) {
+  const favoritesSection = createElement({
+    tag: "div",
+    className: "favoritesSection",
+    children: [
+      createElement({
+        tag: "div",
+        className: "sectionHeader",
+        children: [
+          createElement({
+            tag: "span",
+            className: "sectionTitle",
+            text: "FAVORITES",
+          }),
+          createElement({
+            tag: "span",
+            className: "sectionArrow",
+            innerHTML:
+              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>',
+          }),
+        ],
+      }),
+      createElement({
+        tag: "nav",
+        className: "sectionNav",
+        children: [
+          createFavoriteItem("Website Redesign", "#FF6B6B"),
+          createFavoriteItem("Mobile App Dev", "#4ECDC4"),
+          createFavoriteItem("Dashboard UI", "#96E6A1"),
+        ],
+      }),
+    ],
+  });
+
+  sidebar.appendChild(favoritesSection);
+}
+
+function createNavItem(
+  name: string,
+  icon: string,
+  isActive = false,
+  badge?: string
+): HTMLElement {
+  const navItem = createElement({
+    tag: "div",
+    className: `navItem ${isActive ? "active" : ""}`,
+    data: name.toLowerCase(),
+    id: `${name.toLowerCase()}Item `,
+    children: [
+      createElement({
+        tag: "a",
+        className: "navLink",
+        onClick: (e: Event) => {
+          e.preventDefault();
+          history.pushState({}, "", `/${name.toLowerCase()}`);
+          router.route(name.toLowerCase());
+        },
+        children: [
+          createElement({
+            tag: "div",
+            className: "navIcon",
+            innerHTML: icon,
+          }),
+          createElement({
+            tag: "span",
+            className: "navText",
+            text: name,
+          }),
+          badge &&
+            createElement({
+              tag: "span",
+              className: "navBadge",
+              text: badge,
+            }),
+        ],
+      }),
+    ],
+  });
+
+  return navItem;
+}
+
+function createFavoriteItem(name: string, color: string): HTMLElement {
+  return createElement({
+    tag: "div",
+    className: "navItem",
+    children: [
+      createElement({
+        tag: "a",
+        className: "navLink",
+        children: [
+          createElement({
+            tag: "span",
+            className: "favoriteIcon",
+            style: `background-color: ${color}`,
+          }),
+          createElement({
+            tag: "span",
+            className: "navText",
+            text: name,
+          }),
+        ],
+      }),
+    ],
+  });
+}
+
+function createLogoutSection(sidebar: HTMLElement) {
+  const logoutNavItem = createNavItem("Logout", logoutIcon, false);
+
+  sidebar.appendChild(logoutNavItem);
 }
 
 export function activeLink() {
-  console.log(window.location.pathname);
   if (
     window.location.pathname === "/login" ||
     window.location.pathname === "/register"
@@ -185,21 +240,15 @@ export function activeLink() {
     return;
   }
 
-  const currentState = store.getState();
   const navItems = document.querySelectorAll(".navItem");
-
-  // Remove active id from all items
   navItems.forEach((item) => {
-    item.removeAttribute("id");
+    item.classList.remove("active");
   });
 
-  //get current active link in string
   const activeLink = window.location.pathname.slice(1);
-
-  // Add active id to current item
   navItems.forEach((navItem) => {
     if ((navItem as HTMLElement).dataset.projectId === activeLink) {
-      navItem.setAttribute("id", "active");
+      navItem.classList.add("active");
     }
   });
 }
@@ -217,11 +266,15 @@ export function updateUserInfo() {
   const userAvatar = document.querySelector(".userAvatar") as HTMLElement;
 
   if (username) {
-    username.innerText = currentState.username || "User";
+    username.innerText = currentState.username || "mirko";
   }
 
   if (userAvatar) {
-    userAvatar.innerText = currentState.username.charAt(0).toUpperCase() || "U";
+    const avatarSpan = userAvatar.querySelector("span");
+    if (avatarSpan) {
+      avatarSpan.innerText =
+        currentState.username.charAt(0).toUpperCase() || "M";
+    }
   }
 }
 
