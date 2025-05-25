@@ -2,30 +2,25 @@ import { createElement } from "../../Utils/Helpers";
 import "../../Styles/Views/Tasks/Tasks.css";
 import "../../Styles/SharedStylings/SectionHeader.css";
 import "../../Styles/SharedStylings/UpperInnerSection.css";
-
 import { store } from "../../Store/Store";
-import { Project, userStore } from "../../Store/UserStore";
-import { TaskDetailsPopup } from "./TaskDetails/TaskDetailsPopup";
+import { TaskDetailsPopup } from "./TaskDetailsPopup/TaskDetailsPopup";
 import { TaskService } from "../../Services/TaskService";
 import { TeamsService } from "../../Services/TeamsService";
 import { Team } from "../../Types/TeamsTypes";
 import { ProjectsService } from "../../Services/ProjectsService";
+import { Project } from "../../Types/ProjectsTypes";
 
 export class TasksView {
   private userProjects: any = [];
   private userTasks: any = [];
   private userTeams: any = [];
   private tasks: any = [];
-
   private sortBy: string = "projects"; // Default sort by teams
   private filterStatus: { [key: string]: string } = {}; // Store filter status for each team
 
   constructor() {}
 
-  delete() {
-    document.querySelector(".tasks-container")?.remove();
-  }
-
+  //UI RENDER------------------------------------------------------
   async createTasks() {
     const tasksContainer = createElement({
       tag: "div",
@@ -34,10 +29,8 @@ export class TasksView {
 
     store.getState().mainSection.appendChild(tasksContainer);
 
-    // Render header with actions
     this.renderHeader(tasksContainer);
 
-    // Render tasks dashboard
     const tasksDashboard = createElement({
       tag: "div",
       className: "tasks-dashboard",
@@ -45,10 +38,7 @@ export class TasksView {
 
     tasksContainer.appendChild(tasksDashboard);
 
-    // Fetch tasks data
     await this.fetchUserTasks();
-
-    // Render tasks
     this.renderTasks();
   }
 
@@ -115,83 +105,6 @@ export class TasksView {
     container.appendChild(header);
   }
 
-  async fetchUserTasks() {
-    const userTasks = await new TaskService(
-      `http://localhost:3000/tasks/get/${userStore.getState().userId}`
-    ).getAllTasks();
-
-    const userTeams = await new TeamsService(
-      `http://localhost:3000/get-all-user-teams`
-    ).getAllTeams();
-
-    const userProjects = await new ProjectsService(
-      `http://localhost:3000/get-all-user-projects`
-    ).fetchAllUserProjects();
-
-    this.userProjects = userProjects;
-    this.userTeams = userTeams;
-    this.userTasks = userTasks;
-
-    console.log(userProjects);
-
-    // Initialize filter status for each team
-    this.userTeams.forEach((team: Team) => {
-      this.filterStatus[team.teamName as string] = "incomplete";
-    });
-
-    this.sortTasks("pojects");
-  }
-
-  sortTasks(sortBy: string) {
-    let objectArray: any;
-    // create an array of objects, each object representing a team
-    if (sortBy === "teams") {
-      objectArray = this.userTeams.map((team: Team) => ({
-        [team.teamName as string]: {},
-      }));
-      // loop through each team and add tasks to the corresponding team object
-      this.userTeams.forEach((team: Team, i: number) => {
-        this.userTasks.forEach((task: any) => {
-          if (task.teamId === team.teamId) {
-            objectArray[i][team.teamName as string] = {
-              ...objectArray[i][team.teamName as string],
-              [task.title]: { ...task },
-            };
-          }
-        });
-      });
-    } else {
-      objectArray = this.userProjects.map((project: Project) => ({
-        [project.title as string]: {},
-      }));
-
-      this.userProjects.forEach((project: Project, i: number) => {
-        this.userTasks.forEach((task: any) => {
-          if (project.projectId === task.projectId) {
-            objectArray[i][project.title as string] = {
-              ...objectArray[i][project.title as string],
-              [task.title]: { ...task },
-            };
-          }
-        });
-      });
-    }
-
-    this.tasks = objectArray;
-  }
-
-  sortTasksByProjects() {
-    // create an array of objects, each object representing a team
-    const projectsObjectArray = this.userProjects.forEach(
-      (project: Project, i: number) => {
-        this.userTasks((task: any) => {
-          if (project.projectId === task.projectId) {
-          }
-        });
-      }
-    );
-  }
-
   renderTasks() {
     const tasksContainer = document.querySelector(
       ".tasks-dashboard"
@@ -199,10 +112,8 @@ export class TasksView {
 
     if (!tasksContainer) return;
 
-    // Clear existing content
     tasksContainer.innerHTML = "";
 
-    // If no tasks
     if (this.tasks.length === 0) {
       tasksContainer.appendChild(
         createElement({
@@ -219,11 +130,9 @@ export class TasksView {
       return;
     }
 
-    // Create team sections
     this.tasks.forEach((item: any) => {
-      const objKey = Object.keys(item)[0];
-      const objValueArray = Object.values(item[objKey]);
-
+      const teamOrProjectName = Object.keys(item)[0];
+      const teamOrProjectTasks = Object.values(item[teamOrProjectName]);
       const teamSection = createElement({
         tag: "div",
         className: "team-tasks-section",
@@ -239,13 +148,13 @@ export class TasksView {
                   createElement({
                     tag: "h4",
                     className: "team-name",
-                    text: objKey,
+                    text: teamOrProjectName,
                   }),
                   createElement({
                     tag: "span",
                     className: "task-count",
-                    text: `${objValueArray.length} task${
-                      objValueArray.length !== 1 ? "s" : ""
+                    text: `${teamOrProjectTasks.length} task${
+                      teamOrProjectTasks.length !== 1 ? "s" : ""
                     }`,
                   }),
                 ],
@@ -257,28 +166,32 @@ export class TasksView {
                   createElement({
                     tag: "select",
                     className: "filter-select",
-                    data: objKey,
+                    data: teamOrProjectName,
                     children: [
                       createElement({
                         tag: "option",
                         value: "incomplete",
                         text: "Show Incomplete",
-                        selected: this.filterStatus[objKey] === "incomplete",
+                        selected:
+                          this.filterStatus[teamOrProjectName] === "incomplete",
                       }),
                       createElement({
                         tag: "option",
                         value: "completed",
                         text: "Show Completed",
-                        selected: this.filterStatus[objKey] === "completed",
+                        selected:
+                          this.filterStatus[teamOrProjectName] === "completed",
                       }),
                       createElement({
                         tag: "option",
                         value: "all",
                         text: "Show All",
-                        selected: this.filterStatus[objKey] === "all",
+                        selected:
+                          this.filterStatus[teamOrProjectName] === "all",
                       }),
                     ],
-                    onChange: (e) => this.handleFilterChange(e, objKey),
+                    onChange: (e: Event) =>
+                      this.handleFilterChange(e, teamOrProjectName),
                   }),
                 ],
               }),
@@ -293,19 +206,13 @@ export class TasksView {
 
       const tasksGrid = teamSection.querySelector(".tasks-grid") as HTMLElement;
 
-      // Filter tasks based on completion status
-      const filteredTasks = this.filterTasks(
-        objValueArray,
-        this.filterStatus[objKey]
-      );
+      const filteredTasks = teamOrProjectTasks.filter((task: any) => {
+        if (this.filterStatus[teamOrProjectName] === "all") return true;
+        const taskStatus = task.isCompleted === 1 ? "completed" : "incomplete";
+        return taskStatus === this.filterStatus[teamOrProjectName];
+      });
 
-      // Add task cards
-      filteredTasks.forEach((task) => {
-        console.log(task);
-        /* const statusClass = `status-${task.isCompleted
-          .toLowerCase()
-          .replace(/\s+/g, "-")}`;*/
-
+      filteredTasks.forEach((task: any) => {
         const taskCard = createElement({
           tag: "div",
           className: `task-card`,
@@ -318,11 +225,6 @@ export class TasksView {
                   tag: "h5",
                   className: "task-title",
                   text: task.title,
-                }),
-                createElement({
-                  tag: "span",
-                  className: `task-status`,
-                  text: task.isCompleted,
                 }),
               ],
             }),
@@ -378,7 +280,16 @@ export class TasksView {
                   tag: "button",
                   className: "mark-complete-btn",
                   text: task.isCompleted ? "Mark Incomplete" : "Mark Complete",
-                  onClick: () => this.toggleTaskStatus(task.taskId),
+                  style: {
+                    backgroundColor:
+                      task.isCompleted === 1 ? "var(--red)" : "var(--green)",
+                  },
+                  onClick: () => {
+                    const taskStatus = task.isCompleted
+                      ? "incomplete"
+                      : "complete";
+                    this.toggleTaskStatus(task.taskId, taskStatus);
+                  },
                 }),
               ],
             }),
@@ -392,23 +303,72 @@ export class TasksView {
     });
   }
 
-  // Helper method to filter tasks based on completion status
-  private filterTasks(tasks: any[], filterStatus: string) {
-    if (filterStatus === "all") return tasks;
-
-    return tasks.filter((task) => {
-      if (filterStatus === "completed") {
-        return task.isCompleted === "Completed";
-      } else {
-        return task.isCompleted !== "Completed";
-      }
-    });
+  //CORE LOGIC------------------------------------------------------
+  delete() {
+    document.querySelector(".tasks-container")?.remove();
   }
 
-  // Handle sort dropdown change
+  viewTaskDetails(taskId: string) {
+    new TaskDetailsPopup(taskId, () => this.renderTasks());
+  }
+
+  initializeFilterStatus() {
+    this.filterStatus = {};
+
+    if (this.sortBy === "teams") {
+      this.userTeams.forEach((team: Team) => {
+        this.filterStatus[team.teamName as string] = "incomplete";
+      });
+    } else {
+      this.userProjects.forEach((project: Project) => {
+        this.filterStatus[project.title as string] = "incomplete";
+      });
+    }
+
+    console.log(this.filterStatus);
+  }
+
+  sortTasks(sortBy: string) {
+    let objectArray: any;
+    if (sortBy === "teams") {
+      objectArray = this.userTeams.map((team: Team) => ({
+        [team.teamName as string]: {},
+      }));
+
+      this.userTeams.forEach((team: Team, i: number) => {
+        this.userTasks.forEach((task: any) => {
+          if (task.teamId === team.teamId) {
+            objectArray[i][team.teamName as string] = {
+              ...objectArray[i][team.teamName as string],
+              [task.title]: { ...task },
+            };
+          }
+        });
+      });
+    } else {
+      objectArray = this.userProjects.map((project: Project) => ({
+        [project.title as string]: {},
+      }));
+      this.userProjects.forEach((project: Project, i: number) => {
+        this.userTasks.forEach((task: any) => {
+          if (project.projectId === task.projectId) {
+            objectArray[i][project.title as string] = {
+              ...objectArray[i][project.title as string],
+              [task.title]: { ...task },
+            };
+          }
+        });
+      });
+    }
+
+    this.tasks = objectArray;
+  }
+
   private handleSortChange(e: Event) {
     const select = e.target as HTMLSelectElement;
     this.sortBy = select.value;
+
+    this.initializeFilterStatus();
 
     this.sortTasks(this.sortBy);
     document
@@ -417,32 +377,47 @@ export class TasksView {
     this.renderTasks();
   }
 
-  // Handle filter dropdown change
   private handleFilterChange(e: Event, teamName: string) {
     const select = e.target as HTMLSelectElement;
     this.filterStatus[teamName] = select.value;
-
-    // Re-render tasks with the new filter
+    store.setState({ tasksFilterStatus: this.filterStatus });
     this.renderTasks();
   }
 
-  viewTaskDetails(taskId: string) {
-    // Open task details popup
-    new TaskDetailsPopup(taskId, () => this.renderTasks());
+  //API CALLS------------------------------------------------------
+  async fetchUserTasks() {
+    const userTasks = await new TaskService(
+      `http://localhost:3000/tasks/get-all-user-tasks`
+    ).getAllTasks();
+
+    const userTeams = await new TeamsService(
+      `http://localhost:3000/get-all-user-teams`
+    ).getAllTeams();
+
+    const userProjects = await new ProjectsService(
+      `http://localhost:3000/get-all-user-projects`
+    ).fetchAllUserProjects();
+
+    this.userProjects = userProjects;
+    this.userTeams = userTeams;
+    this.userTasks = userTasks;
+
+    this.sortTasks(this.sortBy);
+
+    const filterStatus = store.getState().tasksFilterStatus;
+    if (Object.values(filterStatus).length === 0) this.initializeFilterStatus();
   }
 
-  async toggleTaskStatus(taskId: string) {
-    /* try {
-  // Call API to toggle task status
+  async toggleTaskStatus(taskId: string, taskStatus: string) {
+    try {
       await new TaskService(
-        `http://localhost:3000/tasks/toggle-status/${taskId}`
-      ).toggleTaskStatus();
+        `http://localhost:3000/tasks/${taskId}/toggle-status`
+      ).markTaskAsComplete(taskId, taskStatus);
 
-      // Refresh tasks data and re-render
       await this.fetchUserTasks();
       this.renderTasks();
     } catch (error) {
       console.error("Error toggling task status:", error);
-    }*/
+    }
   }
 }

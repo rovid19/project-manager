@@ -143,8 +143,8 @@ class TeamsController
 
             $this->db->query(
                 "UPDATE teams 
-                SET teamName = :teamName, 
-                teamDescription = :teamDescription 
+                SET teamName = CASE WHEN :teamName != '' THEN :teamName ELSE teamName END,
+                teamDescription = CASE WHEN :teamDescription != '' THEN :teamDescription ELSE teamDescription END
                 WHERE teamId = :teamId",
                 [
                     "teamName" => $teamName,

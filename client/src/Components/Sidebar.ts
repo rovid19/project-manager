@@ -106,7 +106,7 @@ function createWorkspaceSection(sidebar: HTMLElement) {
         tag: "nav",
         className: "sectionNav",
         children: [
-          createNavItem("Dashboard", iconArray[0], true, "3"),
+          createNavItem("Dashboard", iconArray[0], true),
           createNavItem("Projects", iconArray[1]),
           createNavItem("Tasks", iconArray[2]),
           createNavItem("Teams", iconArray[3]),

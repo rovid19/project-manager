@@ -38,7 +38,7 @@ class TasksController
             // find a team assigned to this project and get its teamId 
             $project = $this->db->query("SELECT teamId FROM project WHERE projectId = :projectId", ["projectId" => $projectId], "return");
 
-            $sql = "INSERT INTO task (taskId, title, description,deadline, assignee, projectId, teamId) VALUES(:taskId, :title, :description, :deadline, :assignee, :projectId, :teamId)";
+            $sql = "INSERT INTO task (taskId, title, description,deadline, assignee, projectId, teamId, isCompleted) VALUES(:taskId, :title, :description, :deadline, :assignee, :projectId, :teamId, :isCompleted)";
             $this->db->query($sql, [
                 "taskId" => $taskId,
                 "title" => $title,
@@ -46,7 +46,8 @@ class TasksController
                 "deadline" => $deadline,
                 "assignee" => $assignee,
                 "projectId" => $projectId,
-                "teamId" => $project[0]["teamId"]
+                "teamId" => $project[0]["teamId"],
+                "isCompleted" => 0
             ]);
 
             http_response_code(201);
@@ -77,8 +78,11 @@ class TasksController
 
     public function getAllUserTasks()
     {
-        if (!empty($this->params["userId"])) {
-            $userId = $this->validation->sanitizeString($this->params["userId"]);
+        session_start();
+
+        $userId = $_SESSION["user-id"];
+
+        if (!empty($userId)) {
 
             $taskArrayWithProjectName = [];
 
@@ -92,6 +96,24 @@ class TasksController
 
 
             echo json_encode($taskArrayWithProjectName);
+        }
+    }
+
+    public function markTaskAsComplete()
+    {
+        $requestData = json_decode(file_get_contents("php://input"), true);
+
+        if (isset($requestData["taskId"]) && isset($requestData["taskStatus"])) {
+            $taskId = $this->validation->sanitizeString($requestData["taskId"]);
+            $taskStatus = $this->validation->sanitizeString($requestData["taskStatus"]);
+            $isTask = $taskStatus === "complete" ? 1 : 0;
+
+            $this->db->query("UPDATE task SET isCompleted = :isCompleted WHERE taskId = :taskId", ["taskId" => $taskId, "isCompleted" => $isTask]);
+            echo json_encode("task has been marked as complete");
+            exit();
+        } else {
+            echo json_encode("taskId isnt set correctly");
+            exit();
         }
     }
 }

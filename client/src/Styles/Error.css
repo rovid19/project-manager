@@ -5,8 +5,19 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  background-color: black;
+}
+
+.error-div svg {
+  color: white;
 }
 
 .error-heading {
   font-size: 32px;
+  color: white;
+}
+
+.error-subheading {
+  font-size: 16px;
+  color: white;
 }

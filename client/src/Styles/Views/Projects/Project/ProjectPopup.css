@@ -8,7 +8,7 @@
 
 .task-popup-title {
   font-size: 24px;
-  color: #111827;
+  color: white;
   text-align: center;
   font-weight: 600;
 }
@@ -22,7 +22,7 @@
 .input-label {
   font-size: 14px;
   font-weight: 500;
-  color: #374151;
+  color: var(--gray);
 }
 
 .task-title-input,
@@ -30,13 +30,14 @@
 .task-deadline-input,
 .task-assignee-select {
   padding: 12px 16px;
-  border: 1px solid #d1d5db;
   border-radius: 8px;
   font-size: 14px;
   width: 100%;
   box-sizing: border-box;
   transition: all 0.2s ease;
-  background-color: #f9fafb;
+  background-color: var(--blackSecondary);
+  border: none;
+  color: white;
 }
 
 .task-title-input:focus,
@@ -44,9 +45,11 @@
 .task-deadline-input:focus,
 .task-assignee-select:focus {
   outline: none;
-  border-color: #6366f1;
-  background-color: white;
+  border: 1px solid var(--main);
+  border-color: var(--main);
+  background-color: var(--blackSecondary);
   box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  color: white;
 }
 
 .task-description-input {
@@ -56,22 +59,23 @@
 }
 
 .task-deadline-input {
-  color: #4a5568;
+  color: var(--gray);
   cursor: pointer;
 }
 
 .task-assignee-select {
-  background-color: #f9fafb;
+  background-color: var(--blackSecondary);
   cursor: pointer;
   appearance: none;
   background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234a5568' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
   background-repeat: no-repeat;
   background-position: right 1rem center;
   background-size: 1em;
+  color: var(--gray);
 }
 
 .create-task-btn {
-  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  background: linear-gradient(135deg, var(--main) 0%, var(--mainDark) 100%);
   color: white;
   padding: 12px 24px;
   border-radius: 8px;
@@ -87,6 +91,7 @@
 .create-task-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+  background: linear-gradient(135deg, var(--mainDark) 0%, var(--main) 100%);
 }
 
 .create-task-btn:active {
@@ -106,7 +111,7 @@
 
 /* Disabled button state */
 .create-task-btn:disabled {
-  background: #9ca3af;
+  background: var(--blackSecondary);
   transform: none;
   cursor: not-allowed;
 }

@@ -6,23 +6,18 @@
   width: 100%;
   position: relative;
   transition: right 2s ease;
-  background-color: #f5f7f9;
-  padding-top: 1rem;
-  padding-right: 1rem;
-  padding-bottom: 1rem;
+  background-color: black;
+
+  overflow: scroll;
 }
 
 .inner-section {
   height: 100%;
-  padding-top: 2rem;
-  padding-bottom: 2rem;
-  padding-left: 2rem;
-  padding-right: 2rem;
-  background-color: white;
+  padding: 2rem;
+  background-color: black;
   border-radius: 6px;
   display: flex;
   flex-direction: column;
-  gap: 32px;
   overflow: scroll;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 }

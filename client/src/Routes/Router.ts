@@ -43,8 +43,6 @@ export class Router {
   }
 
   route(uri: string = ""): void {
-    //projects/192321390 projects/:projectId
-
     let isMatched = false;
 
     let path =
@@ -52,7 +50,7 @@ export class Router {
         ? uri.toLowerCase()
         : window.location.pathname.slice(1).toLowerCase();
 
-    // default to dashboard
+    // default to dashboard view if no path is provided
     if (!path) {
       path = "dashboard";
       history.pushState("", "", "/dashboard");
@@ -105,7 +103,8 @@ export class Router {
     }*/
 
     if (!isMatched) {
-      this.loadController("ErrorView", "createError", "");
+      console.log("error");
+      this.loadController("ErrorView", "createError", "/Error");
     }
   }
 

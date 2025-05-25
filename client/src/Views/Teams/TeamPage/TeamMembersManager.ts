@@ -75,12 +75,12 @@ export class TeamMembersManager extends TeamView {
     return this.teamMembers.map((member) =>
       createElement({
         tag: "div",
-        className: "member-item",
+        className: "member-item-team",
         data: member.userId,
         children: [
           createElement({
             tag: "div",
-            className: "member-info",
+            className: "member-info-team",
             children: [
               createElement({
                 tag: "span",
@@ -103,12 +103,12 @@ export class TeamMembersManager extends TeamView {
           }),
           createElement({
             tag: "div",
-            className: "member-actions",
+            className: "member-actions-team",
             children: [
               !member.isAdmin
                 ? createElement({
                     tag: "button",
-                    className: "make-admin-btn",
+                    className: "make-admin-btn-team",
                     text: "Make Admin",
                     onClick: async (e: Event) => {
                       e.preventDefault();
@@ -118,7 +118,7 @@ export class TeamMembersManager extends TeamView {
                 : null,
               createElement({
                 tag: "button",
-                className: "remove-member-btn",
+                className: "remove-member-btn-team",
                 text: "Remove",
                 onClick: (e: Event) => {
                   e.preventDefault();
@@ -161,7 +161,9 @@ export class TeamMembersManager extends TeamView {
   }
 
   removeTeamMembersComponent() {
-    document.querySelectorAll(".member-item").forEach((item) => item.remove());
+    document
+      .querySelectorAll(".member-item-team")
+      .forEach((item) => item.remove());
   }
 
   changeMembersHeader() {
@@ -176,13 +178,13 @@ export class TeamMembersManager extends TeamView {
   }
 
   async handleMakeAdmin(e: Event) {
-    const element = selectHtmlElement(e, ".member-item");
+    const element = selectHtmlElement(e, ".member-item-team");
     this.getUserId(element);
     await this.submitMemberAsAdmin();
   }
 
   async handleRemoveMember(e: Event) {
-    const element = selectHtmlElement(e, ".member-item");
+    const element = selectHtmlElement(e, ".member-item-team");
     this.getUserId(element);
     await this.removeMemberFromTeam();
   }

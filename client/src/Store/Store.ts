@@ -1,36 +1,23 @@
+import { Project } from "../Types/ProjectsTypes";
 import { Team } from "../Types/TeamsTypes";
-import { Project } from "./UserStore";
-
-/*type State = {
-  currentUser: string | null;
-  theme: "light" | "dark";
-  mainDivApp: HTMLElement | null;
-  mainSection: HTMLElement | null;
-  activeLink: string;
-  previousActiveLink: string;
-  isAuth: boolean;
-};*/
 
 type setState = {
-  [key: string]: string | HTMLElement | null | Project[] | Team[];
+  [key: string]:
+    | string
+    | HTMLElement
+    | null
+    | Project[]
+    | Team[]
+    | { [key: string]: string };
 };
 
 export class Store {
-  // private static instance: Store;
   private state: any = {};
   private listeners: { [key: string]: Function[] } = {};
 
   constructor(initialState: any = {}) {
     this.state = initialState;
   }
-
-  /* static getInstance(): Store {
-    if (!Store.instance) {
-      Store.instance = new Store();
-    }
-
-    return Store.instance;
-  }*/
 
   getState(): any {
     return this.state;
@@ -57,8 +44,6 @@ export class Store {
   notify(newState: setState) {
     const key = Object.keys(newState)[0];
 
-    // console.log(Object.entries(this.listeners));
-
     Object.entries(this.listeners).forEach((state) => {
       if (state[0] === key) {
         state[1].forEach((listener) => {
@@ -69,11 +54,6 @@ export class Store {
   }
 }
 
-// singleton pattern
-//export const store = Store.getInstance();
-
-// singleton pattern mi zadaje velike glavobolje
-
 export const store = new Store({
   currentUser: null,
   theme: "light",
@@ -82,4 +62,5 @@ export const store = new Store({
   activeLink: "dashboard",
   previousActiveLink: "",
   isAuth: false,
+  tasksFilterStatus: {},
 });

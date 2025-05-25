@@ -27,7 +27,7 @@
 .profileAvatar {
   width: 48px;
   height: 48px;
-  background-color: #7c5cff;
+  background: linear-gradient(135deg, var(--main) 0%, var(--mainDark) 100%);
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -224,6 +224,7 @@
   background-color: var(--blackSecondary);
   padding: 1rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   overflow: scroll;
 }
 

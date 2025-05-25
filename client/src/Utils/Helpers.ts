@@ -1,8 +1,7 @@
 import { createMainContent } from "../Components/MainContent";
-//import { createSidebar } from "../Components/Sidebar";
 import { router } from "../main";
-import { AuthService } from "../Services/AuthService";
 import { ProjectsService } from "../Services/ProjectsService";
+import type { AuthService } from "../Services/AuthService";
 import { userStore } from "../Store/UserStore";
 import { Team } from "../Types/TeamsTypes";
 
@@ -19,6 +18,7 @@ export function createElement({
   name,
   data,
   style,
+  attributes,
   ...props
 }: any) {
   // Handle element creation
@@ -47,6 +47,14 @@ export function createElement({
       Object.assign(element.style, style);
     }
   }
+
+  // Handle attributes
+  if (attributes) {
+    Object.entries(attributes).forEach(([key, value]) => {
+      element.setAttribute(key, value as string);
+    });
+  }
+
   Object.assign(element, props);
 
   // Handle event listeners
@@ -64,11 +72,6 @@ export function createElement({
   return element;
 }
 
-export function createSidebar() {
-  const sidebar = new Sidebar();
-  document.body.appendChild(sidebar.getElement());
-}
-
 export function redirectToHome() {
   //createSidebar();
   createMainContent();
@@ -82,6 +85,7 @@ export async function getUser() {
     window.location.pathname !== "/login" &&
     window.location.pathname !== "/register"
   ) {
+    const { AuthService } = await import("../Services/AuthService");
     let apiCall: AuthService | null = new AuthService(
       "http://localhost:3000/get-user"
     );
@@ -156,37 +160,39 @@ export function changeTeam(newTeam: string) {
 }
 
 export const iconGradients = [
+  // Define some gradient options
+
   {
-    gradient: "linear-gradient(135deg, #f0f9ff, #e0f2fe)",
-    text: "#0369a1",
+    gradient: "linear-gradient(135deg, #6366F1 0%, #4F46E5 100%)",
+    text: "#ffffff",
+  }, // Indigo
+  {
+    gradient: "linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)",
+    text: "#ffffff",
   }, // Blue
   {
-    gradient: "linear-gradient(135deg, #f0fdf4, #dcfce7)",
-    text: "#166534",
-  }, // Green
+    gradient: "linear-gradient(135deg, #10B981 0%, #059669 100%)",
+    text: "#ffffff",
+  }, // Emerald
   {
-    gradient: "linear-gradient(135deg, #fef2f2, #fee2e2)",
-    text: "#991b1b",
+    gradient: "linear-gradient(135deg, #F59E0B 0%, #D97706 100%)",
+    text: "#ffffff",
+  }, // Amber
+  {
+    gradient: "linear-gradient(135deg, #EF4444 0%, #DC2626 100%)",
+    text: "#ffffff",
   }, // Red
   {
-    gradient: "linear-gradient(135deg, #faf5ff, #f3e8ff)",
-    text: "#6b21a8",
-  }, // Purple
+    gradient: "linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%)",
+    text: "#ffffff",
+  }, // Violet
   {
-    gradient: "linear-gradient(135deg, #f8fafc, #e2e8f0)",
-    text: "#334155",
-  }, // Slate
+    gradient: "linear-gradient(135deg, #EC4899 0%, #DB2777 100%)",
+    text: "#ffffff",
+  }, // Pink
   {
-    gradient: "linear-gradient(135deg, #f5f5f4, #e7e5e4)",
-    text: "#44403c",
-  }, // Stone
-  {
-    gradient: "linear-gradient(135deg, #f7fee7, #ecfccb)",
-    text: "#3f6212",
-  }, // Lime
-  {
-    gradient: "linear-gradient(135deg, #f0fdfa, #ccfbf1)",
-    text: "#115e59",
+    gradient: "linear-gradient(135deg, #06B6D4 0%, #0891B2 100%)",
+    text: "#ffffff",
   }, // Teal
 ];
 
@@ -196,4 +202,97 @@ export function generateTitleHash(title: string) {
     .reduce((acc: number, char: string) => acc + char.charCodeAt(0), 0);
 
   return hash;
+}
+
+export function createReusableHeader(
+  redirectBack: () => void,
+  title: string,
+  description: string,
+  deleteAction: () => Promise<void>,
+  view: string
+): HTMLElement {
+  const pageHeader = createElement({
+    tag: "div",
+    className: "projectHeader",
+    children: [
+      createElement({
+        tag: "div",
+        className: "headerLeft",
+        children: [
+          createElement({
+            tag: "div",
+            className: "breadcrumb",
+            children: [
+              createElement({
+                tag: "a",
+                className: "breadcrumbLink",
+                text: view === "project" ? "Projects" : "Teams",
+                onClick: (e: Event) => {
+                  e.preventDefault();
+                  redirectBack();
+                },
+              }),
+              createElement({
+                tag: "span",
+                className: "breadcrumbSeparator",
+                text: "/",
+              }),
+              createElement({
+                tag: "span",
+                className: "breadcrumbCurrent",
+                text: title,
+              }),
+            ],
+          }),
+          createElement({
+            tag: "h1",
+            className: "projectTitle",
+            text: title,
+          }),
+
+          createElement({
+            tag: "p",
+            className: "projectDescription",
+            text: description ? description : "No description provided",
+          }),
+        ],
+      }),
+      createElement({
+        tag: "div",
+        className: "headerActions",
+        children: [
+          createElement({
+            tag: "button",
+            className: "deleteProjectBtn",
+            children: [
+              createElement({
+                tag: "span",
+                className: "btnIcon",
+                html: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>`,
+              }),
+              createElement({
+                tag: "span",
+                className: "btnText",
+                text: view === "project" ? "Delete Project" : "Delete Team",
+              }),
+            ],
+            onClick: async (e: Event) => {
+              e.preventDefault();
+              if (
+                confirm(
+                  `Are you sure you want to delete this ${
+                    view === "project" ? "project" : "team"
+                  }?`
+                )
+              ) {
+                await deleteAction();
+              }
+            },
+          }),
+        ],
+      }),
+    ],
+  });
+
+  return pageHeader;
 }

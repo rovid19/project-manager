@@ -1,15 +1,13 @@
 import { ProjectsService } from "../../../Services/ProjectsService";
 import { createElement } from "../../../Utils/Helpers";
 import "../../../Styles/Views/Projects/Project/Project.css";
-import { ProjectData, userStore } from "../../../Store/UserStore";
 import { router } from "../../../main";
 import { ProjectViewPopup } from "./ProjectPopups/ProjectViewPopup";
 import { store } from "../../../Store/Store";
 import type { ProjectViewTaskManager } from "./ProjectViewTaskManager";
 import type { ProjectViewMemberManager } from "./ProjectViewMemberManager";
 import type { ProjectViewInfoManager } from "./ProjectViewInfoManager";
-import { MembersData, Task } from "../../../Types/ProjectsTypes";
-import { iconArray } from "../../../Assets/Icons";
+import { MembersData, ProjectData, Task } from "../../../Types/ProjectsTypes";
 
 export class ProjectView {
   title: string = "";
@@ -151,7 +149,6 @@ export class ProjectView {
 
   //CORE LOGIC-----------------------------------------------------
   async handleManagerClassSetup() {
-    console.log(this.teamId);
     const { ProjectViewInfoManager } = await import("./ProjectViewInfoManager");
     const { ProjectViewMemberManager } = await import(
       "./ProjectViewMemberManager"
@@ -250,7 +247,6 @@ export class ProjectView {
   };
 
   closePopup = () => {
-    console.log("ddd");
     this.popupController = null;
     document.querySelector(".popup-overlay")?.remove();
   };
@@ -277,8 +273,6 @@ export class ProjectView {
     const projectId = window.location.pathname.split("/")[2];
     const teamId = window.location.pathname.split("/")[3];
     this.teamId = teamId;
-
-    console.log(this.teamId);
 
     let apiCall = new ProjectsService(
       `http://localhost:3000/projects/get/${projectId}/team/${teamId}`

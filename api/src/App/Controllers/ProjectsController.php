@@ -43,6 +43,14 @@ class ProjectsController
             $teamId = $this->validation->sanitizeString($data["teamId"]);
         }
 
+        if ($data["teamId"] !== "") {
+            // create team_project in db 
+            $this->db->query("INSERT INTO team_project (teamProjectId, teamId, projectId) VALUES (:teamProjectId, :teamId, :projectId)", [
+                "teamProjectId" => uniqid('', true),
+                "teamId" => $teamId,
+                "projectId" => $projectId
+            ]);
+        }
 
 
         $this->db->query("INSERT INTO project (projectId, title, description, icon, userId, members, teamId) VALUES (:projectId,:title, :description, :icon, :userId, :members, :teamId)", [

@@ -2,5 +2,5 @@
   height: 100vh;
   border-radius: 6px;
   /*box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);*/
-  width: 80%;
+  flex: 1;
 }

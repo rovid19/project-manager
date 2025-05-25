@@ -7,10 +7,6 @@ import { createPopupModal } from "../../../../Components/PopupModal";
 import { MembersData } from "../../../../Types/ProjectsTypes";
 
 export class ProjectViewPopup extends ProjectView {
-  /*taskTitle: string = "";
-  taskDescription: string = "";
-  taskDeadline: Date = new Date();
-  taskAssignedMember: string = "";*/
   setProjectDataOnParentController: (newMembers: MembersData[]) => void;
   fetchUserProject: () => Promise<void>;
   closePopup: () => void;

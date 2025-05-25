@@ -1,5 +1,5 @@
 import { Team } from "../Types/TeamsTypes";
-import { SelectedMember } from "../Views/Teams/TeamsPage/CreateNewTeamPopup";
+import { SelectedMember } from "../Views/Teams/CreateNewTeamPopup";
 import { BaseApi } from "./BaseService";
 
 export type TeamData = {

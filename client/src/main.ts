@@ -17,13 +17,13 @@ export const router = new Router([
   // dashboard
   "/dashboard/DashboardView/createDashboard/@Dashboard",
   // projects
-  "/projects/ProjectsView/renderProjectsPage/@Projects/@ProjectsPage",
+  "/projects/ProjectsView/renderProjectsPage/@Projects",
   "/projects/:projectId/:teamId/ProjectView/renderProjectPage/@Projects/@ProjectPage",
   "/projects/:projectId/tasks/:taskId/ProjectsView/createSingleProjectPage",
   // tasks
   "/tasks/TasksView/createTasks/@Tasks",
   // teams
-  "/teams/TeamsView/renderTeams/@Teams/@TeamsPage",
+  "/teams/TeamsView/renderTeams/@Teams",
   "/teams/:teamId/TeamView/renderTeam/@Teams/@TeamPage",
   // reports
   "/reports/ReportsView/createReports/@Reports",

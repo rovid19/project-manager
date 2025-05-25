@@ -43,7 +43,7 @@ export class TeamSettingsManager extends TeamView {
                 }),
                 createElement({
                   tag: "input",
-                  className: "team-name-input",
+                  className: "team-name-input-settings",
                   type: "text",
                   name: "team-name",
                   value: this.teamName,
@@ -61,7 +61,7 @@ export class TeamSettingsManager extends TeamView {
                 }),
                 createElement({
                   tag: "textarea",
-                  className: "team-description-input",
+                  className: "team-description-input-settings",
                   value: this.teamDescription,
                   placeholder: this.teamDescription,
                   name: "team-description",

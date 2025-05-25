@@ -18,12 +18,20 @@ export class AddMemberEditTeam {
     this.handleManagerClassReset = handleManagerClassReset;
     this.createAddButtonElementForEveryMember();
     this.removeAddMemberTitle();
+    // this.setMemberItemsClassnames();
   }
 
   removeAddMemberTitle() {
     setTimeout(() => {
       document.querySelector(".member-popup-title")?.remove();
     }, 20);
+  }
+
+  setMemberItemsClassnames() {
+    const memberItems = this.popupElement.querySelectorAll(".member-item");
+    memberItems.forEach((item) => {
+      item.classList.add("member-item-team");
+    });
   }
 
   createAddButtonElementForEveryMember() {

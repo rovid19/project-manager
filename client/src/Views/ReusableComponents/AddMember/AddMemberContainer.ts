@@ -2,9 +2,7 @@ import { countTeamMembers, createElement } from "../../../Utils/Helpers";
 import "../../../Styles/Views/Projects/Project/ProjectMemberPopup.css";
 import { ProjectsService } from "../../../Services/ProjectsService";
 import { MembersData, User } from "../../../Types/ProjectsTypes";
-import { SelectedMember } from "../../Teams/TeamsPage/CreateNewTeamPopup";
-import { store } from "../../../Store/Store";
-import { userStore } from "../../../Store/UserStore";
+import { SelectedMember } from "../../Teams/CreateNewTeamPopup";
 
 export class AddMemberContainer {
   popupState: string = "";
@@ -87,7 +85,6 @@ export class AddMemberContainer {
         }),
       ],
     });
-    console.log(this.popupElement);
     this.popupElement.appendChild(memberContainer);
   }
 
@@ -151,14 +148,16 @@ export class AddMemberContainer {
   }
 
   //CORE LOGIC------------------------------------------------------
+
   async setupMemberPopupClass() {
     this.renderMemebersContainer();
     if (this.view === "createNewTeam") {
       const { AddMemberCreateTeamPopup } = await import(
-        "./AddMemberCreateTeamPopup"
+        "./AddMemberCreateTeam"
       );
       new AddMemberCreateTeamPopup(this.popupElement, this.setSelectedMembers);
     } else if (this.view === "project") {
+      console.log("test");
       const { AddMemberProjectPopup } = await import("./AddMemberProjectPopup");
       new AddMemberProjectPopup(
         this.popupState,
@@ -202,7 +201,7 @@ export class AddMemberContainer {
       const filteredTeams = this.allTeamsArray.filter((team: any) =>
         team.teamName.toLowerCase().includes(searchTerm)
       );
-      this.renderItems(filteredTeams).forEach((item) =>
+      this.renderItems(filteredTeams).forEach((item: any) =>
         memberList.appendChild(item)
       );
     } else {
@@ -211,7 +210,7 @@ export class AddMemberContainer {
           user.username.toLowerCase().includes(searchTerm) ||
           user.email.toLowerCase().includes(searchTerm)
       );
-      this.renderItems(filteredUsers).forEach((item) =>
+      this.renderItems(filteredUsers).forEach((item: any) =>
         memberList.appendChild(item)
       );
     }

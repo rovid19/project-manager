@@ -1,8 +1,14 @@
 :root {
   --blackMain: #121218;
   --main: #7c5cff;
-  --blackSecondary: #1a1a23;
+  --mainDark: #6346cc;
+  --blackSecondary: #1d1b26;
   --gray: #8f8f8f;
+  --border: #232334;
+  --red: #ff4757;
+  --redDark: #ff6b81;
+  --green: #2ed573;
+  --greenDark: #7bed9f;
 }
 
 * {
@@ -19,4 +25,6 @@ body {
 #app {
   display: flex;
   overflow: hidden;
+  width: 100vw;
+  height: 100vh;
 }

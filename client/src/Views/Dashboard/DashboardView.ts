@@ -1,33 +1,32 @@
 import { store } from "../../Store/Store";
-import { createElement } from "../../Utils/Helpers";
+import { createElement, iconGradients } from "../../Utils/Helpers";
 import "../../Styles/Views/Dashboard/Dashboard.css";
 import "../../Styles/SharedStylings/UpperInnerSection.css";
 import "../../Styles/SharedStylings/SectionHeader.css";
 import "../../Styles/SharedStylings/ProjectCards.css";
-import { Project, userStore } from "../../Store/UserStore";
+import { userStore } from "../../Store/UserStore";
 import { router } from "../../main";
 import { ProjectsService } from "../../Services/ProjectsService";
+import { TaskService } from "../../Services/TaskService";
+import { Project, Task } from "../../Types/ProjectsTypes";
+import { QuickTaskPopup } from "./QuickTaskPopup";
 
 export class DashboardView {
   projects: Project[] = [];
-  delete() {
-    document.querySelector(".dashboard-container")?.remove();
-  }
+  tasks: any[] = [];
+  private currentTaskFilter: "active" | "completed" = "active";
 
+  //UI RENDER------------------------------------------------------
   async createDashboard() {
-    console.log(userStore.getState());
     await this.fetchAllUserProjects();
+    await this.fetchAllUserTasks();
     const projects = userStore.getState().projects;
 
     // Sort projects by date (newest first)
-    // Note: This assumes projects have a date property. If not, we'll need to modify this.
     const sortedProjects = [...projects].sort((a, b) => {
-      // If there's no date property, we'll need to adjust this logic
-      // For now, using the projectId as a fallback (assuming newer projects have higher IDs)
       return b.projectId.localeCompare(a.projectId);
     });
 
-    // dashboard container
     const dashboardContainer = createElement({
       tag: "div",
       className: "dashboard-container",
@@ -35,21 +34,17 @@ export class DashboardView {
 
     store.getState().mainSection?.appendChild(dashboardContainer);
 
-    // Render header with title and actions
     this.renderHeader(dashboardContainer);
 
-    // Render dashboard content
     const dashboardContent = createElement({
       tag: "div",
       className: "dashboard-content",
     });
 
     dashboardContainer.appendChild(dashboardContent);
-
-    // Render project overview section
+    await this.renderTasksSection(dashboardContent, false);
     this.renderProjectOverview(dashboardContent, sortedProjects);
 
-    // Render reports section
     this.renderReportsSection(dashboardContent);
   }
 
@@ -81,10 +76,12 @@ export class DashboardView {
             createElement({
               tag: "button",
               className: "new-project-btn",
-              text: "New Project",
+              text: "New Task",
               onClick: () => {
-                history.pushState({}, "", "/projects");
-                router.route("projects");
+                new QuickTaskPopup(
+                  this.renderTasksSection,
+                  this.fetchAllUserTasks
+                );
               },
             }),
           ],
@@ -95,11 +92,11 @@ export class DashboardView {
     container.appendChild(header);
   }
 
-  renderProjectOverview(container: HTMLElement, projects: Project[]) {
-    // Create project overview section
+  renderProjectOverview = (container: HTMLElement, projects: Project[]) => {
     const projectSection = createElement({
       tag: "div",
       className: "dashboard-section",
+      id: "projects-section",
       children: [
         createElement({
           tag: "div",
@@ -107,7 +104,7 @@ export class DashboardView {
           children: [
             createElement({
               tag: "h2",
-              className: "section-title",
+              className: "section-title-dashboard",
               text: "Recent Projects",
             }),
             createElement({
@@ -126,7 +123,6 @@ export class DashboardView {
 
     container.appendChild(projectSection);
 
-    // Create project cards container
     const projectCards = createElement({
       tag: "div",
       className: "project-cards-grid",
@@ -134,7 +130,6 @@ export class DashboardView {
 
     projectSection.appendChild(projectCards);
 
-    // Add project cards (limited to 3)
     const projectsToShow = projects.slice(0, 3);
 
     if (projectsToShow.length === 0) {
@@ -161,57 +156,25 @@ export class DashboardView {
       );
     } else {
       projectsToShow.forEach((project) => {
-        // Generate a hash from the project title for consistent colors
         const hash = project.title
           .split("")
           .reduce((acc, char) => acc + char.charCodeAt(0), 0);
 
-        console.log(project.icon);
-
-        // Define some gradient options
-        const iconGradients = [
-          {
-            gradient: "linear-gradient(135deg, #6366F1 0%, #4F46E5 100%)",
-            text: "#ffffff",
-          }, // Indigo
-          {
-            gradient: "linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)",
-            text: "#ffffff",
-          }, // Blue
-          {
-            gradient: "linear-gradient(135deg, #10B981 0%, #059669 100%)",
-            text: "#ffffff",
-          }, // Emerald
-          {
-            gradient: "linear-gradient(135deg, #F59E0B 0%, #D97706 100%)",
-            text: "#ffffff",
-          }, // Amber
-          {
-            gradient: "linear-gradient(135deg, #EF4444 0%, #DC2626 100%)",
-            text: "#ffffff",
-          }, // Red
-          {
-            gradient: "linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%)",
-            text: "#ffffff",
-          }, // Violet
-          {
-            gradient: "linear-gradient(135deg, #EC4899 0%, #DB2777 100%)",
-            text: "#ffffff",
-          }, // Pink
-          {
-            gradient: "linear-gradient(135deg, #06B6D4 0%, #0891B2 100%)",
-            text: "#ffffff",
-          }, // Teal
-        ];
-
-        // Select a gradient based on the hash
         const iconStyle = iconGradients[hash % iconGradients.length];
-
         const card = createElement({
           tag: "div",
           className: "dashboard-project-card",
           onClick: () => {
-            router.route(`projects/${project.projectId}/${project.teamId}`);
+            history.pushState(
+              "",
+              "",
+              `/projects/${project.projectId}/${project.teamId}`
+            );
+            router.route(
+              `projects/${project.projectId}/${
+                project.teamId ? project.teamId : "noTeam"
+              }`
+            );
           },
           children: [
             createElement({
@@ -245,13 +208,13 @@ export class DashboardView {
         projectCards.appendChild(card);
       });
     }
-  }
+  };
 
   renderReportsSection(container: HTMLElement) {
-    // Create reports section
     const reportsSection = createElement({
       tag: "div",
       className: "dashboard-section",
+      id: "reports-section",
       children: [
         createElement({
           tag: "div",
@@ -259,7 +222,7 @@ export class DashboardView {
           children: [
             createElement({
               tag: "h2",
-              className: "section-title",
+              className: "section-title-dashboard",
               text: "Reports Overview",
             }),
             createElement({
@@ -277,7 +240,6 @@ export class DashboardView {
 
     container.appendChild(reportsSection);
 
-    // Add placeholder for reports (since this section is not complete)
     const reportsPlaceholder = createElement({
       tag: "div",
       className: "reports-placeholder",
@@ -304,6 +266,186 @@ export class DashboardView {
     reportsSection.appendChild(reportsPlaceholder);
   }
 
+  renderTasksSection = async (container: HTMLElement, rerender: boolean) => {
+    if (document.getElementById("tasks-section"))
+      document.getElementById("tasks-section")?.remove();
+
+    const tasksSection = createElement({
+      tag: "div",
+      className: "dashboard-section",
+      id: "tasks-section",
+      children: [
+        createElement({
+          tag: "div",
+          className: "section-header-row",
+          children: [
+            createElement({
+              tag: "h2",
+              className: "section-title-dashboard",
+              text: "Current Tasks",
+            }),
+            createElement({
+              tag: "a",
+              className: "view-all-link",
+              text: "View All Tasks",
+              onClick: () => {
+                history.pushState("", "", "/tasks");
+                router.route("tasks");
+              },
+            }),
+          ],
+        }),
+        createElement({
+          tag: "div",
+          className: "tasks-tabs",
+          children: [
+            createElement({
+              tag: "button",
+              className: `tasks-tab ${
+                this.currentTaskFilter === "active" ? "active" : ""
+              }`,
+              text: "Active Tasks",
+              onClick: () => {
+                this.currentTaskFilter = "active";
+                this.renderTasksSection(container, true);
+              },
+            }),
+            createElement({
+              tag: "button",
+              className: `tasks-tab ${
+                this.currentTaskFilter === "completed" ? "active" : ""
+              }`,
+              text: "Completed",
+              onClick: () => {
+                this.currentTaskFilter = "completed";
+                this.renderTasksSection(container, true);
+              },
+            }),
+          ],
+        }),
+      ],
+    });
+
+    if (rerender)
+      document.getElementById("projects-section")?.before(tasksSection);
+    else container.appendChild(tasksSection);
+
+    const filteredTasks = this.tasks.filter((task) => {
+      if (this.currentTaskFilter === "active") {
+        return !task.isCompleted;
+      } else {
+        return task.isCompleted;
+      }
+    });
+
+    if (filteredTasks.length === 0) {
+      tasksSection.appendChild(
+        createElement({
+          tag: "div",
+          className: "empty-projects",
+          children: [
+            createElement({
+              tag: "p",
+              text: `You don't have any ${this.currentTaskFilter} tasks yet.`,
+            }),
+            createElement({
+              tag: "button",
+              className: "create-project-btn",
+              text: "Create Your First Task",
+              onClick: () => {
+                new QuickTaskPopup(
+                  this.renderTasksSection,
+                  this.fetchAllUserTasks
+                );
+              },
+            }),
+          ],
+        })
+      );
+    } else {
+      filteredTasks.forEach((task: any) => {
+        const badgeText = task.title
+          ? task.title.slice(0, 2).toUpperCase()
+          : "T";
+
+        let daysRemaining = "";
+        if (task.deadline) {
+          const deadline = new Date(task.deadline);
+          const now = new Date();
+          const diff = Math.ceil(
+            (deadline.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)
+          );
+          daysRemaining = diff > 0 ? `${diff} days remaining` : "Due";
+        }
+
+        tasksSection.appendChild(
+          createElement({
+            tag: "div",
+            className: "task-card-dashboard",
+            children: [
+              createElement({
+                tag: "div",
+                className: "task-badge",
+                text: badgeText,
+              }),
+              createElement({
+                tag: "div",
+                className: "task-info-dashboard ",
+                children: [
+                  createElement({
+                    tag: "div",
+                    className: "task-title",
+                    text: task.title,
+                  }),
+                  createElement({
+                    tag: "div",
+                    className: "task-status",
+                    text: `${task.isCompleted ? "Completed" : "In Progress"}${
+                      daysRemaining ? " - " + daysRemaining : ""
+                    }`,
+                  }),
+                ],
+              }),
+              createElement({
+                tag: "button",
+                className: "mark-complete-btn-dashboard",
+                text: task.isCompleted ? "Mark Incomplete" : "Mark Complete",
+                style: {
+                  backgroundColor:
+                    task.isCompleted === 1 ? "var(--red)" : "var(--green)",
+                },
+                onClick: () => {
+                  const taskStatus = task.isCompleted
+                    ? "incomplete"
+                    : "complete";
+                  this.toggleTaskStatus(task.taskId, taskStatus);
+                },
+              }),
+            ],
+          })
+        );
+      });
+    }
+  };
+
+  //CORE LOGIC------------------------------------------------------
+  delete() {
+    document.querySelector(".dashboard-container")?.remove();
+  }
+
+  //API CALLS------------------------------------------------------
+  async toggleTaskStatus(taskId: string, taskStatus: string) {
+    await new TaskService(
+      `http://localhost:3000/tasks/${taskId}/toggle-status`
+    ).markTaskAsComplete(taskId, taskStatus);
+
+    await this.fetchAllUserTasks();
+    this.renderTasksSection(
+      document.getElementById(".tasks-section") as HTMLElement,
+      true
+    );
+  }
+
   async fetchAllUserProjects() {
     let result = (await new ProjectsService(
       "http://localhost:3000/get-all-user-projects"
@@ -311,4 +453,12 @@ export class DashboardView {
 
     this.projects = result;
   }
+
+  fetchAllUserTasks = async () => {
+    let result = (await new TaskService(
+      "http://localhost:3000/tasks/get-all-user-tasks"
+    ).getAllTasks()) as Task[];
+
+    this.tasks = result;
+  };
 }

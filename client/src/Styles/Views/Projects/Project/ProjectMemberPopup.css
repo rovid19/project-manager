@@ -2,14 +2,13 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 600px;
   border-radius: 12px;
-  background-color: white;
+  background-color: var(--blackMain);
 }
 
 .member-popup-title {
   font-size: 24px;
-  color: #111827;
+  color: white;
   margin-bottom: 20px;
   text-align: center;
   font-weight: 600;
@@ -22,26 +21,26 @@
 .member-search-input {
   width: 100%;
   padding: 12px 16px;
-  border: 1px solid #d1d5db;
   border-radius: 8px;
   font-size: 14px;
-  background-color: #f9fafb;
+  background-color: var(--blackSecondary);
   transition: all 0.2s ease;
+  border: none;
 }
 
 .member-search-input:focus {
   outline: none;
-  border-color: #6366f1;
-  background-color: white;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  border: 1px solid var(--main);
+  border-color: var(--main);
+  background-color: var(--blackSecondary);
+  color: white;
 }
 
 .member-list-container {
   max-height: 400px;
   overflow-y: auto;
-  border: 1px solid #e5e7eb;
   border-radius: 8px;
-  background-color: #f9fafb;
+  background-color: var(--blackSecondary);
 }
 
 .member-list {
@@ -57,8 +56,8 @@
   gap: 16px;
   padding: 12px 16px;
   border-radius: 8px;
-  background-color: white;
-  border: 1px solid #e5e7eb;
+  background-color: var(--blackSecondary);
+
   transition: all 0.2s ease;
   cursor: pointer;
 }
@@ -66,14 +65,15 @@
 .member-item:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-  border-color: #d1d5db;
+  border: 1px solid;
+  border-color: var(--main);
 }
 
 .member-avatar {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  background: linear-gradient(135deg, var(--main) 0%, var(--mainDark) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -95,7 +95,7 @@
 
 .member-name {
   font-weight: 500;
-  color: #111827;
+  color: white;
   font-size: 16px;
 }
 

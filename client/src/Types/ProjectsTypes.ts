@@ -21,3 +21,19 @@ export type User = {
   email: string;
   password: string;
 };
+
+export type Project = {
+  title: string;
+  description: string;
+  icon: string;
+  projectId: string;
+  teamId?: string;
+  userId?: string;
+  members?: string[];
+};
+
+export type ProjectData = {
+  project: Project;
+  membersData: MembersData[];
+  taskData: Task[];
+};

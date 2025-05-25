@@ -1,6 +1,6 @@
 .team-popup-title {
   font-size: 28px;
-  color: #2d3748;
+  color: #fff;
   margin-bottom: 20px;
   text-align: center;
   font-weight: 600;
@@ -16,21 +16,22 @@
 .team-name-input,
 .team-description-input {
   padding: 14px 16px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid var(--blackMain);
   border-radius: 10px;
   font-size: 15px;
   width: 100%;
   box-sizing: border-box;
   transition: all 0.2s ease;
-  background-color: #f8fafc;
+  background-color: var(--blackSecondary);
+  color: #fff;
 }
 
 .team-name-input:focus,
 .team-description-input:focus {
   outline: none;
-  border-color: #667eea;
-  background-color: white;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: var(--main);
+  background-color: var(--blackSecondary);
+  box-shadow: 0 0 0 3px rgba(124, 92, 255, 0.1);
 }
 
 .team-description-input {
@@ -40,29 +41,28 @@
 }
 
 .team-members-container {
-  background-color: #f8fafc;
-  border: 1px solid #e2e8f0;
+  background-color: var(--blackMain);
   border-radius: 10px;
   padding: 16px;
-  min-height: 100px;
+  min-height: 50px;
+  color: #fff;
 }
 
 .create-team-btn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 14px;
-  border: none;
+  background: var(--main);
+  color: #fff;
+  padding: 12px 24px;
   border-radius: 10px;
-  font-size: 16px;
+  border: none;
+  font-size: 15px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
-  margin-top: 16px;
 }
 
 .create-team-btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+  background: var(--mainDark);
 }
 
 .create-team-btn:active {

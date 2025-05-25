@@ -18,9 +18,10 @@ $router->post('/get-all-users', 'ProjectsController@getAllUsers');
 $router->post("/projects/{projectId}/add/team", "ProjectsController@addTeam");
 
 // tasks
-$router->post("/create-new-task", "TasksController@createNewTask");
+$router->post("/task/create-new-task", "TasksController@createNewTask");
 $router->put('/handle-remove-task', 'TasksController@handleRemoveTask');
-$router->get("/tasks/get/{userId}", "TasksController@getAllUserTasks");
+$router->get("/tasks/get-all-user-tasks", "TasksController@getAllUserTasks");
+$router->put("/tasks/{taskId}/toggle-status", "TasksController@markTaskAsComplete");
 
 // teams
 $router->get("/get-all-user-teams", "TeamsController@getAllUserTeams");

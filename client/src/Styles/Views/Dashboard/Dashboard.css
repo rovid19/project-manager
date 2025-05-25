@@ -3,9 +3,10 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  background-color: #f9fafb;
+  background-color: black;
   font-family: "Archivo", sans-serif;
   padding-top: 1rem;
+  overflow: scroll;
 }
 
 /* Header Section */
@@ -14,13 +15,10 @@
   justify-content: space-between;
   align-items: center;
   padding: 32px 40px;
-  background-color: white;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  background-color: black;
   position: sticky;
   top: 0;
   z-index: 0;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
 }
 
 .header-left {
@@ -32,13 +30,13 @@
 .page-title {
   font-size: 28px;
   font-weight: 700;
-  color: #111827;
+  color: #fff;
   margin: 0;
 }
 
 .page-subtitle {
   font-size: 14px;
-  color: #6b7280;
+  color: var(--gray);
   margin: 0;
 }
 
@@ -54,7 +52,7 @@
   gap: 8px;
   height: 42px;
   padding: 0 20px;
-  background-color: #6366f1;
+  background-color: var(--main);
   color: white;
   border: none;
   border-radius: 8px;
@@ -65,8 +63,7 @@
 }
 
 .new-project-btn:hover {
-  background-color: #4f46e5;
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+  background-color: var(--mainDark);
 }
 
 /* Dashboard Content */
@@ -75,17 +72,15 @@
   padding: 32px 40px;
   display: flex;
   flex-direction: column;
-  gap: 32px;
   overflow-y: auto;
+  gap: 2rem;
 }
 
 /* Dashboard Sections */
 .dashboard-section {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  border: 1px solid #e5e7eb;
+  background: var(--blackMain);
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.18);
 }
 
 .section-header-row {
@@ -93,26 +88,27 @@
   justify-content: space-between;
   align-items: center;
   padding: 20px 24px;
-  border-bottom: 1px solid #e5e7eb;
 }
 
-.section-title {
+.section-title-dashboard {
   font-size: 18px;
   font-weight: 600;
-  color: #111827;
+  color: white;
   margin: 0;
 }
 
 .view-all-link {
-  color: #6366f1;
+  color: var(--main);
   font-size: 14px;
   font-weight: 500;
   text-decoration: none;
   cursor: pointer;
+  transition: color 0.2s;
 }
 
 .view-all-link:hover {
   text-decoration: underline;
+  color: #a08cff;
 }
 
 /* Project Cards Grid */
@@ -127,21 +123,21 @@
 .dashboard-project-card {
   display: flex;
   flex-direction: column;
-  background-color: white;
-  border-radius: 12px;
+  background-color: var(--blackSecondary);
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.18);
   transition: all 0.3s ease;
   height: 100%;
   position: relative;
-  border: 1px solid #e5e7eb;
   cursor: pointer;
+  border: 1px solid #232334;
 }
 
 .dashboard-project-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1),
-    0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 10px 25px -5px rgba(124, 92, 255, 0.12),
+    0 10px 10px -5px rgba(0, 0, 0, 0.08);
 }
 
 .card-content {
@@ -161,18 +157,28 @@
   justify-content: center;
   font-size: 24px;
   font-weight: 600;
+  padding: 16px;
+}
+
+.project-icon::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: red;
 }
 
 .project-title {
   font-size: 18px;
   font-weight: 600;
-  color: #111827;
+  color: #fff;
   margin: 0;
 }
 
 .project-description {
   font-size: 14px;
-  color: #6b7280;
+  color: var(--gray);
   margin: 0;
   line-height: 1.5;
   overflow: hidden;
@@ -193,85 +199,191 @@
 }
 
 .empty-projects p {
-  color: #6b7280;
+  color: var(--gray);
   font-size: 16px;
   margin: 0;
 }
 
 .create-project-btn {
-  padding: 10px 20px;
-  background-color: #6366f1;
-  color: white;
+  background-color: var(--main);
+  color: #fff;
   border: none;
   border-radius: 8px;
-  font-size: 14px;
+  padding: 10px 24px;
+  font-size: 15px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(124, 92, 255, 0.15);
 }
 
 .create-project-btn:hover {
-  background-color: #4f46e5;
+  background-color: var(--mainDark);
+  transform: translateY(-2px);
 }
 
-/* Reports Placeholder */
+/* Reports Section */
 .reports-placeholder {
-  padding: 40px 24px;
+  background: var(--blackMain);
+  border-radius: 12px;
+  padding: 32px;
+  text-align: center;
+  margin: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
 }
 
 .placeholder-content {
-  background-color: #f3f4f6;
-  border-radius: 8px;
-  padding: 32px;
-  text-align: center;
-  border: 1px dashed #d1d5db;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
 }
 
 .placeholder-message {
-  font-size: 18px;
-  font-weight: 600;
-  color: #4b5563;
-  margin: 0 0 8px 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
 }
 
 .placeholder-description {
-  font-size: 14px;
-  color: #6b7280;
-  margin: 0;
+  font-size: 15px;
+  color: var(--gray);
 }
 
-/* Responsive Adjustments */
+/* Tabs for Monthly Tasks */
+.tasks-tabs {
+  display: flex;
+  gap: 32px;
+  border-bottom: 2px solid #232334;
+  margin: 0 24px;
+  margin-top: 16px;
+}
+
+.tasks-tab {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--gray);
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 12px 0;
+  transition: color 0.2s;
+  position: relative;
+}
+
+.tasks-tab.active {
+  color: var(--main);
+}
+
+.tasks-tab.active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 2px;
+  background: var(--main);
+  border-radius: 2px;
+}
+
+/* Task Card */
+.task-card-dashboard {
+  background: #181824;
+  border-radius: 12px;
+  margin: 16px 24px;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.task-badge {
+  min-width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  background: #6366f1;
+}
+
+.task-info-dashboard {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.task-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+}
+
+.task-status {
+  font-size: 14px;
+  color: var(--gray);
+}
+
+.task-assignees {
+  display: flex;
+  gap: 8px;
+}
+
+.task-assignee {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #232334;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+  border: 2px solid #181824;
+}
+
+.mark-complete-btn-dashboard {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+}
+
+.mark-complete-btn-dashboard {
+  background-color: var(--main);
+  color: white;
+}
+
+.mark-complete-btn-dashboard:hover {
+  background-color: var(--mainDark) !important;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
-  .dashboard-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-    padding: 24px;
-  }
-
-  .header-actions {
-    width: 100%;
-  }
-
-  .new-project-btn {
-    width: 100%;
-    justify-content: center;
-  }
-
+  .dashboard-header,
   .dashboard-content {
-    padding: 24px;
+    padding: 16px;
   }
-
-  .project-cards-grid {
-    grid-template-columns: 1fr;
-  }
-
   .section-header-row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
+    padding: 12px 8px;
   }
-  .empty-projects {
-    width: 100% !important;
+  .project-cards-grid {
+    padding: 8px;
+    gap: 12px;
+  }
+  .task-card {
+    margin: 8px 0;
+    padding: 12px 8px;
   }
 }

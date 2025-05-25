@@ -5,7 +5,7 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  background-color: #f9fafb;
+  background-color: black;
   font-family: "Archivo", sans-serif;
 }
 
@@ -24,7 +24,7 @@
   align-items: flex-start;
   margin-bottom: 32px;
   padding-bottom: 24px;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--blackSecondary);
 }
 
 .headerLeft {
@@ -63,13 +63,13 @@
 .projectTitle {
   font-size: 28px;
   font-weight: 700;
-  color: #111827;
+  color: white;
   margin: 0;
 }
 
 .projectDescription {
   font-size: 16px;
-  color: #6b7280;
+  color: var(--gray);
   margin: 8px 0 0 0;
   max-width: 600px;
 }
@@ -84,9 +84,9 @@
   align-items: center;
   gap: 8px;
   padding: 10px 16px;
-  background-color: #fee2e2;
+  background-color: var(--blackMain);
   color: #ef4444;
-  border: 1px solid #fecaca;
+  border: 1px solid var(--blackSecondary);
   border-radius: 8px;
   font-size: 14px;
   font-weight: 500;
@@ -95,8 +95,9 @@
 }
 
 .deleteProjectBtn:hover {
-  background-color: #fecaca;
+  background-color: red;
   box-shadow: 0 2px 4px rgba(239, 68, 68, 0.1);
+  color: white;
 }
 
 .btnIcon {
@@ -118,15 +119,14 @@
 }
 
 .projectSection {
-  background-color: white;
+  background-color: var(--blackMain);
   border-radius: 12px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  border: 1px solid #e5e7eb;
 }
 
 /* Section Headers */
-.sectionHeader {
+.sectionHeader-project {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -134,7 +134,7 @@
   border-bottom: 1px solid #e5e7eb;
 }
 
-.sectionTitle {
+.sectionTitle-project {
   font-size: 16px;
   font-weight: 600;
   color: #111827;
@@ -180,7 +180,7 @@
 .project-info-section,
 .project-members-div,
 .project-task-section {
-  background-color: white;
+  background-color: var(--blackMain);
   border-radius: 12px;
   overflow: hidden;
 }
@@ -208,16 +208,18 @@
 .description-label {
   font-size: 14px;
   font-weight: 500;
-  color: #374151;
+  color: var(--gray);
 }
 
 .project-input-title,
 .project-input-description {
   padding: 10px 12px;
-  border: 0.1px solid #d1d5db;
   border-radius: 6px;
   font-size: 14px;
   transition: all 0.2s ease;
+  background-color: var(--blackSecondary);
+  color: white;
+  border: none;
 }
 
 .project-input-title:focus,
@@ -228,7 +230,7 @@
 }
 
 .project-info-submit-button {
-  background-color: #6366f1;
+  background-color: var(--main);
   color: white;
   border: none;
   border-radius: 6px;
@@ -241,16 +243,17 @@
 }
 
 .project-info-submit-button:hover {
-  background-color: #4f46e5;
+  background-color: var(--mainDark);
 }
 
 .project-icon-div {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #f9fafb;
+  background-color: var(--blackSecondary);
   border-radius: 8px;
   padding: 24px;
+  color: white;
 }
 
 .iconDisplay {
@@ -281,7 +284,7 @@
   display: flex;
   gap: 12px;
   padding: 16px 24px;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--blackSecondary);
 }
 
 .add-team,
@@ -298,13 +301,14 @@
 }
 
 .add-team {
-  background-color: #eff6ff;
-  color: #3b82f6;
-  border: 1px solid #dbeafe;
+  background-color: var(--blackSecondary);
+  color: var(--main);
+  border: 1px solid var(--main);
 }
 
 .add-team:hover {
-  background-color: #dbeafe;
+  background-color: var(--main);
+  color: white;
 }
 
 .add-member {
@@ -322,16 +326,12 @@
   justify-content: space-between;
   align-items: center;
   padding: 16px 24px;
-  border-bottom: 1px solid #f3f4f6;
+  border-bottom: 1px solid var(--blackSecondary);
   transition: all 0.2s ease;
 }
 
 .project-member:last-child {
   border-bottom: none;
-}
-
-.project-member:hover {
-  background-color: #f9fafb;
 }
 
 .member-content {
@@ -344,7 +344,7 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  background: linear-gradient(135deg, var(--main) 0%, var(--mainDark) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -365,14 +365,14 @@
 .member-name {
   font-size: 14px;
   font-weight: 500;
-  color: #111827;
+  color: white;
   margin: 0;
 }
 
 .member-email,
 .member-role {
   font-size: 12px;
-  color: #6b7280;
+  color: var(--gray);
   margin: 0;
 }
 
@@ -408,7 +408,7 @@
   justify-content: center;
   gap: 8px;
   padding: 10px 16px;
-  background-color: #6366f1;
+  background-color: var(--main);
   color: white;
   border: none;
   border-radius: 6px;
@@ -420,15 +420,15 @@
 }
 
 .project-add-task-btn:hover {
-  background-color: #4f46e5;
+  background-color: var(--mainDark);
 }
 
 .project-task-card {
   margin: 0 24px 16px;
   border-radius: 8px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--border);
   overflow: hidden;
-  background-color: white;
+  background-color: var(--blackSecondary);
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
   transition: all 0.2s ease;
 }
@@ -443,14 +443,15 @@
   justify-content: space-between;
   align-items: center;
   padding: 12px 16px;
-  background-color: #f9fafb;
-  border-bottom: 1px solid #e5e7eb;
+  background-color: var(--blackSecondary);
+  border-bottom: 1px solid var(--border);
+  color: white;
 }
 
 .task-title {
   font-size: 14px;
   font-weight: 500;
-  color: #111827;
+  color: white;
   margin: 0;
 }
 
@@ -462,14 +463,15 @@
   height: 28px;
   border-radius: 4px;
   background-color: transparent;
-  color: #6b7280;
+  color: var(--gray);
   cursor: pointer;
   transition: all 0.2s ease;
+  padding: 4px;
 }
 
 .remove-task-btn:hover {
-  background-color: #fee2e2;
-  color: #ef4444;
+  background-color: var(--blackMain);
+  color: red;
 }
 
 .task-info {
@@ -477,6 +479,8 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  background-color: var(--blackSecondary);
+  border: none;
 }
 
 .task-assignee,
@@ -495,7 +499,7 @@
 .task-date {
   font-size: 12px;
   font-weight: 500;
-  color: #374151;
+  color: var(--gray);
 }
 
 /* Empty States */
@@ -511,13 +515,13 @@
 .empty-icon {
   width: 48px;
   height: 48px;
-  color: #d1d5db;
+  color: white;
   margin-bottom: 16px;
 }
 
 .empty-text {
   font-size: 14px;
-  color: #6b7280;
+  color: var(--gray);
 }
 
 /* Popup Styles */

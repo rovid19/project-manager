@@ -13,7 +13,6 @@ export class AuthService extends BaseApi {
         userId: result.userId,
       });
     } else {
-      console.log("yes");
     }
   }
   async loginUser() {

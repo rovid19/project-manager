@@ -1,4 +1,4 @@
-import { createElement } from "../../../Utils/Helpers";
+import { createElement, createReusableHeader } from "../../../Utils/Helpers";
 import "../../../Styles/SharedStylings/UpperInnerSection.css";
 import "../../../Styles/SharedStylings/SectionHeader.css";
 import "../../../Styles/Views/Teams/Team/Team.css";
@@ -8,6 +8,7 @@ import type { TeamSettingsManager } from "./TeamSettingsManager";
 import type { TeamMembersManager } from "./TeamMembersManager";
 import { TeamsService } from "../../../Services/TeamsService";
 import { router } from "../../../main";
+import "../../../Styles/Views/Projects/Project/Project.css";
 
 export class TeamView {
   teamMembers: TeamMember[] = [];
@@ -16,6 +17,7 @@ export class TeamView {
   teamId: string = "";
   teamSettingsManager: TeamSettingsManager | null = null;
   teamMembersManager: TeamMembersManager | null = null;
+  mainSection: HTMLElement | null = null;
   innerSection: HTMLElement | null = null;
 
   constructor() {}
@@ -25,7 +27,9 @@ export class TeamView {
     document.querySelector(".upper-section")?.remove();
   }
 
-  renderTeam() {
+  async renderTeam() {
+    await this.fetchTeam();
+
     const teamPage = createElement({
       tag: "div",
       className: "upper-section",
@@ -33,43 +37,47 @@ export class TeamView {
         createElement({
           tag: "section",
           className: "inner-section",
-          children: [
-            createElement({
-              tag: "div",
-              className: "section-header",
-              children: [
-                createElement({
-                  tag: "h3",
-                  className: "section-title",
-                  text: "Teams",
-                }),
-                createElement({
-                  tag: "button",
-                  className: "delete-team-btn",
-                  text: "Delete",
-                  onClick: () => this.submitDeleteProject(),
-                }),
-              ],
-            }),
-            createElement({
-              tag: "div",
-              className: "team-management-container",
-            }),
-          ],
         }),
       ],
     });
 
-    this.innerSection = teamPage.children[0].children[1];
+    this.mainSection = teamPage.children[0];
+
+    //create header and container
+    this.createTeamHeader();
+    this.createTeamContainer();
+
     store.getState().mainSection.appendChild(teamPage);
+
     this.handleGetTeamIdFromUrl();
     this.handleManagerClassSetup();
+  }
+
+  createTeamHeader() {
+    const pageHeader = createReusableHeader(
+      this.redirectBackToTeams,
+      this.teamName,
+      this.teamDescription,
+      this.submitDeleteProject,
+      "team"
+    );
+    this.mainSection?.appendChild(pageHeader);
+  }
+
+  createTeamContainer() {
+    const teamContainer = createElement({
+      tag: "div",
+      className: "team-management-container",
+    });
+    this.mainSection?.appendChild(teamContainer);
+
+    this.innerSection = teamContainer;
   }
 
   //CORE LOGIC-----------------------------------------------------
 
   async handleManagerClassSetup() {
-    await this.fetchTeam();
+    this.handleSetTeamNameInHeaderSection();
 
     const { TeamSettingsManager } = await import("./TeamSettingsManager");
     const { TeamMembersManager } = await import("./TeamMembersManager");
@@ -87,20 +95,30 @@ export class TeamView {
   }
 
   handleManagerClassReset = async () => {
+    //delete team header and managers
+    (document.querySelector(".projectHeader") as HTMLElement).remove();
     this.teamSettingsManager = null;
     this.teamMembersManager = null;
-    (document.querySelector(".team-settings-section") as HTMLElement).remove();
-    (document.querySelector(".team-members-section") as HTMLElement).remove();
+    (
+      document.querySelector(".team-management-container") as HTMLElement
+    ).remove();
+
+    // load team data
+    await this.fetchTeam();
+
+    // add header back in with managers
+    this.createTeamHeader();
+    this.createTeamContainer();
     await this.handleManagerClassSetup();
   };
 
-  async submitDeleteProject() {
+  submitDeleteProject = async () => {
     await new TeamsService(
       `http://localhost:3000/team/${this.teamId}/delete`
     ).deleteTeam();
     history.pushState("", "", "/teams");
     router.route("teams");
-  }
+  };
 
   handleGetTeamIdFromUrl() {
     this.teamId = window.location.pathname.split("/")[2];
@@ -116,12 +134,19 @@ export class TeamView {
     this.teamMembers = teamMembers;
   }
 
+  redirectBackToTeams() {
+    history.pushState("", "", "/teams");
+    router.route("teams");
+  }
+
   handleSetTeamNameInHeaderSection() {
-    const headerTitle = document.querySelector(".section-title") as HTMLElement;
+    const headerTitle = document.querySelector(".projectTitle") as HTMLElement;
     headerTitle.textContent = this.teamName;
   }
 
   async fetchTeam() {
+    this.teamId = window.location.pathname.split("/")[2];
+
     const teamData = await new TeamsService(
       `http://localhost:3000/fetch-specific-team/${this.teamId}`
     ).getTeam();
@@ -131,9 +156,5 @@ export class TeamView {
       teamData.team[0].teamDescription,
       teamData.teamMembers
     );
-
-    this.handleSetTeamNameInHeaderSection();
   }
-
-  async fetchTeamMembers() {}
 }
